@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    meta(name='viewport',content='width=device-width,initial-scale=1.0')
+    title= title
+    link(rel='stylesheet',href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet',href='/stylesheets/all.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap')
+  header
+    .header_wrapper
+      #header_logo
+        a(href='') The Entrepreneurial Hub
+      #header_menu
+        .menu_item
+          a(href='') Share
+        .menu_item
+          a(href='') Discuss
+        .menu_item
+          a(href='') News
+        .menu_item
+          a(href='') Events
+        .menu_item
+          a(href='') Suggestions
+        .menu_item
+          button(onclick="openSignin()") Sign in
+  #signinMenuWrapper
+      #signinFormA
+        form(name="emailToCheck" onsubmit="processEmail(this.form)") Type in your e-mail address
+          input(type="email" placeholder="E-mail address" name="email")
+          button(type="submit" class="submitbtn") <b>Next</b>
+          button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
+        
+  body
+    block content
+    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js',integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo',crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnJAK/18WvCWPIPm49',crossorigin='anonymous')
+    script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/scripts.js')
