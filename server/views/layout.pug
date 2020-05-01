@@ -23,13 +23,25 @@ html
         .menu_item
           a(href='') Suggestions
         .menu_item
-          button(onclick="openSignin()") Sign in
+          button(onclick="openSignin()") Log in
   #signinMenuWrapper
-      #signinFormA
-        form(name="emailToCheck" onsubmit="processEmail(this.form)") Type in your e-mail address
+      #signinForm
+        form(method="POST" action="/api/login") To log in, please type in your e-mail address and password:
           input(type="email" placeholder="E-mail address" name="email")
-          button(type="submit" class="submitbtn") <b>Next</b>
+          input(type="password" placeholder="Password" name="password")
+          button(type="submit" class="submitbtn") <b>Log in</b>
           button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
+          p Or create an account now:
+          button(type="button" class="submitbtn2" onclick="openRegister()") <b>Register!</b>
+      #registerForm
+        form(method="POST" action="/api/register") To create your account, fill in all of the following fields:
+          input(type="text" placeholder="First name/Given name*" name="firstName")
+          input(type="text" placeholder="Last name/Family name*" name="lastName")
+          input(type="email" placeholder="E-mail address*" name="email")
+          input(type="password" placeholder="Password*" name="password" id="password" onchange="checkPassword()")
+          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()")
+          button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
+          button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
         
   body
     block content

@@ -5,17 +5,11 @@ const Users = mongoose.model('User');
 const sharesDefaultList = (req, res) => {
   Shares.find().exec((err, results) =>  {
     if (!results) {
-      return res
-        .status(404)
-        .json({"message" : "location not found"});
+      return res.status(404).json({"message" : "location not found"});
     } else if (err) {
-      return res
-        .status(404)
-        .json(err);
+      return res.status(404).json(err);
     }
-    res
-      .status(200)
-      .json(results);
+    res.status(200).json(results);
   });
 };
 

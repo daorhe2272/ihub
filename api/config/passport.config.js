@@ -11,4 +11,4 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (username, password, do
     return done(null, user);
   });
 }));
-    
+

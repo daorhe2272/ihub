@@ -1,10 +1,7 @@
 const request = require('request');
 
-// Sets the default server URL for the local development
-const apiServer = {
-	server: 'http://localhost:3000'
-};
-// If the application is running in production mode, sets a different base URL
+// Sets the default server URL for the local development. If the application is running in production mode, sets a different base URL
+const apiServer = {server: 'http://localhost:3000'};
 if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';}
 
 /* GET shares list (homepage) */
@@ -15,17 +12,14 @@ const sharesList = (req, res) => {
     method: 'GET',
     json: {}
   };
-  request(
-		requestOptions,
-		(err, {statusCode}, body) => {
-			let data = [];
-			if (statusCode === 200 && body.length) {
-				data = body
-			}
-			console.log(data);
-			renderShares(req, res, data);
+  request(requestOptions, (err, {statusCode}, body) => {
+		let data = [];
+		if (statusCode === 200 && body.length) {
+			data = body
 		}
-	);
+		console.log(data); // Comment out this line for production
+		renderShares(req, res, data);
+	});
 };
 
 const renderShares = (req, res, responseBody) => {
@@ -39,7 +33,7 @@ const renderShares = (req, res, responseBody) => {
 		}
 	}
 	res.render('shares', {
-	  title: 'The Entrepreneurial Hub',
+	  title: 'The Entrepreneurial Hub - Main page',
 	  sharesList: responseBody,
 	  message
 	});

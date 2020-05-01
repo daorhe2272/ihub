@@ -16,7 +16,7 @@ router
   .post(auth, ctrlShares.addPost);
   
 // authentication
-router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+router.post('/register', ctrlAuth.register);
 
 module.exports = router;
