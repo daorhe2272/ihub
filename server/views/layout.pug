@@ -10,10 +10,10 @@ html
   header
     .header_wrapper
       #header_logo
-        a(href='') The Entrepreneurial Hub
+        a(href='/') The Entrepreneurial Hub
       #header_menu
         .menu_item
-          a(href='') Share
+          a(href='/') Share
         .menu_item
           a(href='') Discuss
         .menu_item
@@ -26,20 +26,20 @@ html
           button(onclick="openSignin()") Log in
   #signinMenuWrapper
       #signinForm
-        form(method="POST" action="/api/login") To log in, please type in your e-mail address and password:
-          input(type="email" placeholder="E-mail address" name="email")
-          input(type="password" placeholder="Password" name="password")
+        form(method="POST" action="/login") To log in, please type in your e-mail address and password:
+          input(type="email" placeholder="E-mail address" name="email" required)
+          input(type="password" placeholder="Password" name="password" required)
           button(type="submit" class="submitbtn") <b>Log in</b>
           button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
           p Or create an account now:
           button(type="button" class="submitbtn2" onclick="openRegister()") <b>Register!</b>
       #registerForm
-        form(method="POST" action="/api/register") To create your account, fill in all of the following fields:
-          input(type="text" placeholder="First name/Given name*" name="firstName")
-          input(type="text" placeholder="Last name/Family name*" name="lastName")
-          input(type="email" placeholder="E-mail address*" name="email")
-          input(type="password" placeholder="Password*" name="password" id="password" onchange="checkPassword()")
-          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()")
+        form(method="POST" action="/register") To create your account, fill in all of the following fields:
+          input(type="text" placeholder="First name/Given name*" name="firstName" required)
+          input(type="text" placeholder="Last name/Family name*" name="lastName" required)
+          input(type="email" placeholder="E-mail address*" name="email" required)
+          input(type="password" placeholder="Password*" name="password" id="password" onchange="checkPassword()" required)
+          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" required)
           button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
           button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
         

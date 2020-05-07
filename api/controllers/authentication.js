@@ -27,7 +27,7 @@ const login = (req, res) => {
 
 const register = (req, res) => {
   if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password) {
-    return res.status(400).json({"message": "All fields required."});
+    return res.status(400).json({message: "All fields required."});
   }
   const user = new User();
   user.firstName = req.body.firstName;
@@ -40,10 +40,36 @@ const register = (req, res) => {
     if (err) {
       res.status(404).json(err);
     } else {
-      const token = user.generateJwt();
-      res.status(200).json({token});
+      res.status(200).json({"message": "Congratulations! Your account has been created. We have sent you a verification link to your e-mail. It should arrive in a few minutes."});
     }
   });
+};
+
+const verifyAccount = (req, res) => {
+  if (!req.params.verHash) {
+    return res.status(404).json({"message": "Account verification failed. No code was submitted."});
+  }
+  User
+    .findOne({ verHash: req.params.verHash })
+    .exec((err, result) => {
+      if (!result) {
+        return res.status(404).json({"message": "No accounts linked to this verification code. Please make sure you used your verification link correctly."});
+      } else if (err) {
+        return res.status(404).json(err);
+      }
+      if (result.verified = false) {
+        result.verified = true;
+        result.save((err) => {
+          if (err) {
+            return res.status(404).json(err);
+          }
+          const token = result.generateJwt();
+          return res.status(200).json({"message": "Your account has been successfully verified. You are officially a valid user at ehub!", token});
+        });
+      } else {
+        res.status(200).json({"message": "Your account has been verified already. No need to do it again!"});
+      };
+    });
 };
 
 /*
@@ -69,5 +95,6 @@ const login = (req, res) => {
 */ 
 module.exports = {
   register,
+  verifyAccount,
   login
 };

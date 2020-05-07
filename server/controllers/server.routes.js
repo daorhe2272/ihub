@@ -4,7 +4,8 @@ const ctrlShares = require('./shares');
 const ctrlUsers = require('./users');
 
 // Authentication
-router.post('/login', ctrlUsers.authenticating);
+router.post('/login', ctrlUsers.login);
+router.post('/register', ctrlUsers.register);
 
 // Shares
 router.get('/', ctrlShares.sharesList);

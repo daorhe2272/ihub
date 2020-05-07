@@ -18,5 +18,6 @@ router
 // authentication
 router.post('/login', ctrlAuth.login);
 router.post('/register', ctrlAuth.register);
+router.get('/verify-account/:verHash', ctrlAuth.verifyAccount);
 
 module.exports = router;

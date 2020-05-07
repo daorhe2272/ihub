@@ -20,8 +20,8 @@ const userSchema = new mongoose.Schema({
   salt: String,
   verHash: String,
   verified: {
-    type: String,
-    'default': 'No'
+    type: Boolean,
+    'default': false
   }
 });
 
@@ -46,7 +46,7 @@ userSchema.methods.generateJwt = function () {
   return jwt.sign({
     _id: this._id,
     email: this.email,
-    name: this.name
+    name: this.firstName
   }, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 

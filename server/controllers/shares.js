@@ -33,7 +33,7 @@ const renderShares = (req, res, responseBody) => {
 		}
 	}
 	res.render('shares', {
-	  title: 'The Entrepreneurial Hub - Main page',
+	  title: 'ehub - Main page',
 	  sharesList: responseBody,
 	  message
 	});

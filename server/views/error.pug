@@ -1,6 +1,12 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .errorWrapper
+    .errorContainer
+      .errorDiv1
+        i.fas.fa-exclamation-triangle.fa-4x#icon
+      .errorDiv2
+        h3= message
+  #functionTrigger(style="display:none;")= trigger
+
+  script if (document.getElementById("functionTrigger").innerHTML === "true") {document.getElementById("icon").className = "fas fa-check-circle fa-4x"; setTimeout(function(){window.location = '/'}, 10000);}

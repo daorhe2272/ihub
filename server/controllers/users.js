@@ -1,13 +1,32 @@
 const request = require('request');
 
-// Sets the default server URL for the local development
-const apiServer = {
-	server: 'http://localhost:3000'
-};
-// If the application is running in production mode, sets a different base URL
-if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';}
+const apiServer = {server: 'http://localhost:3000'};
+if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';} // Make sure to add the correct URL
 
-const authenticating = (req, res) => {
+const register = (req, res) => {
+  const path = '/api/register';
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    form: req.body
+  };
+  request.post(requestOptions, (err, {statusCode}, body) => {
+    if (statusCode !== 200) {
+      return res.render('error', {
+        message: "An error occurred during registration. Please try again and make sure all fields are filled in correctly."
+      });
+    } else if (!body.length) {
+      return res.render('error', {
+        message: "Ups, something went wrong. Let us know and we'll be working to solve it as soon as possible."
+      });
+    }
+    res.render('error', {
+      message: "Welcome to ehub, the social network for entrepreneurs. Thank you for choosing us. We have sent you a verification link to your e-mail. It should arrive in a few minutes!",
+      trigger: "true"
+    });
+  });
+};
+
+const login = (req, res) => {
   const path = '/api/login';
   const requestOptions = {
     url: `${apiServer.server}${path}`,
@@ -30,9 +49,10 @@ renderAuth = (req, res, data) => {
     message = "Ups, something went wrong. We'll be working to solve it soon."
     data = [];
   }
-  res.locals();
+  res.redirect('/');
 };
 
 module.exports = {
-	authenticating
+	register,
+	login
 };

@@ -30,6 +30,6 @@ const sendVerEmail = (req, res, verHash) => {
   });
 };
 
-module.exports= {
+module.exports = {
   sendVerEmail
 };
