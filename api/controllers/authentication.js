@@ -12,7 +12,7 @@ const login = (req, res) => {
     .exec((err, result) => {
       if (!result) {
         return res.status(404).json({
-          "message": "No accounts found under this email. Would you like to create one?"
+          "message": "No accounts found under this email. Please create one."
         });
       } else if (err) {
         return res.status(404).json(err);
@@ -51,20 +51,27 @@ const verifyAccount = (req, res) => {
   }
   User
     .findOne({ verHash: req.params.verHash })
+    .select("verified")
     .exec((err, result) => {
       if (!result) {
         return res.status(404).json({"message": "No accounts linked to this verification code. Please make sure you used your verification link correctly."});
       } else if (err) {
         return res.status(404).json(err);
       }
-      if (result.verified = false) {
+      if (result.verified == false) {
         result.verified = true;
         result.save((err) => {
           if (err) {
             return res.status(404).json(err);
           }
           const token = result.generateJwt();
-          return res.status(200).json({"message": "Your account has been successfully verified. You are officially a valid user at ehub!", token});
+          res.cookie("token", token, {
+            expires: new Date(Date.now() + 24*60*60*1000), // Expires in one day
+            secure: false, // Set to true when using https
+            httpOnly: true,
+            path: '/'
+          });
+          return res.status(200).json({"message": "Your account has been successfully verified. You are now free to post and interact with other users!"});
         });
       } else {
         res.status(200).json({"message": "Your account has been verified already. No need to do it again!"});

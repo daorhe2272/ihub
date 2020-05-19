@@ -10,14 +10,14 @@ const sharesList = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: 'GET',
-    json: {}
+    headers: req.headers,
+    json: true
   };
   request(requestOptions, (err, {statusCode}, body) => {
 		let data = [];
 		if (statusCode === 200 && body.length) {
 			data = body
 		}
-		console.log(data); // Comment out this line for production
 		renderShares(req, res, data);
 	});
 };
@@ -32,10 +32,12 @@ const renderShares = (req, res, responseBody) => {
 			message = "No shared posts found in your area";
 		}
 	}
+	if (res.locals.userId) {trigger2 = "true";} else {trigger2 = "";}
 	res.render('shares', {
 	  title: 'ehub - Main page',
 	  sharesList: responseBody,
-	  message
+	  message,
+	  trigger2
 	});
 };
 

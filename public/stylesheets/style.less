@@ -7,20 +7,29 @@
 
 *{box-sizing:border-box;}
 
-header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;}
-  .header_wrapper a, .menu_item button{text-decoration:none;color:white;padding:10px;font-size:1.2em;font-family:raleway,sans-serif;background-color:#2d313a;}
-  .header_wrapper a:hover, .menu_item button:hover{background-color:#395462;border-radius:3px;}
+header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-index:1;}
+  .header_wrapper a, .menu_item button{text-decoration:none;color:white;padding:10px;font-size:1.2em;font-family:raleway,sans-serif;background-color:@darkBackground;}
+  .header_wrapper a:hover, .menu_item button:hover{background-color:@darkColor;border-radius:3px;}
+  .menu_item {
+    i{padding:0 10px 0 10px;}
+    i:hover{}
+    .dropdownContent{position:absolute;z-index:1;visibility:hidden;font-size:0.8em;
+      button{display:inline-block;}
+      button:hover{border-radius:0;}
+    }
+    &:hover .dropdownContent{visibility:visible;border-radius:0;}
+  }
   .header_wrapper{display:flex;justify-content:space-between;min-height:56px;align-items:center;}
     #header_logo{padding-left:5%;}
     #header_menu{padding-right:5%;}
     .menu_item{display:inline-block;}
   #signinMenuWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;display:none;align-items:center;justify-content:center;}
-    #signinForm{display:none;z-index:9;background-color:white;border:2px solid #395462;padding:20px;border-radius:5px;color:black;width:280px;
+    #signinForm{display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
       p{margin:10px 0 6px 0;}
     }
       .submitbtn2{text-align:center;width:51%;padding:3px 0 3px 0;background-color:#00a4c0;color:white;}
     #registerForm{
-      display:none;z-index:9;background-color:white;border:2px solid #395462;padding:20px;border-radius:5px;color:black;width:280px;
+      display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
     }
 
 body{padding-top:56px;}
@@ -34,7 +43,7 @@ body{padding-top:56px;}
           .shareForm:hover{border:2px solid;}
           .shareForm i{margin:0 5px 0 5px;}
       #popupWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;display:none;align-items:center;justify-content:center;}
-        #popupForm{display:none;z-index:9;background-color:white;border:2px solid #395462;padding:20px;border-radius:5px;}
+        #popupForm{display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;}
           form{text-align:center;}
             input{display:block;margin:10px auto 10px auto;}
             .submitbtn{text-align:center;width:51%; margin:3px 0 3px 0;padding:3px 0 3px 0;background-color:#00a4c0;color:white;}
@@ -43,15 +52,15 @@ body{padding-top:56px;}
         .contents{padding-left:5px;background:white;box-shadow:3px 3px 3px rgb(230, 230, 230);}
           .publisher{padding-left:8px;}
           .comments{min-height:45px;}
-          .contentLink, .contentLink a{color:#395462;text-decoration:none;}
+          .contentLink, .contentLink a{color:@darkColor;text-decoration:none;}
           .contentLink a:hover{text-decoration:underline;}
           .contentIcons{margin-left:15px;}
-            .contentIcons i{color:#395462;margin:0 5px 0 5px;}
+            .contentIcons i{color:@darkColor;margin:0 5px 0 5px;}
             .contentIcons small{padding-left:3px;}
       .loadMoreWrapper{width:100%;display:flex;align-items:center;justify-content:center;padding-bottom:5px;}
       .loadMoreContainer{padding-top:5px;width:30%;}
         .loadMoreContainer a{text-decoration:none;}
-          .loadMore{background:white;text-align:center;box-shadow:3px 3px 3px rgb(230, 230, 230);color:#395462;padding:3px 5px 3px 5px;}
+          .loadMore{background:white;text-align:center;box-shadow:3px 3px 3px rgb(230, 230, 230);color:@darkColor;padding:3px 5px 3px 5px;}
           .loadMore:hover{border:2px solid;}
 .gapA{height:5px;}
 .errorWrapper{position:fixed;top:56px;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background-color:@whiteBackground;

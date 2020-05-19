@@ -10,18 +10,44 @@ const register = (req, res) => {
     form: req.body
   };
   request.post(requestOptions, (err, {statusCode}, body) => {
-    if (statusCode !== 200) {
-      return res.render('error', {
-        message: "An error occurred during registration. Please try again and make sure all fields are filled in correctly."
+    if (err) {return res.send(err);}
+    if (statusCode == 200) {
+      res.render('error', {
+        message: "Welcome to ehub, the social network for entrepreneurs. Thank you for choosing us. We have sent you a verification link to your e-mail. It should arrive in a few minutes!",
+        trigger: "true"
       });
-    } else if (!body.length) {
+    }
+    if (!JSON.parse(body).message) {
       return res.render('error', {
         message: "Ups, something went wrong. Let us know and we'll be working to solve it as soon as possible."
       });
     }
-    res.render('error', {
-      message: "Welcome to ehub, the social network for entrepreneurs. Thank you for choosing us. We have sent you a verification link to your e-mail. It should arrive in a few minutes!",
-      trigger: "true"
+    return res.render('error', {
+      message: JSON.parse(body).message
+    });
+  });
+};
+
+const verifyAccount = (req, res) => {
+  const path = '/api/verify-account/';
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.verHash}`,
+    method: 'GET'
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode == 200) {
+      res.cookie(header.rawHeaders[3]);
+      return res.render('error', {
+        message: JSON.parse(body).message,
+        trigger: "true"
+      });
+    }
+    if (!JSON.parse(body).message) {
+      return res.render('error', {message: "Ups, something went wrong. Let us know and we'll be working to solve it as soon as possible."});
+    }
+    return res.render('error', {
+      message: JSON.parse(body).message
     });
   });
 };
@@ -31,16 +57,17 @@ const login = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: 'POST',
-    json: {}
+    form: req.body
   };
   request(requestOptions, (err, {statusCode}, body) => {
-		let data = [];
+		if (err) {return res.send(err);}
 		if (statusCode === 200 && body.length) {
-			data = body
-		}
-		console.log(data); // Comment out this line for production
-		renderAuth(req, res, data);
-	});
+		res.redirect('/');
+    }
+    return res.render('error', {
+      message: JSON.parse(body).message
+    });
+  });
 };
 
 renderAuth = (req, res, data) => {
@@ -52,7 +79,14 @@ renderAuth = (req, res, data) => {
   res.redirect('/');
 };
 
+const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect('/');
+}
+
 module.exports = {
 	register,
-	login
+	verifyAccount,
+	login,
+	logout
 };

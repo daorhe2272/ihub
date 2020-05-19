@@ -41,13 +41,9 @@ userSchema.methods.validPassword = function (password) {
 };
 
 userSchema.methods.generateJwt = function () {
-  const expiry = new Date();
-  expiry.setDate(expiry.getDate + 1);
   return jwt.sign({
-    _id: this._id,
-    email: this.email,
-    name: this.firstName
-  }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    _id: this._id
+  }, process.env.JWT_SECRET, { expiresIn: 60*60*24 }); // Expires in one day
 };
 
 mongoose.model('User', userSchema);

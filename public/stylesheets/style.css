@@ -7,6 +7,7 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 1;
 }
 .header_wrapper a,
 .menu_item button {
@@ -21,6 +22,25 @@ header {
 .menu_item button:hover {
   background-color: #395462;
   border-radius: 3px;
+}
+.menu_item i {
+  padding: 0 10px 0 10px;
+}
+.menu_item .dropdownContent {
+  position: absolute;
+  z-index: 1;
+  visibility: hidden;
+  font-size: 0.8em;
+}
+.menu_item .dropdownContent button {
+  display: inline-block;
+}
+.menu_item .dropdownContent button:hover {
+  border-radius: 0;
+}
+.menu_item:hover .dropdownContent {
+  visibility: visible;
+  border-radius: 0;
 }
 .header_wrapper {
   display: flex;

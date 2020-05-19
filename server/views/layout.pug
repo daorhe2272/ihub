@@ -8,6 +8,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap')
   header
+    #trigger2(style="display:none;")= trigger2
     .header_wrapper
       #header_logo
         a(href='/') The Entrepreneurial Hub
@@ -22,8 +23,15 @@ html
           a(href='') Events
         .menu_item
           a(href='') Suggestions
-        .menu_item
+        .menu_item#logIn
           button(onclick="openSignin()") Log in
+        .menu_item#myAccount(style="display:none;")
+          button
+            i.fas.fa-user
+          .dropdownContent
+            button My Profile
+            button My pocket
+            button(onclick="location.href='/logout';") Log out
   #signinMenuWrapper
       #signinForm
         form(method="POST" action="/login") To log in, please type in your e-mail address and password:
@@ -45,6 +53,7 @@ html
         
   body
     block content
+    script if (document.getElementById("trigger2").innerHTML === "true") {document.getElementById("logIn").style.display="none"; document.getElementById("myAccount").style.display="inline-block";}
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js',integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo',crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnJAK/18WvCWPIPm49',crossorigin='anonymous')
     script(src='/javascripts/bootstrap.min.js')
