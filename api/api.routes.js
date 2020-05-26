@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ctrlShares = require('./shares');
-const ctrlAuth = require('./authentication');
+const ctrlShares = require('./controllers/shares');
+const ctrlAuth = require('./controllers/authentication');
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
@@ -23,5 +23,8 @@ router
 router.post('/login', ctrlAuth.login);
 router.post('/register', ctrlAuth.register);
 router.get('/verify-account/:verHash', ctrlAuth.verifyAccount);
+router.get('/reset-password', ctrlAuth.sendResetEmail);
+router.get('/request-reset/:verHash', ctrlAuth.verHashCheck);
+router.put('/change-password/:verHash', ctrlAuth.changePassword);
 
 module.exports = router;

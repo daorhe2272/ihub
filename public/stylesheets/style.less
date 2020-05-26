@@ -25,11 +25,19 @@ header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-in
     .menu_item{display:inline-block;}
   #signinMenuWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;display:none;align-items:center;justify-content:center;}
     #signinForm{display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
+      input{margin:10px auto 0 auto;}
       p{margin:10px 0 6px 0;}
+      small a{}
+      .simpleWrapper{width:100%;text-align:left;margin-left:10px;
+        input, label{display:inline-block;margin: 7px 3px 3px 3px;}
+      }
+      .submitbtn{margin-top:8px;}
     }
       .submitbtn2{text-align:center;width:51%;padding:3px 0 3px 0;background-color:#00a4c0;color:white;}
-    #registerForm{
-      display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
+    #registerForm{display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
+      input{margin:10px auto 0 auto;}
+      #passwordMessage{}
+      .submitbtn{margin-top:8px;}
     }
 
 body{padding-top:56px;}
@@ -44,8 +52,9 @@ body{padding-top:56px;}
           .shareForm i{margin:0 5px 0 5px;}
       #popupWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;display:none;align-items:center;justify-content:center;}
         #popupForm{display:none;z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;}
-          form{text-align:center;}
+          form{text-align:center;
             input{display:block;margin:10px auto 10px auto;}
+          }
             .submitbtn{text-align:center;width:51%; margin:3px 0 3px 0;padding:3px 0 3px 0;background-color:#00a4c0;color:white;}
             .closebtn{text-align:center;width:51%; margin:3px 0 3px 0;padding:3px 0 3px 0;background-color:#f70110;color:white;}
       .contentsContainer{padding-top:5px;}
@@ -67,5 +76,9 @@ body{padding-top:56px;}
   .errorContainer{background-color:@lightBackground;border-radius:5px;color:@darkColor;width:70%;border:5px solid @darkBackground;padding:10px;
     .errorDiv1{float:left;}
     .errorDiv2{padding-left:12%;}
+  }
+}
+.formWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;align-items:center;justify-content:center;display:flex;
+  #resetForm{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:280px;
   }
 }

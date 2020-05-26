@@ -79,8 +79,24 @@ header {
   color: black;
   width: 280px;
 }
+#signinForm input {
+  margin: 10px auto 0 auto;
+}
 #signinForm p {
   margin: 10px 0 6px 0;
+}
+#signinForm .simpleWrapper {
+  width: 100%;
+  text-align: left;
+  margin-left: 10px;
+}
+#signinForm .simpleWrapper input,
+#signinForm .simpleWrapper label {
+  display: inline-block;
+  margin: 7px 3px 3px 3px;
+}
+#signinForm .submitbtn {
+  margin-top: 8px;
 }
 .submitbtn2 {
   text-align: center;
@@ -98,6 +114,12 @@ header {
   border-radius: 5px;
   color: black;
   width: 280px;
+}
+#registerForm input {
+  margin: 10px auto 0 auto;
+}
+#registerForm .submitbtn {
+  margin-top: 8px;
 }
 body {
   padding-top: 56px;
@@ -173,7 +195,7 @@ button {
 form {
   text-align: center;
 }
-input {
+form input {
   display: block;
   margin: 10px auto 10px auto;
 }
@@ -276,4 +298,25 @@ input {
 }
 .errorWrapper .errorContainer .errorDiv2 {
   padding-left: 12%;
+}
+.formWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(57, 84, 98, 0.7);
+  z-index: 8;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.formWrapper #resetForm {
+  z-index: 9;
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px;
+  border-radius: 5px;
+  color: black;
+  width: 280px;
 }

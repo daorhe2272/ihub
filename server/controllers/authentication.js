@@ -59,9 +59,10 @@ const login = (req, res) => {
     method: 'POST',
     form: req.body
   };
-  request(requestOptions, (err, {statusCode}, body) => {
+  request(requestOptions, (err, header, body) => {
 		if (err) {return res.send(err);}
-		if (statusCode === 200 && body.length) {
+		if (header.statusCode === 200 && body.length) {
+		res.cookie(header.rawHeaders[3]);
 		res.redirect('/');
     }
     return res.render('error', {
@@ -70,23 +71,79 @@ const login = (req, res) => {
   });
 };
 
-renderAuth = (req, res, data) => {
-  let message = null;
-  if (!(data instanceof Array)) {
-    message = "Ups, something went wrong. We'll be working to solve it soon."
-    data = [];
-  }
-  res.redirect('/');
-};
-
 const logout = (req, res) => {
   res.clearCookie("token");
   res.redirect('/');
 }
 
+const requestPasswordReset = (req, res) => {
+  const path = '/api/reset-password';
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: 'GET',
+    form: req.body
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode === 200 && body.length) {
+      return res.render('error', {
+        message: JSON.parse(body).message,
+        trigger: true
+      });
+    }
+    return res.render('error', {
+      message: JSON.parse(body).message
+    });
+  });
+};
+
+const formRequest = (req, res) => {
+  const path = '/api/request-reset/';
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.verHash}`,
+    method: 'GET'
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode == 200 && body.length) {
+      return res.render('passwordReset', {
+        verHash: req.params.verHash,
+        name: JSON.parse(body).firstName
+      });
+    }
+    return res.render('error', {
+      message: JSON.parse(body).message
+    });
+  });
+};
+
+const changePassword = (req, res) => {
+  const path = '/api/change-password/';
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.verHash}`,
+    method: 'PUT',
+    form: req.body
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode == 200 && body.length) {
+      return res.render('error', {
+        message: JSON.parse(body).message,
+        trigger: true
+      });
+    }
+    return res.render('error', {
+      message: JSON.parse(body).message
+    });
+  });
+};
+
 module.exports = {
 	register,
 	verifyAccount,
 	login,
-	logout
+	logout,
+	requestPasswordReset,
+	formRequest,
+	changePassword
 };

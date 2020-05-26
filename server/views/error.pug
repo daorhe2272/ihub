@@ -9,4 +9,5 @@ block content
         h3= message
   #functionTrigger(style="display:none;")= trigger
 
-  script if (document.getElementById("functionTrigger").innerHTML === "true") {document.getElementById("icon").className = "fas fa-check-circle fa-4x"; setTimeout(function(){window.location = '/'}, 10000);}
+  script if (document.getElementById("functionTrigger").innerHTML === "true") {document.getElementById("icon").className = "fas fa-check-circle fa-4x";}
+  script window.onload = setTimeout(function() {window.location = '/'}, 10000);

@@ -24,7 +24,10 @@ html
         .menu_item
           a(href='') Suggestions
         .menu_item#logIn
-          button(onclick="openSignin()") Log in
+          button Log in
+          .dropdownContent
+            button(onclick="openSignin()") Log in
+            button(onclick="openRegister()") Register
         .menu_item#myAccount(style="display:none;")
           button
             i.fas.fa-user
@@ -34,20 +37,25 @@ html
             button(onclick="location.href='/logout';") Log out
   #signinMenuWrapper
       #signinForm
-        form(method="POST" action="/login") To log in, please type in your e-mail address and password:
-          input(type="email" placeholder="E-mail address" name="email" required)
+        form(method="POST" action="/login" id="loginForm" name="loginForm") To log in, please type in your e-mail address and password:
+          input(type="email" placeholder="E-mail address" name="email" id="email" required)
           input(type="password" placeholder="Password" name="password" required)
+          small
+            a(href="#" onclick="resetPassword()" id="passwordReset") Ups, I forgot my password!
+          .simpleWrapper
+            input(type="checkbox" name="keepLogged" value="true" id="keepLogged")
+            label(for="keepLogged") Keep me logged in
           button(type="submit" class="submitbtn") <b>Log in</b>
           button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
-          p Or create an account now:
-          button(type="button" class="submitbtn2" onclick="openRegister()") <b>Register!</b>
       #registerForm
         form(method="POST" action="/register") To create your account, fill in all of the following fields:
           input(type="text" placeholder="First name/Given name*" name="firstName" required)
           input(type="text" placeholder="Last name/Family name*" name="lastName" required)
           input(type="email" placeholder="E-mail address*" name="email" required)
-          input(type="password" placeholder="Password*" name="password" id="password" onchange="checkPassword()" required)
+          input(type="password" placeholder="Password*" name="password" id="password" oninput="checkPassStrength()" onchange="checkPassword()" required)
           input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" required)
+          small#passwordMessage(style="display:none;") Password strength: 
+            b#passwordStrength
           button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
           button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
         

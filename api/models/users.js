@@ -40,10 +40,11 @@ userSchema.methods.validPassword = function (password) {
   return this.hash === hash;
 };
 
-userSchema.methods.generateJwt = function () {
+userSchema.methods.generateJwt = function (expiry) {
+  expiry = expiry / 1000;
   return jwt.sign({
     _id: this._id
-  }, process.env.JWT_SECRET, { expiresIn: 60*60*24 }); // Expires in one day
+  }, process.env.JWT_SECRET, { expiresIn: expiry });
 };
 
 mongoose.model('User', userSchema);
