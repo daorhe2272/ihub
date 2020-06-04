@@ -57,7 +57,8 @@ const login = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: 'POST',
-    form: req.body
+    form: req.body,
+    headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
 		if (err) {return res.send(err);}
@@ -122,7 +123,8 @@ const changePassword = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}${req.params.verHash}`,
     method: 'PUT',
-    form: req.body
+    form: req.body,
+    headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
     if (err) {return res.send(err);}

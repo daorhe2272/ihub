@@ -1,7 +1,15 @@
+const fs = require('fs');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const nodeMailer = require('../config/nodemailer.config');
+
+function auditLog(req) {
+  fs.appendFile(process.cwd() + '/bin/audit.log.txt', `${Date.now()},${req.ip},${req.method},${req.headers["user-agent"]},${req.headers.referer},${req.body.email}\n`, function (err) {
+    if (err) {return console.log(err);}
+    console.log("Request logged.");
+  });
+};
 
 const login = (req, res) => {
   if (!req.body.email || !req.body.password) {
@@ -17,9 +25,40 @@ const login = (req, res) => {
       } else if (err) {
         return res.status(404).json(err);
       }
-      if (!result.validPassword(req.body.password)) {
-        return res.status(401).json({"message": "Incorrect password. Please try again."});
+      // Check if account is verified
+      if (result.verified !== true) {
+        return res.status(401).json({message: "Your account has not been verified. Please check your email inbox or spam folder to find your verification link."});
       }
+      // Check for log-in time restrictions
+      if (Date.now() < result.allowedLogin) {
+        let message = {"message": "Too many failed log-in attempts. Try again in a few minutes."};
+        return res.status(401).json(message);
+      }
+      // Deal with several failed log-in attemps
+      if (!result.validPassword(req.body.password)) {
+        result.failedLogins += 1;
+        let message = {"message": "Too many failed log-in attempts. Try again in a few minutes."};
+        if (result.failedLogins > 6) {
+          result.allowedLogin = Date.now() + (1000*60*16);
+          auditLog(req);
+        } else if (result.failedLogins > 5) {
+          result.allowedLogin = Date.now() + (1000*60*8);
+          auditLog(req);
+        } else if (result.failedLogins > 4) {
+          result.allowedLogin = Date.now() + (1000*60*4);
+          auditLog(req);
+        } else if (result.failedLogins > 3) {
+          result.allowedLogin = Date.now() + (1000*60*2);
+          auditLog(req);
+        } else {
+          message = {"message": "Incorrect usename or password. Please try again."};
+        }
+        result.save((err) => {if (err) {return message = err;}});
+        return res.status(401).json(message);
+      }
+      // Successful log-in!
+      result.failedLogins = 0;
+      result.save((err) => {if (err) {console.log(err);}});
       let expiry = 24*60*60*1000;
       if (req.body.keepLogged === "true") {expiry = expiry * 30;}
       const token = result.generateJwt(expiry);
@@ -74,9 +113,10 @@ const verifyAccount = (req, res) => {
         if (err) {
           return res.status(404).json(err);
         }
-        const token = result.generateJwt();
+        let expiry = 24*60*60*1000;
+        const token = result.generateJwt(expiry);
         res.cookie("token", token, {
-          expires: new Date(Date.now() + 24*60*60*1000), // Expires in one day
+          expires: new Date(Date.now() + expiry),
           secure: false, // Set to true when using https
           httpOnly: true,
           path: '/'
@@ -114,7 +154,7 @@ const verHashCheck = (req, res) => {
   }
   User.findOne({ verHash: req.params.verHash }).select("-salt -hash").exec((err, result) => {
     if (!result) {
-      return res.status(404).json({message: "Invalid verification work."});
+      return res.status(404).json({message: "Invalid verification code."});
     } else if (err) {return res.status(404).json(err);}
     return res.status(200).json(result);
   });
@@ -133,9 +173,22 @@ const changePassword = (req, res) => {
     if (!result) {
       return res.status(404).json({message: "Invalid verification code."});
     } else if (err) {return res.status(404).json(err);}
-    if (req.body.email !== result.email) {
-      return res.status(404).json({message: "Invalid email. Please make sure that the email you typed matches the one related to your account."});
+    // Check for time restrictions
+    if (Date.now() < result.allowedLogin) {
+      return res.status(404).json({"message": "Time restriction in place. Try again later."});
     }
+    if (req.body.email !== result.email) {
+      let message = {"message": "Invalid email. Please make sure that the email you typed matches the one related to your account."};
+      result.resetAttempts += 1;
+      result.save((err) => {if (err) {return message = err;}});
+      if (result.resetAttempts > 3) {
+      auditLog(req);
+        result.allowedLogin = Date.now() + (1000*60*10);
+        message = {"message": "Time restriction in place. Try again later."};
+      }
+      return res.status(404).json(message);
+    }
+    result.resetAttempts = 0;
     result.setPassword(req.body.password);
     result.createVerHash();
     result.save((err) => {

@@ -22,6 +22,21 @@ const userSchema = new mongoose.Schema({
   verified: {
     type: Boolean,
     'default': false
+  },
+  failedLogins: {
+    type: Number,
+    'default': 0,
+    min: 0
+  },
+  allowedLogin: {
+    type: Number,
+    'default': Date.now(),
+    min: 0
+  },
+  resetAttempts: {
+    type: Number,
+    'default': 0,
+    min: 0
   }
 });
 
@@ -42,6 +57,7 @@ userSchema.methods.validPassword = function (password) {
 
 userSchema.methods.generateJwt = function (expiry) {
   expiry = expiry / 1000;
+  console.log(expiry);
   return jwt.sign({
     _id: this._id
   }, process.env.JWT_SECRET, { expiresIn: expiry });

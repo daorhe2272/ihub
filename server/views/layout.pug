@@ -38,8 +38,8 @@ html
   #signinMenuWrapper
       #signinForm
         form(method="POST" action="/login" id="loginForm" name="loginForm") To log in, please type in your e-mail address and password:
-          input(type="email" placeholder="E-mail address" name="email" id="email" required)
-          input(type="password" placeholder="Password" name="password" required)
+          input(type="email" placeholder="E-mail address" name="email" id="email" maxlength="50" required)
+          input(type="password" placeholder="Password" name="password" maxlength="30" required)
           small
             a(href="#" onclick="resetPassword()" id="passwordReset") Ups, I forgot my password!
           .simpleWrapper
@@ -49,11 +49,11 @@ html
           button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
       #registerForm
         form(method="POST" action="/register") To create your account, fill in all of the following fields:
-          input(type="text" placeholder="First name/Given name*" name="firstName" required)
-          input(type="text" placeholder="Last name/Family name*" name="lastName" required)
-          input(type="email" placeholder="E-mail address*" name="email" required)
-          input(type="password" placeholder="Password*" name="password" id="password" oninput="checkPassStrength()" onchange="checkPassword()" required)
-          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" required)
+          input(type="text" placeholder="First name/Given name*" name="firstName" maxlength="30" required)
+          input(type="text" placeholder="Last name/Family name*" name="lastName" maxlength="30" required)
+          input(type="email" placeholder="E-mail address*" name="email" maxlength="50" required)
+          input(type="password" placeholder="Password*" name="password" id="password" oninput="checkPassStrength()" onchange="checkPassword()" maxlength="30" minlength="8" required)
+          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" maxlength="40" required)
           small#passwordMessage(style="display:none;") Password strength: 
             b#passwordStrength
           button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
