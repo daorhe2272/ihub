@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Shares = mongoose.model('Share');
 const Users = mongoose.model('User');
+const grabity = require('grabity');
 
 const sharesDefaultList = (req, res) => {
   Shares.find().exec((err, results) =>  {
@@ -44,7 +45,16 @@ const addPost = (req, res) => {
   }
 };
 
+const processShare = (req, res) => {
+  (async () => {
+    let it = await grabity.grabIt(req.body.postContent);
+    console.log(it);
+    res.status(200).json(it);
+  }) ();
+}
+
 module.exports = {
   sharesDefaultList,
-  addPost
+  addPost,
+  processShare
 };

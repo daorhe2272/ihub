@@ -28,7 +28,7 @@ router.get('/', getId, ctrlShares.sharesList);
 
 // Test
 router.get('/test', (req, res) => {
-  res.send("Hola care bola boom boom bang bang cha cha cha sha shu ka shakshukha why the hell is the res object not containing my message? It is pretty long, I should be able to spot it in the console! Oh shit, why???");
+  return res.render('email.templates/validationEmail');
 });
 
 

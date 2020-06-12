@@ -9,22 +9,18 @@ html
     link(rel='stylesheet', href="//fonts.googleapis.com/css?family=Raleway")
     style(type="text/css")
       | *{box-sizing:border-box;}
-      | p{font-family:sans-serif;}
-      | .link{text-align:center;}
-      | .mainContainer{background-color:#2d313a;color:white;padding:0 10px 10px; 10px;}
-      | #logo{color:white;padding:15px;text-align:right;}
-      | #logo a, #logo a:visited{text-decoration:none;color:white;font-family:raleway, sans-serif;font-size:1.2em;}
-      | .subContainer{background-color:white;color:black;padding:5px;margin:0;}
-      | .subContainer a{color:blue;font-family:sans-serif;text-align:center;}
+      | p{font-family:sans-serif;font-size:1.2em;}
+      | .link{text-align:center;font-size:1.2em;}
+      | #logo a, #logo a:visited{text-decoration:none;color:white;font-family:raleway, sans-serif;font-size:1.4em;}
   body
-    .mainContainer(style="background-color:#2d313a;")
-      #logo
+    .mainContainer(style="background-color:#2d313a;color:white;padding:0 10px 10px 10px;")
+      #logo(style="color:white;padding:15px;text-align:right;")
         a(href=`${url}`) <b>The Entrepreneurial Hub</b>
-      .subContainer
+      .subContainer(style="background-color:white;color:black;padding:5px;margin:0;")
         p
           | Hello #{firstName}, <br><br>
           | You're just one step away from becoming a full member of <b>ehub</b>, the social network for entrepreneurs. To validate your account, simply click on the following link (or copy it and paste it into your web browser if that doesn't work):<br>
-        a(class="link" href=`${verLink}`) <center>#{verLink}</center><br><br>
+        a(class="link" href=`${verLink}` style="color:blue;font-family:sans-serif;text-align:center;") <center>#{verLink}</center><br><br>
         p Sincerely yours,<br><b>ehub</b> customer service<br><br>
         p
           | <small>*If you received this e-mail by accident, please ignore it. Please note that this message is automated. Inquieries sent to this e-mail won't go through. If you need to send one, use the contact form provided at <a href=#{url}>www.ehub.com</a>.</small>

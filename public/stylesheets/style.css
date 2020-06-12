@@ -1,6 +1,18 @@
 * {
   box-sizing: border-box;
 }
+.stdFormContainer {
+  z-index: 9;
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px;
+  border-radius: 5px;
+  color: black;
+  width: 310px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+}
 header {
   background-color: #2d313a;
   color: white;
@@ -8,6 +20,7 @@ header {
   width: 100%;
   top: 0;
   z-index: 1;
+  font-size: 1.2rem;
 }
 .header_wrapper a,
 .menu_item button {
@@ -70,14 +83,17 @@ header {
   justify-content: center;
 }
 #signinForm {
-  display: none;
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
   color: black;
-  width: 280px;
+  width: 310px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  display: none;
 }
 #signinForm input {
   margin: 10px auto 0 auto;
@@ -106,14 +122,17 @@ header {
   color: white;
 }
 #registerForm {
-  display: none;
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
   color: black;
-  width: 280px;
+  width: 310px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  display: none;
 }
 #registerForm input {
   margin: 10px auto 0 auto;
@@ -131,12 +150,13 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Open Sans', sans-serif;
-  font-size: 2em;
+  font-size: 2.2rem;
   padding: 0% 15% 0% 15%;
   text-align: center;
 }
 .bodyWrapper {
   background: #fafafa;
+  font-size: 1.2rem;
 }
 .sideBar {
   width: 25%;
@@ -184,20 +204,32 @@ button {
   align-items: center;
   justify-content: center;
 }
-#popupForm {
+#popupWrapper #popupForm {
   display: none;
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
+  width: 350px;
+  min-height: 30%;
 }
-form {
+#popupWrapper #popupForm form {
   text-align: center;
 }
-form input {
+#popupWrapper #popupForm form textarea {
   display: block;
-  margin: 10px auto 10px auto;
+  margin: 0 auto 10px auto;
+  width: 100%;
+  resize: none;
+}
+#popupWrapper #popupForm form #postLinkContainer #postLinkImg {
+  border-radius: 8px;
+  width: 100%;
+  max-height: 200px;
+}
+#popupWrapper #popupForm form #postLinkContainer #postLinkDescription {
+  font-size: 1rem;
 }
 .submitbtn {
   text-align: center;
@@ -318,5 +350,8 @@ form input {
   padding: 20px;
   border-radius: 5px;
   color: black;
-  width: 280px;
+  width: 310px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
 }

@@ -15,9 +15,9 @@ const verifyToken = (req, res, next) => {
 
 // shares
 router
-  .route('/')
-  .get(ctrlShares.sharesDefaultList)
-  .post(ctrlShares.addPost);
+  .get('/', ctrlShares.sharesDefaultList)
+  .post('/', ctrlShares.addPost);
+router.post('/process-share', ctrlShares.processShare);
   
 // authentication
 router.post('/login', ctrlAuth.login);

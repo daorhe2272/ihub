@@ -18,9 +18,20 @@ function closeRegister() {
   document.getElementById("registerForm").style.display="none";
 }
 
+function closeResetForm() {
+  for (let i = 0; i < document.getElementsByClassName("formWrapper").length; i++) {
+    document.getElementsByClassName("formWrapper")[i].style.visibility="hidden";
+    window.location = "/";
+  }
+}
+
 function checkPassword() {
   if (document.getElementById("password").value === document.getElementById("confirmPassword").value) {
-    document.getElementById("registerButton").type = "submit";
+    if (document.getElementById("passwordStrength").innerHTML !== "too weak") {
+      document.getElementById("registerButton").type = "submit";
+    } else {
+      document.getElementById("registerButton").type = "button";
+    }
   } else {
     document.getElementById("registerButton").type = "button";
   }
@@ -29,6 +40,9 @@ function checkPassword() {
 function checkAndAlert() {
   if (document.getElementById("password").value !== document.getElementById("confirmPassword").value) {
     alert("Password confirmation failed. Plase make sure that both passwords match.");
+  }
+  if (document.getElementById("passwordStrength").innerHTML === "too weak") {
+    alert("Please use a stronger password.");
   }
 }
 
@@ -59,7 +73,7 @@ function scorePassword(password) {
   let score = 0;
   if (!password) {return score;}
   let letters = new Object();
-  for (let i=0; i<password.length; i++) {
+  for (let i = 0; i < password.length; i++) {
     letters[password[i]] = (letters[password[i]] || 0) + 1;
     score += 5.0 / letters[password[i]];
   }
@@ -86,4 +100,26 @@ function checkPassStrength() {
   else {message = "too weak"; messageColor = "red";}
   document.getElementById("passwordStrength").innerHTML = message;
   document.getElementById("passwordMessage").style = `display:inline;color:${messageColor};`;
+}
+
+function checkForLink() {
+  let postInput = document.getElementById("postContent");
+  postInput.addEventListener("keyup", () => {
+    clearTimeout(window.typingTimer);
+    if (postInput.value) {
+      window.typingTimer = setTimeout(doneTyping, 1000);
+    }
+  });
+  // If timer reaches two seconds, check for link
+  async function doneTyping() {
+    let data = {postContent: `${postInput.value}`}
+    let response = await fetch("/api/process-share", {method:"POST", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
+    if (response.ok) {
+      let json = await response.json();
+      document.getElementById("postLinkImg").src=json.image;
+      document.getElementById("postLinkDescription").innerHTML=json.description;
+    } else {
+      alert("HTTP-Error: " + response.status);
+    }
+  }
 }
