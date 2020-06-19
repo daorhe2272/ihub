@@ -21,6 +21,7 @@ header {
   top: 0;
   z-index: 1;
   font-size: 1.2rem;
+  box-shadow: 0px 3px 3px #c8c8d2;
 }
 .header_wrapper a,
 .menu_item button {
@@ -81,6 +82,7 @@ header {
   display: none;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 #signinForm {
   z-index: 9;
@@ -95,23 +97,23 @@ header {
   justify-content: center;
   display: none;
 }
-#signinForm input {
+#signinForm form input {
   margin: 10px auto 0 auto;
 }
-#signinForm p {
+#signinForm form p {
   margin: 10px 0 6px 0;
 }
-#signinForm .simpleWrapper {
+#signinForm form .simpleWrapper {
   width: 100%;
   text-align: left;
   margin-left: 10px;
 }
-#signinForm .simpleWrapper input,
-#signinForm .simpleWrapper label {
+#signinForm form .simpleWrapper input,
+#signinForm form .simpleWrapper label {
   display: inline-block;
   margin: 7px 3px 3px 3px;
 }
-#signinForm .submitbtn {
+#signinForm form .submitbtn {
   margin-top: 8px;
 }
 .submitbtn2 {
@@ -140,37 +142,47 @@ header {
 #registerForm .submitbtn {
   margin-top: 8px;
 }
+.gapA {
+  height: 5px;
+  background: #fafafa;
+}
 body {
   padding-top: 56px;
 }
-#title {
+.bodyWrapper {
+  background: #fafafa;
+  font-size: 1.2rem;
   display: flex;
+  direction: ltr;
+}
+.sideBar {
+  color: white;
+  flex-basis: 25%;
+}
+.mainContent {
+  flex-basis: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+#title {
   min-height: 170px;
   background-color: #cce0dd;
   justify-content: center;
   align-items: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 2.2rem;
-  padding: 0% 15% 0% 15%;
+  padding: 0% 10% 0% 10%;
   text-align: center;
-}
-.bodyWrapper {
-  background: #fafafa;
-  font-size: 1.2rem;
-}
-.sideBar {
-  width: 25%;
-  color: white;
-  float: left;
-  position: fixed;
-  height: 100%;
-}
-.mainContent {
-  width: 85%;
-  padding-left: 25%;
+  width: 600px;
+  margin: 2px 0 2px 0;
+  border-radius: 3px;
 }
 .formContainer {
   padding-top: 5px;
+  width: 600px;
+  font-size: 1.3rem;
 }
 button {
   border: none;
@@ -182,7 +194,7 @@ button {
 .shareForm {
   background: white;
   min-height: 50px;
-  box-shadow: 3px 3px 3px #e6ebf0;
+  box-shadow: 3px 3px 3px #e6e6e6;
   color: #395462;
   padding: 3px 10px 3px 5px;
 }
@@ -211,17 +223,29 @@ button {
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
-  width: 350px;
-  min-height: 30%;
+  width: 500px;
+  max-height: 550px;
 }
 #popupWrapper #popupForm form {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-#popupWrapper #popupForm form textarea {
-  display: block;
-  margin: 0 auto 10px auto;
+#popupWrapper #popupForm form #postContent {
   width: 100%;
-  resize: none;
+  height: 60px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 2px;
+  margin-bottom: 5px;
+  overflow: auto;
+}
+#popupWrapper #popupForm form [contentEditable=true]:empty:not(:focus):before {
+  content: attr(data-text);
+  color: #555;
+}
+#popupWrapper #popupForm form #postLinkContainer:empty {
+  display: none;
 }
 #popupWrapper #popupForm form #postLinkContainer #postLinkImg {
   border-radius: 8px;
@@ -231,9 +255,17 @@ button {
 #popupWrapper #popupForm form #postLinkContainer #postLinkDescription {
   font-size: 1rem;
 }
+#popupWrapper #popupForm form .submitbtn {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+#popupWrapper #popupForm form .closebtn {
+  width: 100%;
+  border-radius: 5px;
+}
 .submitbtn {
   text-align: center;
-  width: 51%;
   margin: 3px 0 3px 0;
   padding: 3px 0 3px 0;
   background-color: #00a4c0;
@@ -241,7 +273,6 @@ button {
 }
 .closebtn {
   text-align: center;
-  width: 51%;
   margin: 3px 0 3px 0;
   padding: 3px 0 3px 0;
   background-color: #f70110;
@@ -249,6 +280,7 @@ button {
 }
 .contentsContainer {
   padding-top: 5px;
+  width: 600px;
 }
 .contents {
   padding-left: 5px;
@@ -258,16 +290,25 @@ button {
 .publisher {
   padding-left: 8px;
 }
-.comments {
+.postContents {
   min-height: 45px;
 }
-.contentLink,
-.contentLink a {
-  color: #395462;
+.contents a {
   text-decoration: none;
+  color: black;
 }
-.contentLink a:hover {
-  text-decoration: underline;
+.contents a .linkContents {
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 5px 10px 5px 10px;
+}
+.contents a .linkContents .linkImage {
+  width: 100%;
+  max-height: 220px;
+}
+.contents a .linkContents .linkText {
+  background-color: #ebebf5;
+  padding: 5px;
 }
 .contentIcons {
   margin-left: 15px;
@@ -275,9 +316,10 @@ button {
 .contentIcons i {
   color: #395462;
   margin: 0 5px 0 5px;
+  min-width: 40px;
 }
 .contentIcons small {
-  padding-left: 3px;
+  padding-left: 5px;
 }
 .loadMoreWrapper {
   width: 100%;
@@ -303,8 +345,8 @@ button {
 .loadMore:hover {
   border: 2px solid;
 }
-.gapA {
-  height: 5px;
+.rightSideBar {
+  flex-basis: 25%;
 }
 .errorWrapper {
   position: fixed;

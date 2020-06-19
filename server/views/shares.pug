@@ -1,36 +1,44 @@
 extends layout
 
 block content
-  .gapA
+  - const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
   - const indexOpenings = ['Got a spare business idea? Why not share it so others can use it.', 'Let others know about your business. Share your website here.', 'Found an interesting blog post or article? Help others by sharing it!'];
   - openingPhrase = indexOpenings[parseInt((Math.random() * indexOpenings.length))]
-  #title=openingPhrase
   .gapA
   .bodyWrapper
-    .sideBar *Content*
+    .sideBar
     .mainContent
+      #title=openingPhrase
       .formContainer
         button(onclick="openForm()")
           .shareForm
             i.fas.fa-pen-square <b> Add a post of your own!</b>
       #popupWrapper
         #popupForm
-          form(action="/api/process-share" method="POST")
-            textarea(id="postContent" name="postContent" placeholder="What would you like to share?" maxlength="1000" oninput="checkForLink()")
+          form
+            div(id="postContent" maxlength="1000" oninput="checkForLink()" contentEditable="true" data-text="What would you like to share?")
             #postLinkContainer
               img#postLinkImg
+              b#postLinkTitle
               #postLinkDescription
-            button(type="submit" class="submitbtn") <b>Post</b>
+            button(type="button" class="submitbtn" onclick="postSharedContent()") <b>Post</b>
             button(type="button" class="closebtn" onclick="closeForm()") <b>Close</b>
       .error= message
       each share in sharesList
         .contentsContainer
           .contents
             .publisher
-              small Published by #{share.publisher}
-            .comments= share.content
-            .contentLink <b>Link: </b>
-              a(href=`${share.link}`) #{share.link}
+              small Published by <a href="">#{share.publisher}</a>
+            - let url = share.content.match(urlRegex);
+            .postContents #{share.content}
+            if share.linkImage || share.linkTitle || share.linkDescription
+              a(href=`${url[0]}` target="_blank")
+                .linkContents
+                  img.linkImage(src=`${share.linkImage}`)
+                  if share.linkTitle || share.linkDescription
+                    .linkText
+                      b.linkTitle #{share.linkTitle}
+                      .linkDescription #{share.linkDescription}
             .contentIcons
               i.far.fa-thumbs-up
                 small= share.likes
@@ -42,6 +50,8 @@ block content
           .loadMoreContainer
             button
               .loadMore <b>Load more posts</b>
+    .rightSideBar
+
   script
     | function openForm() {document.getElementById("popupWrapper").style.display="flex"; document.getElementById("popupForm").style.display="block";}
     | function closeForm() {document.getElementById("popupWrapper").style.display="none"; document.getElementById("popupForm").style.display="none";}

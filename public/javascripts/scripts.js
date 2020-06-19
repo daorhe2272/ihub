@@ -1,3 +1,5 @@
+window.urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
 function openSignin() {
   document.getElementById("signinMenuWrapper").style.display="flex";
   document.getElementById("signinForm").style.display="block";
@@ -103,23 +105,70 @@ function checkPassStrength() {
 }
 
 function checkForLink() {
+  // Wait for user to stop typing
   let postInput = document.getElementById("postContent");
   postInput.addEventListener("keyup", () => {
     clearTimeout(window.typingTimer);
-    if (postInput.value) {
-      window.typingTimer = setTimeout(doneTyping, 1000);
-    }
+    window.typingTimer = setTimeout(doneTyping, 1000);
   });
-  // If timer reaches two seconds, check for link
-  async function doneTyping() {
-    let data = {postContent: `${postInput.value}`}
+  // If time's up, check for links
+  function doneTyping() {
+    let url = postInput.innerHTML.match(urlRegex);
+    if (url) {
+      let string = postInput.innerHTML;
+      populatePost(url[0]);
+    } else {
+      document.getElementById("postLinkImg").src="";
+      document.getElementById("postLinkTitle").innerHTML="";
+      document.getElementById("postLinkDescription").innerHTML="";
+    }
+  }
+  
+  // If there is a link, populate post form
+  async function populatePost(url) {
+    let data = {postContent: url}
     let response = await fetch("/api/process-share", {method:"POST", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
     if (response.ok) {
       let json = await response.json();
-      document.getElementById("postLinkImg").src=json.image;
-      document.getElementById("postLinkDescription").innerHTML=json.description;
+      if (json.image) {document.getElementById("postLinkImg").src=json.image;}
+      if (json.title) {document.getElementById("postLinkTitle").innerHTML=json.title;}
+      if (json.description) {document.getElementById("postLinkDescription").innerHTML=json.description;}
     } else {
       alert("HTTP-Error: " + response.status);
     }
   }
+}
+
+function postShare(path, params, method) {
+  const form = document.createElement('form');
+  form.method = method;
+  form.action = path;
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = key;
+      hiddenField.value = params[key];
+      form.appendChild(hiddenField);
+    }
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
+function postSharedContent() {
+  if (document.getElementById("postContent").innerHTML === "") {
+    alert("There is nothing to post");
+  } else {
+    path = "/api";
+    method = "POST";
+    params = {
+      postContent: document.getElementById("postContent").innerHTML,
+      publisher: document.getElementById("myAccount").getAttribute("name"),
+      image: document.getElementById("postLinkImg").getAttribute("src"),
+      title: document.getElementById("postLinkTitle").innerHTML,
+      description: document.getElementById("postLinkDescription").innerHTML
+    };
+  }
+  postShare(path, params, method);
 }

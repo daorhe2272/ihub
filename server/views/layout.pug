@@ -28,7 +28,7 @@ html
           .dropdownContent
             button(onclick="openSignin()") Log in
             button(onclick="openRegister()") Register
-        .menu_item#myAccount(style="display:none;")
+        .menu_item#myAccount(style="display:none;" name=`${userId}`)
           button
             i.fas.fa-user
           .dropdownContent
@@ -41,7 +41,8 @@ html
           input(type="email" placeholder="E-mail address" name="email" id="email" maxlength="50" required)
           input(type="password" placeholder="Password" name="password" maxlength="30" required)
           small
-            a(href="#" onclick="resetPassword()" id="passwordReset") Ups, I forgot my password!
+            a(href="#" onclick="resetPassword()" id="passwordReset")
+              b Ups, I forgot my password!
           .simpleWrapper
             input(type="checkbox" name="keepLogged" value="true" id="keepLogged")
             label(for="keepLogged") Keep me logged in
@@ -62,7 +63,5 @@ html
   body
     block content
     script if (document.getElementById("trigger2").innerHTML === "true") {document.getElementById("logIn").style.display="none"; document.getElementById("myAccount").style.display="inline-block";}
-    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js',integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo',crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnJAK/18WvCWPIPm49',crossorigin='anonymous')
-    script(src='/javascripts/bootstrap.min.js')
+
     script(src='/javascripts/scripts.js')

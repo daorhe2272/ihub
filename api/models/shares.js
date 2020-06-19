@@ -10,7 +10,18 @@ const sharesSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  link: String,
+  linkTitle: {
+    type: String,
+    'default': ""
+  },
+  linkDescription: {
+    type: String,
+    'default':""
+  },
+  linkImage: {
+    type: String,
+    'default':""
+  },
   likes: {
     type: Number,
     'default': 0,
