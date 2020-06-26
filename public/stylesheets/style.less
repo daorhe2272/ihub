@@ -9,8 +9,10 @@
 
 .stdFormContainer{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:310px;font-size:1.2rem;align-items:center;justify-content:center;}
 
+.simpleDropdown{visibility:hidden;z-index:1;position:absolute;overflow:hidden;border-radius:5px;font-family:sans-serif;box-shadow:2px 2px 4px 4px rgb(200, 200, 200);margin-top:3px;background-color:white;padding:8px;}
+
 // Basic Layout - General
-header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-index:1;font-size:1.2rem;box-shadow:0px 3px 3px rgb(200, 200, 210);}
+header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-index:1;font-size:1.2rem;box-shadow:0px 3px 3px rgb(160, 160, 170);}
   .header_wrapper a, .menu_item button{text-decoration:none;color:white;padding:10px;font-size:1.2em;font-family:raleway,sans-serif;background-color:@darkBackground;}
   .header_wrapper a:hover, .menu_item button:hover{background-color:@darkColor;border-radius:3px;}
   .menu_item {
@@ -80,18 +82,26 @@ body{padding-top:56px;}
             .closebtn{text-align:center;margin:3px 0 3px 0;padding:3px 0 3px 0;background-color:#f70110;color:white;}
       .contentsContainer{padding-top:5px;width:600px;}
         .contents{padding-left:5px;background:white;box-shadow:3px 3px 3px rgb(230, 230, 230);}
-          .publisher{padding-left:8px;}
-          .postContents{min-height:45px;}
+          .contentsHeader{display:flex;flex-direction:row;justify-content:space-between;width:100%;
+            .publisher{padding-left:8px;}
+            i{padding:5px 12px 0 0;font-size:1.6rem;color:@darkColor;cursor:pointer;
+              .postDropdown{.simpleDropdown();width:150px;
+                button{background-color:white;margin:3px 0 3px 0;border-radius:5px;padding:5px;}
+                button:hover{background-color:rgb(240, 240, 240);}
+              }
+            }
+          }
+          .postContents{min-height:45px;overflow:hidden;}
           .contents a{text-decoration:none;color:black;
             .linkContents{border-radius:8px;overflow:hidden;margin:5px 10px 5px 10px;
-              .linkImage{width:100%;max-height:220px;}
+              .linkImage{width:100%;max-height:260px;}
               .linkText{background-color:rgb(235, 235, 245);padding:5px;
                 .linkTitle{}
                 .linkDescription{}
               }
             }
           }
-          .contentIcons{margin-left:15px;}
+          .contentIcons{margin-left:15px;padding-bottom:5px;}
             .contentIcons i{color:@darkColor;margin:0 5px 0 5px;min-width:40px;}
             .contentIcons small{padding-left:5px;}
       .loadMoreWrapper{width:100%;display:flex;align-items:center;justify-content:center;padding-bottom:5px;}

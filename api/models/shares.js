@@ -6,9 +6,14 @@ const sharesSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  content: {
+  publisherId: {
     type: String,
     required: true
+  },
+  content: {
+    type: String,
+    required: true,
+    maxlength: 1000
   },
   linkTitle: {
     type: String,

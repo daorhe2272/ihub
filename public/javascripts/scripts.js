@@ -71,6 +71,18 @@ function checkAndAlert2() {
   }
 }
 
+window.addEventListener("click", function (event) {
+  elements = document.getElementsByClassName("fa-caret-down");
+  for (let i = 0; i < elements.length; i++) {
+    if (!elements[i].contains(event.target) && elements[i].children[0].style.visibility==="visible") {
+      elements[i].children[0].style.visibility="hidden";
+    }
+    if (elements[i].contains(event.target)) {
+      elements[i].children[0].style.visibility="visible";
+    }
+  }
+});
+
 function scorePassword(password) {
   let score = 0;
   if (!password) {return score;}
@@ -105,8 +117,13 @@ function checkPassStrength() {
 }
 
 function checkForLink() {
-  // Wait for user to stop typing
+  // Set maximum amount of characters allowed
   let postInput = document.getElementById("postContent");
+  if (postInput.innerText.length > 1000) {
+    alert("Maximum number of characters reached! Please make your post shorter.");
+  }
+  
+  // Wait for user to stop typing
   postInput.addEventListener("keyup", () => {
     clearTimeout(window.typingTimer);
     window.typingTimer = setTimeout(doneTyping, 1000);
@@ -132,9 +149,12 @@ function checkForLink() {
       let json = await response.json();
       if (json.image) {document.getElementById("postLinkImg").src=json.image;}
       if (json.title) {document.getElementById("postLinkTitle").innerHTML=json.title;}
-      if (json.description) {document.getElementById("postLinkDescription").innerHTML=json.description;}
+      if (json.description) {
+        document.getElementById("postLinkDescription").innerHTML=json.description;
+      }
     } else {
-      alert("HTTP-Error: " + response.status);
+      let json = await response.json();
+      alert(json.message);
     }
   }
 }
@@ -160,7 +180,7 @@ function postSharedContent() {
   if (document.getElementById("postContent").innerHTML === "") {
     alert("There is nothing to post");
   } else {
-    path = "/api";
+    path = "/";
     method = "POST";
     params = {
       postContent: document.getElementById("postContent").innerHTML,
@@ -171,4 +191,10 @@ function postSharedContent() {
     };
   }
   postShare(path, params, method);
+}
+
+function deletePost(postId) {
+  if (confirm("Delete post?") === true) {
+    location.href = `/delete-share/${postId}`;
+  }
 }

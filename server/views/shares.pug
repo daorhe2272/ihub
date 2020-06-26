@@ -9,10 +9,11 @@ block content
     .sideBar
     .mainContent
       #title=openingPhrase
-      .formContainer
-        button(onclick="openForm()")
-          .shareForm
-            i.fas.fa-pen-square <b> Add a post of your own!</b>
+      if userId
+        .formContainer
+          button(onclick="openForm()")
+            .shareForm
+              i.fas.fa-pen-square <b> Add a post of your own!</b>
       #popupWrapper
         #popupForm
           form
@@ -26,15 +27,26 @@ block content
       .error= message
       each share in sharesList
         .contentsContainer
-          .contents
-            .publisher
-              small Published by <a href="">#{share.publisher}</a>
+          .contents(id=`${share._id}`)
+            .contentsHeader
+              .publisher
+                small Published by <a href="" style="font-weight:600;" name="#{share.publisherId}">#{share.publisher}</a>
+              if userId
+                i.fas.fa-caret-down
+                  .postDropdown
+                    if share.publisherId===userId
+                      button Edit
+                      button(onclick=`deletePost("${share._id}")`) Delete
+                    if share.publisherId!==userId
+                      button Report
             - let url = share.content.match(urlRegex);
-            .postContents #{share.content}
+            - if (url != null && url.length) {for (let i = 0; i < url.length; i++) {share.content = share.content.replace(url[i],`<a href="${url[i]}" style="color:blue;">${url[i]}</a>`);}}
+            .postContents !{share.content}
             if share.linkImage || share.linkTitle || share.linkDescription
               a(href=`${url[0]}` target="_blank")
                 .linkContents
-                  img.linkImage(src=`${share.linkImage}`)
+                  if share.linkImage
+                    img.linkImage(src=`${share.linkImage}`)
                   if share.linkTitle || share.linkDescription
                     .linkText
                       b.linkTitle #{share.linkTitle}

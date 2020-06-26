@@ -13,6 +13,18 @@
   align-items: center;
   justify-content: center;
 }
+.simpleDropdown {
+  visibility: hidden;
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 5px;
+  font-family: sans-serif;
+  box-shadow: 2px 2px 4px 4px #c8c8c8;
+  margin-top: 3px;
+  background-color: white;
+  padding: 8px;
+}
 header {
   background-color: #2d313a;
   color: white;
@@ -21,7 +33,7 @@ header {
   top: 0;
   z-index: 1;
   font-size: 1.2rem;
-  box-shadow: 0px 3px 3px #c8c8d2;
+  box-shadow: 0px 3px 3px #a0a0aa;
 }
 .header_wrapper a,
 .menu_item button {
@@ -287,11 +299,46 @@ button {
   background: white;
   box-shadow: 3px 3px 3px #e6e6e6;
 }
-.publisher {
+.contentsHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.contentsHeader .publisher {
   padding-left: 8px;
+}
+.contentsHeader i {
+  padding: 5px 12px 0 0;
+  font-size: 1.6rem;
+  color: #395462;
+  cursor: pointer;
+}
+.contentsHeader i .postDropdown {
+  visibility: hidden;
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 5px;
+  font-family: sans-serif;
+  box-shadow: 2px 2px 4px 4px #c8c8c8;
+  margin-top: 3px;
+  background-color: white;
+  padding: 8px;
+  width: 150px;
+}
+.contentsHeader i .postDropdown button {
+  background-color: white;
+  margin: 3px 0 3px 0;
+  border-radius: 5px;
+  padding: 5px;
+}
+.contentsHeader i .postDropdown button:hover {
+  background-color: #f0f0f0;
 }
 .postContents {
   min-height: 45px;
+  overflow: hidden;
 }
 .contents a {
   text-decoration: none;
@@ -304,7 +351,7 @@ button {
 }
 .contents a .linkContents .linkImage {
   width: 100%;
-  max-height: 220px;
+  max-height: 260px;
 }
 .contents a .linkContents .linkText {
   background-color: #ebebf5;
@@ -312,6 +359,7 @@ button {
 }
 .contentIcons {
   margin-left: 15px;
+  padding-bottom: 5px;
 }
 .contentIcons i {
   color: #395462;

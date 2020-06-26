@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ctrlShares = require('./controllers/shares');
 const ctrlAuth = require('./controllers/authentication');
+const ctrlUsers = require('./controllers/users');
 const jwt = require('jsonwebtoken');
 
 const getId = (req, res, next) => {
@@ -23,8 +24,13 @@ router.post('/reset-password', ctrlAuth.requestPasswordReset);
 router.get('/request-reset/:verHash', ctrlAuth.formRequest);
 router.post('/change-password/:verHash', ctrlAuth.changePassword);
 
+// Users
+router.get('/user/:userId', getId, ctrlUsers.myProfile);
+
 // Shares
 router.get('/', getId, ctrlShares.sharesList);
+router.post('/', ctrlShares.createPost);
+router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 
 // Test
 router.get('/test', (req, res) => {

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Share = mongoose.model('Share');
 const User = mongoose.model('User');
 const grabity = require('grabity');
+const sanitize = require('sanitize-html');
 
 const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
@@ -12,13 +13,11 @@ const sharesDefaultList = (req, res) => {
     } else if (err) {
       return res.status(404).json(err);
     }
-    console.log(results);
     res.status(200).json(results);
   });
 };
 
 const addPost = (req, res) => {
-  console.log(req.body);
   let publisher;
   let status;
   let message;
@@ -37,10 +36,12 @@ const addPost = (req, res) => {
       publisher = `${result.firstName} ${result.lastName}`;
       Share.create({
         publisher: publisher,
-        content: req.body.postContent.replace("<br>", ""),
+        publisherId: req.body.publisher,
+        content: sanitize(req.body.postContent, {allowedAttributes: {}}),
         linkTitle: req.body.title,
         linkDescription: req.body.description,
-        linkImage: req.body.image
+        linkImage: req.body.image,
+        timeRank: Date.now()
       }, (err, post) => {
         if (err) {
           res.status(400).json(err);
@@ -54,14 +55,29 @@ const addPost = (req, res) => {
 
 const processShare = (req, res) => {
   (async () => {
-    let it = await grabity.grabIt(req.body.postContent);
-    console.log(it);
-    res.status(200).json(it);
+    try {
+      let it = await grabity.grabIt(req.body.postContent);
+      res.status(200).json(it);
+    } catch(err) {
+      res.status(err.statusCode).json({"message":"Invalid URL. It is possible that your shared link does not exist or is not publicly available."});
+    }
   }) ();
+}
+
+const deletePost = (req, res) => {
+  Share.findById(req.params.postId).deleteOne((err, results) => {
+    if (!results) {
+      return res.status(404).json({message:"An error has occurred."});
+    } else if (err) {
+      return res.status(404).json(err);
+    }
+    res.status(200).json(results);
+  });
 }
 
 module.exports = {
   sharesDefaultList,
   addPost,
-  processShare
+  processShare,
+  deletePost
 };

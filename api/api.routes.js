@@ -18,6 +18,7 @@ router
   .get('/', ctrlShares.sharesDefaultList)
   .post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
+router.delete('/delete-share/:postId', ctrlShares.deletePost);
   
 // authentication
 router.post('/login', ctrlAuth.login);

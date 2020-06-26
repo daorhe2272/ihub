@@ -23,18 +23,20 @@ html
           a(href='') Events
         .menu_item
           a(href='') Suggestions
-        .menu_item#logIn
-          button Log in
-          .dropdownContent
-            button(onclick="openSignin()") Log in
-            button(onclick="openRegister()") Register
-        .menu_item#myAccount(style="display:none;" name=`${userId}`)
-          button
-            i.fas.fa-user
-          .dropdownContent
-            button My Profile
-            button My pocket
-            button(onclick="location.href='/logout';") Log out
+        if !userId
+          .menu_item#logIn
+            button Log in
+            .dropdownContent
+              button(onclick="openSignin()") Log in
+              button(onclick="openRegister()") Register
+        if userId
+          .menu_item#myAccount(name=`${userId}`)
+            button
+              i.fas.fa-user
+            .dropdownContent
+              button(onclick=`location.href="/user/${userId}";`) My Profile
+              button My Collection
+              button(onclick="location.href='/logout';") Log out
   #signinMenuWrapper
       #signinForm
         form(method="POST" action="/login" id="loginForm" name="loginForm") To log in, please type in your e-mail address and password:
@@ -62,6 +64,5 @@ html
         
   body
     block content
-    script if (document.getElementById("trigger2").innerHTML === "true") {document.getElementById("logIn").style.display="none"; document.getElementById("myAccount").style.display="inline-block";}
 
     script(src='/javascripts/scripts.js')

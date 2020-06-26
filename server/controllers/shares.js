@@ -1,8 +1,7 @@
 const request = require('request');
 
-// Sets the default server URL for the local development. If the application is running in production mode, sets a different base URL
 const apiServer = {server: 'http://localhost:3000'};
-if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';}
+// if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';}
 
 /* GET shares list (homepage) */
 const sharesList = (req, res) => {
@@ -41,6 +40,40 @@ const renderShares = (req, res, responseBody) => {
 	});
 };
 
+const createPost = (req, res) => {
+  const path = '/api';
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: 'POST',
+    form: req.body
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode === 201) {
+      return res.redirect('/');
+    }
+    return res.render('error', {message: "Whoops! Something went wrong."});
+  });
+};
+
+const deletePost = (req, res) => {
+  const path = '/api/delete-share/';
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.postId}`,
+    method: 'DELETE',
+    form: res.locals
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    if (header.statusCode === 200) {
+      return res.redirect('/');
+    }
+    return res.render('error', {message: JSON.parse(body).message});
+  });
+}
+
 module.exports = {
-	sharesList
+	sharesList,
+	createPost,
+	deletePost
 };

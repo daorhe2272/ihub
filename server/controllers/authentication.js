@@ -63,8 +63,8 @@ const login = (req, res) => {
   request(requestOptions, (err, header, body) => {
 		if (err) {return res.send(err);}
 		if (header.statusCode === 200 && body.length) {
-		res.cookie(header.rawHeaders[3]);
-		res.redirect('/');
+		  res.cookie(header.rawHeaders[3]);
+		  res.redirect('/');
     }
     return res.render('error', {
       message: JSON.parse(body).message
