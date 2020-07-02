@@ -11,18 +11,21 @@ html
     #trigger2(style="display:none;")= trigger2
     .header_wrapper
       #header_logo
-        a(href='/') The Entrepreneurial Hub
+        a(href='/') E-Hub
       #header_menu
         .menu_item
           a(href='/') Share
+        //- Uncomment when functionality added
+          .menu_item
+            a(href='') Discuss
+          .menu_item
+            a(href='') News
+          .menu_item
+            a(href='') Events
+          .menu_item
+            a(href='') Suggestions
         .menu_item
-          a(href='') Discuss
-        .menu_item
-          a(href='') News
-        .menu_item
-          a(href='') Events
-        .menu_item
-          a(href='') Suggestions
+          a(href='') About
         if !userId
           .menu_item#logIn
             button Log in

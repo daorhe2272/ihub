@@ -25,6 +25,22 @@
   background-color: white;
   padding: 8px;
 }
+.stdProfileTitle {
+  color: #395462;
+  font-size: 1.6rem;
+  flex-basis: 100%;
+  padding-left: 15px;
+  margin: 5px;
+}
+.stdProfileContainer {
+  flex-basis: 65%;
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: 3px 3px 3px #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 400px;
+}
 header {
   background-color: #2d313a;
   color: white;
@@ -159,13 +175,14 @@ header {
   background: #fafafa;
 }
 body {
-  padding-top: 56px;
+  margin-top: 56px;
+  background: #fafafa;
 }
 .bodyWrapper {
-  background: #fafafa;
   font-size: 1.2rem;
   display: flex;
   direction: ltr;
+  flex-wrap: wrap;
 }
 .sideBar {
   color: white;
@@ -420,6 +437,173 @@ button {
 }
 .errorWrapper .errorContainer .errorDiv2 {
   padding-left: 12%;
+}
+.profileWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+}
+.profileWrapper .profileHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 65%;
+  min-width: 400px;
+}
+.profileWrapper .profileHeader .profileUserHeader {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  box-shadow: 3px 3px 3px #e6e6e6;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  margin-top: 15px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileUserIntro {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  width: 100%;
+  justify-content: center;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileUserIntro .fa-user-circle {
+  color: #395462;
+  font-size: 5rem;
+  padding: 5px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileUserIntro #profileUser {
+  font-size: 1.8rem;
+  color: #395462;
+  padding: 3px;
+  margin-left: 5px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer {
+  margin-top: 5px;
+  width: 100%;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer #profileDescription {
+  color: #395462;
+  font-size: 1.6rem;
+  flex-basis: 100%;
+  padding-left: 15px;
+  margin: 5px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer #profileDescriptionContents {
+  padding: 8px 15px 8px 15px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  min-height: 60px;
+  margin: 8px 15px 12px 15px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer #profileDescriptionContents:hover {
+  cursor: pointer;
+  background-color: #e6e6eb;
+}
+.profileWrapper .profileInfo {
+  flex-basis: 65%;
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: 3px 3px 3px #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 400px;
+}
+.profileWrapper .profileInfo .profileInfoTitle {
+  color: #395462;
+  font-size: 1.6rem;
+  flex-basis: 100%;
+  padding-left: 15px;
+  margin: 5px;
+}
+.profileWrapper .profileInfo .profileInfoContents {
+  width: 100%;
+  margin-right: 40px;
+}
+.profileWrapper .profileInfo .profileInfoContents li {
+  list-style: none;
+  border-top: 1px solid lightgrey;
+  display: flex;
+  align-items: center;
+}
+.profileWrapper .profileInfo .profileInfoContents li .extraContainer {
+  display: flex;
+  margin: 5px 0;
+  width: 100%;
+  border-radius: 5px;
+  padding: 3px;
+}
+.profileWrapper .profileInfo .profileInfoContents li .extraContainer b {
+  min-width: 180px;
+}
+.profileWrapper .profileInfo .profileInfoContents li .extraContainer span {
+  margin-left: 15px;
+}
+.profileWrapper .profileInfo .profileInfoContents li .extraContainer:hover {
+  background-color: #e6e6eb;
+  cursor: pointer;
+}
+.profileWrapper .profileSettings {
+  flex-basis: 65%;
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: 3px 3px 3px #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 400px;
+}
+.profileWrapper .profileSettings .profileSettingsTitle {
+  color: #395462;
+  font-size: 1.6rem;
+  flex-basis: 100%;
+  padding-left: 15px;
+  margin: 5px;
+}
+.profileWrapper .profileSettings .profileSettingsContents {
+  width: 100%;
+  margin-right: 40px;
+}
+.profileWrapper .profileSettings .profileSettingsContents li {
+  list-style: none;
+  border-top: 1px solid lightgrey;
+  display: flex;
+  align-items: center;
+}
+.profileWrapper .profileSettings .profileSettingsContents li .extraContainer {
+  display: flex;
+  margin: 5px 0;
+  width: 100%;
+  border-radius: 5px;
+  padding: 3px;
+}
+.profileWrapper .profileSettings .profileSettingsContents li .extraContainer b {
+  min-width: 180px;
+}
+.profileWrapper .profileSettings .profileSettingsContents li .extraContainer span {
+  margin-left: 15px;
+}
+.profileWrapper .profileSettings .profileSettingsContents li .extraContainer:hover {
+  background-color: #e6e6eb;
+  cursor: pointer;
+}
+.profileWrapper .profileContent2 {
+  flex-basis: 65%;
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: 3px 3px 3px #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 400px;
+  margin-bottom: 8px;
+}
+.profileWrapper .profileContent2 .activityTitle {
+  color: #395462;
+  font-size: 1.6rem;
+  flex-basis: 100%;
+  padding-left: 15px;
+  margin: 5px;
 }
 .formWrapper {
   position: fixed;

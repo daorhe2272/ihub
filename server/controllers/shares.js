@@ -33,7 +33,7 @@ const renderShares = (req, res, responseBody) => {
 	}
 	if (res.locals.userId) {trigger2 = "true";} else {trigger2 = "";}
 	res.render('shares', {
-	  title: 'ehub - Main page',
+	  title: 'E-Hub',
 	  sharesList: responseBody,
 	  message,
 	  trigger2

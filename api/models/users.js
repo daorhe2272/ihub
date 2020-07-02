@@ -2,6 +2,33 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+const userComment = new mongoose.Schema({
+  postId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "" // Don't forget to add the proper reference
+  },
+  comment: {
+    type: String,
+    required: true
+  }
+});
+
+const userActivity = new mongoose.Schema({
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "" // Don't forget to add reference
+  },
+  comments: [userComment],
+  shares: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "" // Don't forget to add reference
+  },
+  collections: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "" // Don't forget to add reference
+  }
+});
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -37,7 +64,24 @@ const userSchema = new mongoose.Schema({
     type: Number,
     'default': 0,
     min: 0
-  }
+  },
+  userDescription: {
+    type: String,
+    'default': ""
+  },
+  userCompany: {
+    type: String,
+    'default': ""
+  },
+  userWebsite: {
+    type: String,
+    "default": ""
+  },
+  userLinkedIn: {
+    type: String,
+    "default": ""
+  },
+  userActivity: [userActivity]
 });
 
 userSchema.methods.setPassword = function (password) {

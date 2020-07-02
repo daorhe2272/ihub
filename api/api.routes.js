@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ctrlShares = require('./controllers/shares');
 const ctrlAuth = require('./controllers/authentication');
+const ctrlUsers = require('./controllers/users');
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
@@ -13,14 +14,17 @@ const verifyToken = (req, res, next) => {
   return res.send("Please sign in.");
 };
 
-// shares
+// Shares
 router
   .get('/', ctrlShares.sharesDefaultList)
   .post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.delete('/delete-share/:postId', ctrlShares.deletePost);
+
+// Users
+router.get('/user/:userId', ctrlUsers.myProfile);
   
-// authentication
+// Authentication
 router.post('/login', ctrlAuth.login);
 router.post('/register', ctrlAuth.register);
 router.get('/verify-account/:verHash', ctrlAuth.verifyAccount);

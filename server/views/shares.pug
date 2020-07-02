@@ -30,7 +30,7 @@ block content
           .contents(id=`${share._id}`)
             .contentsHeader
               .publisher
-                small Published by <a href="" style="font-weight:600;" name="#{share.publisherId}">#{share.publisher}</a>
+                small Published by <a href="/user/#{share.publisherId}" style="font-weight:600;">#{share.publisher}</a>
               if userId
                 i.fas.fa-caret-down
                   .postDropdown

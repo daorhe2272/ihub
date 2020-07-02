@@ -1,4 +1,78 @@
 extends layout
 
 block content
-  h1 This is my profile baby!!
+  .bodyWrapper
+    .profileWrapper
+      .profileHeader
+        .profileUserHeader
+          .profileUserIntro
+            i.fas.fa-user-circle
+            b#profileUser #{userFullName}
+          if userId === visitorId
+            .profileDescriptionContainer
+              b#profileDescription About me
+              #profileDescriptionContents Add a brief description of yourself
+          if userId !== visitorId
+            .profileDescriptionContainer
+              b#profileDescription About #{userName}:
+              #profileDescriptionContents This user has not added a description yet
+      .profileInfo
+        b.profileInfoTitle General Information
+        ul.profileInfoContents
+          li.companyName
+            .extraContainer
+              b Company name
+              if userId === visitorId
+                span Add your company's name
+              if userId !== visitorId
+                span Information not available
+          li.Website
+            .extraContainer
+              b Website
+              if userId === visitorId
+                span Add your company's website
+              if userId !== visitorId
+                span Information not available
+          li.LinkedIn
+            .extraContainer
+              b LinkedIn Profile
+              if userId === visitorId
+                span Add your LinkedIn profile
+              if userId !== visitorId
+                span Information not available
+          li.profileLikes
+            .extraContainer
+              b Likes received
+              span 0 likes received
+          li.profileComments
+            .extraContainer
+              b Comments received
+              span 0 comments received
+          li.profileShares
+            .extraContainer
+              b Posts shared
+              span 0 posts shared
+      if userId === visitorId
+        .profileSettings
+          b.profileSettingsTitle Profile Settings
+          ul.profileSettingsContents
+            li.profileContact
+              .extraContainer
+                b Contact Email:
+                span #{userEmail}
+            li.profileChangeContact
+              .extraContainer
+                b Change contact email
+            li.profileChangeName
+              .extraContainer
+                b Change name
+            li.profileChangePassword
+              .extraContainer
+                b Change password
+            li.profileDeleteAccount
+              .extraContainer
+                b Delete account
+      .profileContent2
+        b.activityTitle My Activity
+        .profileActivityContents
+          .noProfileActivity You do not have any activity to show
