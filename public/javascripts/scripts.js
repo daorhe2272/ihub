@@ -30,12 +30,12 @@ function closeResetForm() {
 function checkPassword() {
   if (document.getElementById("password").value === document.getElementById("confirmPassword").value) {
     if (document.getElementById("passwordStrength").innerHTML !== "too weak") {
-      document.getElementById("registerButton").type = "submit";
+      document.getElementById("registerButton").type="submit";
     } else {
-      document.getElementById("registerButton").type = "button";
+      document.getElementById("registerButton").type="button";
     }
   } else {
-    document.getElementById("registerButton").type = "button";
+    document.getElementById("registerButton").type="button";
   }
 }
 
@@ -59,9 +59,9 @@ function resetPassword() {
 
 function checkPassword2() {
   if (document.getElementById("password2").value === document.getElementById("confirmPassword2").value) {
-    document.getElementById("changePasswordButton").type = "submit";
+    document.getElementById("changePasswordButton").type="submit";
   } else {
-    document.getElementById("changePasswordButton").type = "button";
+    document.getElementById("changePasswordButton").type="button";
   }
 }
 
@@ -196,5 +196,23 @@ function postSharedContent() {
 function deletePost(postId) {
   if (confirm("Delete post?") === true) {
     location.href = `/delete-share/${postId}`;
+  }
+}
+
+async function likePost(postId) {
+  let response = await fetch(`/api/like-share/${postId}`);
+  let element = document.getElementById(`like-${postId}`);
+  if (response.ok) {
+    let json = await response.json();
+    if (json.message === "Like added") {
+      element.style.color="blue";
+      element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)+1}`;
+    }
+    if (json.message === "Like removed") {
+      element.style.color="#395462";
+      element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)-1}`;
+    }
+  } else if (response.status === 401) {
+    alert("Please sign in. If you don't have an account, create one.");
   }
 }

@@ -2,13 +2,19 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+require('./shares');
+
 const userComment = new mongoose.Schema({
   postId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "" // Don't forget to add the proper reference
+    ref: "Share"
   },
   comment: {
     type: String,
+    required: true
+  },
+  commentedOn: {
+    type: Number,
     required: true
   }
 });
@@ -16,16 +22,18 @@ const userComment = new mongoose.Schema({
 const userActivity = new mongoose.Schema({
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "" // Don't forget to add reference
+    ref: "Share",
+    unique: true
   },
   comments: [userComment],
   shares: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "" // Don't forget to add reference
+    ref: "Share",
+    unique: true
   },
   collections: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "" // Don't forget to add reference
+    ref: "Share"
   }
 });
 

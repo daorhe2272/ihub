@@ -325,6 +325,9 @@ button {
 .contentsHeader .publisher {
   padding-left: 8px;
 }
+.contentsHeader .publisher a:hover {
+  color: blue;
+}
 .contentsHeader i {
   padding: 5px 12px 0 0;
   font-size: 1.6rem;
@@ -364,7 +367,7 @@ button {
 .contents a .linkContents {
   border-radius: 8px;
   overflow: hidden;
-  margin: 5px 10px 5px 10px;
+  margin: 5px 10px 8px 10px;
 }
 .contents a .linkContents .linkImage {
   width: 100%;
@@ -375,13 +378,21 @@ button {
   padding: 5px;
 }
 .contentIcons {
-  margin-left: 15px;
+  margin: 0 30px 0 30px;
   padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 .contentIcons i {
   color: #395462;
-  margin: 0 5px 0 5px;
-  min-width: 40px;
+  padding: 7px 5px 7px 5px;
+  min-width: 85px;
+  border-radius: 5px;
+  text-align: center;
+}
+.contentIcons i:hover {
+  cursor: pointer;
+  background-color: #f0faf5;
 }
 .contentIcons small {
   padding-left: 5px;

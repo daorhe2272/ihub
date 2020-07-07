@@ -52,12 +52,12 @@ block content
                       b.linkTitle #{share.linkTitle}
                       .linkDescription #{share.linkDescription}
             .contentIcons
-              i.far.fa-thumbs-up
-                small= share.likes
+              i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}`)
+                small= share.likes.length
               i.far.fa-comment
-                small= share.comments
+                small= share.comments.length
+              i.fas.fa-bookmark
               i.fas.fa-share
-                small= share.shares
       .loadMoreWrapper
           .loadMoreContainer
             button

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const uri = 'mongodb://localhost/ehub';
 
+require('./users');
+
 const sharesSchema = new mongoose.Schema({
   publisher: {
     type: String,
@@ -28,19 +30,16 @@ const sharesSchema = new mongoose.Schema({
     'default':""
   },
   likes: {
-    type: Number,
-    'default': 0,
-    min: 0
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
   },
   comments: {
-    type: Number,
-    'default': 0,
-    min: 0
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
   },
   shares: {
-    type: Number,
-    'default': 0,
-    min: 0
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
   },
   timeRank: {
     type: Number,

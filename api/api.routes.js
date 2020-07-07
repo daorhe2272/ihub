@@ -14,10 +14,24 @@ const verifyToken = (req, res, next) => {
   return res.send("Please sign in.");
 };
 
+const getId = (req, res, next) => {
+  const token = req.cookies.token || "";
+  if (token) {
+    const decrypt = jwt.verify(token, process.env.JWT_SECRET);
+    if (decrypt._id) {
+      req.params.userId = decrypt._id;
+      return next();
+    } else {
+      return res.status(401).json({message:"Access denied"});
+    }
+  }
+  return res.status(401).json({message:"Access denied"});
+};
+
 // Shares
-router
-  .get('/', ctrlShares.sharesDefaultList)
-  .post('/', ctrlShares.addPost);
+router.get('/', ctrlShares.sharesDefaultList);
+router.get('/like-share/:postId', getId, ctrlShares.likePost);
+router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.delete('/delete-share/:postId', ctrlShares.deletePost);
 

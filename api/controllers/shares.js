@@ -75,9 +75,55 @@ const deletePost = (req, res) => {
   });
 }
 
+/*const likePost = (req, res) => {
+  Share.findById(req.params.postId).exec((err, results) => {
+    if (!results) {
+      return res.status(404).json({message:"Invalid Post Id."});
+    } else if (err) {
+      return res.status(404).json(err);
+    } else {
+      try {
+        results.likes.push(req.params.userId);
+        if (err) {
+          return res.status(404).json(err);
+        } else {
+          console.log(results);
+          return res.status(200).json(results);
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    }
+  });
+}*/
+
+const likePost = (req, res) => {
+  Share.findById(req.params.postId).exec((err, results) => {
+    let index = results.likes.indexOf(req.params.userId);
+    // If user in likes array, remove him
+    if (index > -1) {
+      results.likes.splice(index, 1);
+      results.save((err) => {
+        if (err) {return res.status(400).json({message:"API error"});}
+        else {return res.status(200).json({message:"Like removed"});}
+      });
+    }
+    // If user not in likes array, add him
+    else if (index === -1) {
+      results.likes.push(req.params.userId);
+      results.save((err) => {
+        if (err) {return res.status(400).json({message:"API error"});}
+        else {return res.status(200).json({message:"Like added"});}
+      });
+    }
+    else {return res.status(400).json({message:"Unexpected error"});}
+  });
+}
+
 module.exports = {
   sharesDefaultList,
   addPost,
   processShare,
-  deletePost
+  deletePost,
+  likePost
 };
