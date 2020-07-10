@@ -46,7 +46,16 @@ const addPost = (req, res) => {
         if (err) {
           res.status(400).json(err);
         } else {
-          res.status(201).json(post);
+          let index = result.userActivity.shares.indexOf(post._id);
+          if (index === -1) {
+            result.userActivity.shares.push(post._id);
+            result.save((err) => {
+              if (err) {return res.status(400).json(err);}
+              else {res.status(201).json(post);}
+            });
+          } else {
+            return res.status(400).json({message:"API error"});
+          }
         }
       });
     }
@@ -65,37 +74,31 @@ const processShare = (req, res) => {
 }
 
 const deletePost = (req, res) => {
-  Share.findById(req.params.postId).deleteOne((err, results) => {
-    if (!results) {
-      return res.status(404).json({message:"An error has occurred."});
-    } else if (err) {
-      return res.status(404).json(err);
-    }
-    res.status(200).json(results);
-  });
-}
-
-/*const likePost = (req, res) => {
-  Share.findById(req.params.postId).exec((err, results) => {
-    if (!results) {
-      return res.status(404).json({message:"Invalid Post Id."});
-    } else if (err) {
-      return res.status(404).json(err);
-    } else {
-      try {
-        results.likes.push(req.params.userId);
-        if (err) {
-          return res.status(404).json(err);
-        } else {
-          console.log(results);
-          return res.status(200).json(results);
-        }
-      } catch(err) {
-        console.log(err);
+  User.findById(req.params.userId).exec((err, result) => {
+    if (err) {return res.status(400).json(err);}
+    else if (!result) {return res.status(404).json({message:"Post not found"});}
+    else {
+      let index = result.userActivity.shares.indexOf(req.params.postId);
+      if (index > -1) {
+        result.userActivity.shares.splice(index, 1);
+        result.save((err) => {
+          if (err) {return res.status(400).json(err);}
+          else {
+            Share.findById(req.params.postId).deleteOne((err, results) => {
+              if (err) {return res.status(400).json(err);}
+              else if (!results) {res.status(404).json({message:"Post not found"});}
+              else {
+                return res.status(200).json(results);
+              }
+            });
+          }
+        });
+      } else {
+        return res.status(400).json({message:"API error"});
       }
     }
   });
-}*/
+}
 
 const likePost = (req, res) => {
   Share.findById(req.params.postId).exec((err, results) => {
@@ -105,7 +108,18 @@ const likePost = (req, res) => {
       results.likes.splice(index, 1);
       results.save((err) => {
         if (err) {return res.status(400).json({message:"API error"});}
-        else {return res.status(200).json({message:"Like removed"});}
+        else {
+          User.findById(req.params.userId).exec((err, results2) => {
+            let index2 = results2.userActivity.likes.indexOf(req.params.postId);
+            if (index2 > -1) {
+              results2.userActivity.likes.splice(index2, 1);
+              results2.save((err) => {
+                if (err) {return res.status(400).json({message:"API error"});}
+                else {return res.status(200).json({message:"Like removed"});}
+              });
+            }
+          });
+        }
       });
     }
     // If user not in likes array, add him
@@ -113,10 +127,31 @@ const likePost = (req, res) => {
       results.likes.push(req.params.userId);
       results.save((err) => {
         if (err) {return res.status(400).json({message:"API error"});}
-        else {return res.status(200).json({message:"Like added"});}
+        else {
+          User.findById(req.params.userId).exec((err, results2) => {
+            let index2 = results2.userActivity.likes.indexOf(req.params.postId);
+            if (index2 === -1) {
+              results2.userActivity.likes.push(req.params.postId);
+              results2.save((err) => {
+                if (err) {return res.status(400).json({message:"API error"});}
+                else {return res.status(200).json({message:"Like added"});}
+              });
+            }
+          });
+        }
       });
     }
     else {return res.status(400).json({message:"Unexpected error"});}
+  });
+}
+
+const getPost = (req, res) => {
+  Share.findById(req.params.postId).exec((err, results) => {
+    if (err) {return res.status(400).json({message:"API error"});}
+    else if (!results) {return res.status(404).json({message:"Post not found"});}
+    else {
+      res.status(200).json(results);
+    }
   });
 }
 
@@ -125,5 +160,6 @@ module.exports = {
   addPost,
   processShare,
   deletePost,
-  likePost
+  likePost,
+  getPost
 };

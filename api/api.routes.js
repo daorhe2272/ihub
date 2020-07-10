@@ -31,9 +31,10 @@ const getId = (req, res, next) => {
 // Shares
 router.get('/', ctrlShares.sharesDefaultList);
 router.get('/like-share/:postId', getId, ctrlShares.likePost);
+router.get('/get-post/:postId', ctrlShares.getPost);
 router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
-router.delete('/delete-share/:postId', ctrlShares.deletePost);
+router.delete('/delete-share/:postId', getId, ctrlShares.deletePost);
 
 // Users
 router.get('/user/:userId', ctrlUsers.myProfile);

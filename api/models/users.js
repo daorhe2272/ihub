@@ -4,38 +4,21 @@ const jwt = require('jsonwebtoken');
 
 require('./shares');
 
-const userComment = new mongoose.Schema({
-  postId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Share"
-  },
+const userCommentSchema = new mongoose.Schema({
   comment: {
-    type: String,
-    required: true
-  },
-  commentedOn: {
-    type: Number,
-    required: true
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Share"
+    },
+    content: String,
+    commentedOn: {
+      type: Number,
+      "default": Date.now(),
+      min: 0
+    }
   }
 });
-
-const userActivity = new mongoose.Schema({
-  likes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Share",
-    unique: true
-  },
-  comments: [userComment],
-  shares: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Share",
-    unique: true
-  },
-  collections: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Share"
-  }
-});
+mongoose.model("UserComment", userCommentSchema);
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -89,7 +72,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     "default": ""
   },
-  userActivity: [userActivity]
+  userActivity: {
+    likes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Share"
+    },
+    comments: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "UserComment"
+    },
+    shares: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Share"
+    },
+    collections: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Share"
+    }
+  }
 });
 
 userSchema.methods.setPassword = function (password) {

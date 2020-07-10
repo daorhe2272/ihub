@@ -72,13 +72,23 @@ function checkAndAlert2() {
 }
 
 window.addEventListener("click", function (event) {
-  elements = document.getElementsByClassName("fa-caret-down");
+  let elements = document.getElementsByClassName("fa-caret-down");
   for (let i = 0; i < elements.length; i++) {
-    if (!elements[i].contains(event.target) && elements[i].children[0].style.visibility==="visible") {
-      elements[i].children[0].style.visibility="hidden";
-    }
     if (elements[i].contains(event.target)) {
       elements[i].children[0].style.visibility="visible";
+    } else {
+      elements[i].children[0].style.visibility="hidden";
+    }
+  }
+});
+
+window.addEventListener("click", function (event) {
+  let elements = document.getElementsByClassName("fa-share");
+  for (let i = 0; i < elements.length; i++) {
+    if (elements[i].contains(event.target)) {
+      elements[i].children[0].style.visibility="visible";
+    } else {
+      elements[i].children[0].style.visibility="hidden";
     }
   }
 });
@@ -193,7 +203,7 @@ function postSharedContent() {
   postShare(path, params, method);
 }
 
-function deletePost(postId) {
+async function deletePost(postId) {
   if (confirm("Delete post?") === true) {
     location.href = `/delete-share/${postId}`;
   }
@@ -214,5 +224,15 @@ async function likePost(postId) {
     }
   } else if (response.status === 401) {
     alert("Please sign in. If you don't have an account, create one.");
+  }
+}
+
+function copyLink(postId) {
+  let toCopy = `${window.location.href}shared-post/${postId}`;
+  try {
+    navigator.clipboard.writeText(toCopy);
+    // Show message "Link copied to clipboard"
+  } catch {
+   alert("Functionality available only over https or localhost. Not supported for Internet Explorer.");
   }
 }

@@ -61,7 +61,7 @@ const deletePost = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}${req.params.postId}`,
     method: 'DELETE',
-    form: res.locals
+    headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
     if (err) {return res.send(err);}
@@ -72,8 +72,32 @@ const deletePost = (req, res) => {
   });
 }
 
+const showPost = (req, res) => {
+  const path = '/api/get-post/';
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.postId}`,
+    method: "GET",
+    headers: req.headers,
+    json: true
+  };
+  request(requestOptions, (err, header, body) => {
+    if (err) {return res.send(err);}
+    else if (header.statusCode === 200) {
+      return res.render("shares", {
+        title: "Shared content | E-Hub",
+        sharesList: [body],
+        message: "",
+        trigger2: ""
+      });
+    } else {
+      return res.render("error", {message: "Ups... Something went wrong."});
+    }
+  });
+}
+
 module.exports = {
 	sharesList,
 	createPost,
-	deletePost
+	deletePost,
+	showPost
 };
