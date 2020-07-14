@@ -95,9 +95,28 @@ const showPost = (req, res) => {
   });
 }
 
+const addComment = (req, res) => {
+  const path = "/api/post-comment/";
+  const requestoptions = {
+    url: `${apiServer.server}${path}${req.params.postId}`,
+    method: "POST",
+    headers: req.headers,
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.send(err);}
+    else if (headers.statusCode === 200) {
+      return res.send({message:"All good"});
+    } else {
+      return res.render("error", {message: "Ups... Something went wrong."});
+    }
+  });
+}
+
 module.exports = {
 	sharesList,
 	createPost,
 	deletePost,
-	showPost
+	showPost,
+	addComment
 };

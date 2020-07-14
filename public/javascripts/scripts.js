@@ -236,3 +236,31 @@ function copyLink(postId) {
    alert("Functionality available only over https or localhost. Not supported for Internet Explorer.");
   }
 }
+
+function showComments(postId) {
+  let element = document.getElementById(`commentsSection-${postId}`);
+  if (element.style.display === "flex") {
+    element.style.display="none";
+  } else{
+    element.style.display="flex";
+  }
+}
+
+function submitComment(postId) {
+  let element = document.getElementById(`commentContent-${postId}`);
+  element.onkeydown = async function (e) {
+    if (e.keyCode == 13 && !e.shiftKey) {
+      let data = {commentContent: element.innerText};
+      let path = `/post-comment/${postId}`;
+      setTimeout(function () {element.innerText="";}, 30);
+      let response = await fetch(path, {method:"Post", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
+      if (response.ok) {
+        let json = await response.json();
+        if (json.message) {alert(json.message);}
+      } else {
+        let json = await response.json();
+        alert(json.message);
+      }
+    }
+  }
+}

@@ -271,6 +271,7 @@ button {
   padding: 2px;
   margin-bottom: 5px;
   overflow: auto;
+  cursor: text;
 }
 #popupWrapper #popupForm form [contentEditable=true]:empty:not(:focus):before {
   content: attr(data-text);
@@ -311,15 +312,15 @@ button {
   color: white;
 }
 .contentsContainer {
-  padding-top: 5px;
+  margin-top: 5px;
   width: 100%;
   max-width: 600px;
   min-width: 400px;
+  background: white;
+  box-shadow: 3px 3px 3px #e6e6e6;
 }
 .contents {
   padding-left: 5px;
-  background: white;
-  box-shadow: 3px 3px 3px #e6e6e6;
 }
 .contentsHeader {
   display: flex;
@@ -432,6 +433,29 @@ button {
 }
 .contentIcons small {
   padding-left: 5px;
+}
+.commentsContainer {
+  display: none;
+}
+.commentsContainer .postCommentContainer {
+  width: 100%;
+}
+.commentsContainer .postCommentContainer .commentBox {
+  min-height: 40px;
+  cursor: text;
+  border: 1px solid #395462;
+  border-radius: 20px;
+  margin: 3px 15px 10px 15px;
+  display: flex;
+  align-items: center;
+}
+.commentsContainer .postCommentContainer .commentBox .commentContent {
+  margin: 0 20px 0 20px;
+  width: 100%;
+}
+.commentsContainer .postCommentContainer .commentBox [contentEditable=true]:empty:not(:focus):before {
+  content: attr(data-text);
+  color: #555;
 }
 .loadMoreWrapper {
   width: 100%;

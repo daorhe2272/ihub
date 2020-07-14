@@ -51,11 +51,12 @@ block content
                     .linkText
                       b.linkTitle #{share.linkTitle}
                       .linkDescription #{share.linkDescription}
-            - if (share.likes.indexOf(userId) > -1) {likeActivity = "color:blue";} else {likeActivity = "";}
+            - if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
             .contentIcons
-              i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}` style=`${likeActivity}`)
+              i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}` style=`${likedOrNot}`)
                 small= share.likes.length
-              i.far.fa-comment
+              i.far.fa-comment(onclick=`showComments("${share._id}")` id=`commentIcon-${share._id}`)
+                small= share.comments.length
               i.fas.fa-bookmark
               i.fas.fa-share
                 .shareDropdown
@@ -66,9 +67,10 @@ block content
                     .shareDropdownContainer
                       i.fas.fa-external-link-alt
                       button Open in Tab
-          .commentsContainer
+          .commentsContainer(id=`commentsSection-${share._id}`)
             .postCommentContainer
               .commentBox
+                .commentContent(id=`commentContent-${share._id}` contentEditable="true" data-text="Write a comment..." onkeydown=`submitComment("${share._id}")`)
             .commentsList
       if sharesList.length > 9
         .loadMoreWrapper

@@ -32,6 +32,7 @@ router.get('/', getId, ctrlShares.sharesList);
 router.post('/', ctrlShares.createPost);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
+router.post('/post-comment/:postId', ctrlShares.addComment);
 
 // Test
 router.get('/test', (req, res) => {
