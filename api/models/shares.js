@@ -3,6 +3,24 @@ const uri = 'mongodb://localhost/ehub';
 
 require('./users');
 
+const commentInShareSchema = new mongoose.Schema({
+  content: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  postId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Share"
+  },
+  commentedOn: {
+    type: Number,
+    "default": Date.now(),
+    min: 0
+  }
+});
+mongoose.model("CommentInShare", commentInShareSchema);
+
 const sharesSchema = new mongoose.Schema({
   publisher: {
     type: String,
@@ -35,11 +53,7 @@ const sharesSchema = new mongoose.Schema({
   },
   comments: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "User"
-  },
-  shares: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "User"
+    ref: "CommentInShare"
   },
   timeRank: {
     type: Number,

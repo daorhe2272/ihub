@@ -72,6 +72,8 @@ block content
               .commentBox
                 .commentContent(id=`commentContent-${share._id}` contentEditable="true" data-text="Write a comment..." onkeydown=`submitComment("${share._id}")`)
             .commentsList
+              each comment in share.comments
+                .comment= comment
       if sharesList.length > 9
         .loadMoreWrapper
           .loadMoreContainer

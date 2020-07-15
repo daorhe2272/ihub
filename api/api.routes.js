@@ -34,6 +34,7 @@ router.get('/like-share/:postId', getId, ctrlShares.likePost);
 router.get('/get-post/:postId', ctrlShares.getPost);
 router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
+router.post('/post-comment/:postId', getId, ctrlShares.addComment);
 router.delete('/delete-share/:postId', getId, ctrlShares.deletePost);
 
 // Users

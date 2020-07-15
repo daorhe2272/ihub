@@ -253,13 +253,17 @@ function submitComment(postId) {
       let data = {commentContent: element.innerText};
       let path = `/post-comment/${postId}`;
       setTimeout(function () {element.innerText="";}, 30);
-      let response = await fetch(path, {method:"Post", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
-      if (response.ok) {
-        let json = await response.json();
-        if (json.message) {alert(json.message);}
-      } else {
-        let json = await response.json();
-        alert(json.message);
+      try {
+        let response = await fetch(path, {method:"Post", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
+        if (response.ok) {
+          let json = await response.json();
+          if (json.message) {alert(json.message);}
+        } else {
+          let json = await response.json();
+          alert(json.message);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   }

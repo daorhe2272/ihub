@@ -97,11 +97,11 @@ const showPost = (req, res) => {
 
 const addComment = (req, res) => {
   const path = "/api/post-comment/";
-  const requestoptions = {
+  const requestOptions = {
     url: `${apiServer.server}${path}${req.params.postId}`,
     method: "POST",
-    headers: req.headers,
-    json: true
+    form: req.body,
+    headers: {cookie: req.headers.cookie}
   };
   request(requestOptions, (err, headers, body) => {
     if (err) {return res.send(err);}

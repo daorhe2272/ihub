@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Share = mongoose.model('Share');
 const User = mongoose.model('User');
+const CommentInShare = mongoose.model('CommentInShare');
 const grabity = require('grabity');
 const sanitize = require('sanitize-html');
 
@@ -79,6 +80,7 @@ const deletePost = (req, res) => {
     else if (!result) {return res.status(404).json({message:"Post not found"});}
     else {
       let index = result.userActivity.shares.indexOf(req.params.postId);
+      console.log(result);
       if (index > -1) {
         result.userActivity.shares.splice(index, 1);
         result.save((err) => {
@@ -141,18 +143,54 @@ const likePost = (req, res) => {
         }
       });
     }
-    else {return res.status(400).json({message:"Unexpected error"});}
+    else {return res.status(400).json({message:"Unexpected error."});}
   });
 }
 
 const getPost = (req, res) => {
   Share.findById(req.params.postId).exec((err, results) => {
-    if (err) {return res.status(400).json({message:"API error"});}
-    else if (!results) {return res.status(404).json({message:"Post not found"});}
+    if (err) {return res.status(400).json({message:"API error,"});}
+    else if (!results) {return res.status(404).json({message:"Post not found."});}
     else {
       res.status(200).json(results);
     }
   });
+}
+
+const addComment = (req, res) => {
+  if (req.body.commentContent && req.params.userId && req.params.postId) {
+    CommentInShare.create({
+      content: req.body.commentContent,
+      userId: req.params.userId,
+      postId: req.params.postId,
+      commentedOn: Date.now()
+    }, (err, commentInfo) => {
+      if (err) {return res.status(400).json(err);}
+      else {
+        User.findById(req.params.userId).exec((err, results) => {
+          if (err) {return res.status(400).json(err);}
+          else {
+            results.userActivity.comments.push(commentInfo._id);
+            results.save((err) => {
+              if (err) {return res.status(400).json(err);}
+              else {
+                Share.findById(req.params.postId).exec((err, results2) => {
+                  if (err) {return res.status(400).json(err);}
+                  else {
+                    results2.comments.push(commentInfo._id);
+                    results2.save((err) => {
+                      if (err) {return res.status(400).json(err);}
+                      else {return res.status(200).json(commentInfo);}
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  } else {return res.status(400).json({message:"Request unsuccessful."});}
 }
 
 module.exports = {
@@ -161,5 +199,6 @@ module.exports = {
   processShare,
   deletePost,
   likePost,
-  getPost
+  getPost,
+  addComment
 };

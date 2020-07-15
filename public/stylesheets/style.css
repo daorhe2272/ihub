@@ -436,6 +436,7 @@ button {
 }
 .commentsContainer {
   display: none;
+  flex-wrap: wrap;
 }
 .commentsContainer .postCommentContainer {
   width: 100%;
@@ -456,6 +457,9 @@ button {
 .commentsContainer .postCommentContainer .commentBox [contentEditable=true]:empty:not(:focus):before {
   content: attr(data-text);
   color: #555;
+}
+.commentsContainer .commentsList {
+  width: 100%;
 }
 .loadMoreWrapper {
   width: 100%;

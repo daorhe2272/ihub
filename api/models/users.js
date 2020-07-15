@@ -4,22 +4,6 @@ const jwt = require('jsonwebtoken');
 
 require('./shares');
 
-const userCommentSchema = new mongoose.Schema({
-  comment: {
-    postId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Share"
-    },
-    content: String,
-    commentedOn: {
-      type: Number,
-      "default": Date.now(),
-      min: 0
-    }
-  }
-});
-mongoose.model("UserComment", userCommentSchema);
-
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -79,7 +63,7 @@ const userSchema = new mongoose.Schema({
     },
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "UserComment"
+      ref: "CommentInShare"
     },
     shares: {
       type: [mongoose.Schema.Types.ObjectId],
