@@ -33,6 +33,7 @@ router.post('/', ctrlShares.createPost);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
 router.post('/post-comment/:postId', ctrlShares.addComment);
+router.delete('/delete-comment/:commentId', ctrlShares.deleteComment);
 
 // Test
 router.get('/test', (req, res) => {

@@ -1,5 +1,27 @@
 window.urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
+window.addEventListener("click", function (event) {
+  let elements = document.getElementsByClassName("fa-caret-down");
+  for (let i = 0; i < elements.length; i++) {
+    if (elements[i].contains(event.target)) {
+      elements[i].children[0].style.visibility="visible";
+    } else {
+      elements[i].children[0].style.visibility="hidden";
+    }
+  }
+});
+
+window.addEventListener("click", function (event) {
+  let elements = document.getElementsByClassName("fa-share");
+  for (let i = 0; i < elements.length; i++) {
+    if (elements[i].contains(event.target)) {
+      elements[i].children[0].style.visibility="visible";
+    } else {
+      elements[i].children[0].style.visibility="hidden";
+    }
+  }
+});
+
 function openSignin() {
   document.getElementById("signinMenuWrapper").style.display="flex";
   document.getElementById("signinForm").style.display="block";
@@ -70,28 +92,6 @@ function checkAndAlert2() {
     alert("Password confirmation failed. Plase make sure that both passwords match.");
   }
 }
-
-window.addEventListener("click", function (event) {
-  let elements = document.getElementsByClassName("fa-caret-down");
-  for (let i = 0; i < elements.length; i++) {
-    if (elements[i].contains(event.target)) {
-      elements[i].children[0].style.visibility="visible";
-    } else {
-      elements[i].children[0].style.visibility="hidden";
-    }
-  }
-});
-
-window.addEventListener("click", function (event) {
-  let elements = document.getElementsByClassName("fa-share");
-  for (let i = 0; i < elements.length; i++) {
-    if (elements[i].contains(event.target)) {
-      elements[i].children[0].style.visibility="visible";
-    } else {
-      elements[i].children[0].style.visibility="hidden";
-    }
-  }
-});
 
 function scorePassword(password) {
   let score = 0;
@@ -265,6 +265,19 @@ function submitComment(postId) {
       } catch (err) {
         console.log(err);
       }
+    }
+  }
+}
+
+async function deleteComment(commentId) {
+  if (confirm("Delete comment?") === true) {
+    let response = await fetch(`/delete-comment/${commentId}`, {method: "DELETE"});
+    if (response.ok) {
+      let json = await response.json();
+      alert(json.message);
+    } else {
+      let json = await response.json();
+      alert(json.message);
     }
   }
 }

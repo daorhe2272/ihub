@@ -106,9 +106,24 @@ const addComment = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {return res.send(err);}
     else if (headers.statusCode === 200) {
-      return res.send({message:"All good"});
+      return res.send({message:"Comment posted"});
     } else {
       return res.render("error", {message: "Ups... Something went wrong."});
+    }
+  });
+}
+
+const deleteComment = (req, res) => {
+  const path = "/api/delete-comment/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.commentId}`,
+    method: "DELETE",
+    headers: {cookie: req.headers.cookie}
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.send(err);}
+    else if (headers.statusCode === 200) {
+      res.status(200).json(JSON.parse(body));
     }
   });
 }
@@ -118,5 +133,6 @@ module.exports = {
 	createPost,
 	deletePost,
 	showPost,
-	addComment
+	addComment,
+	deleteComment
 };

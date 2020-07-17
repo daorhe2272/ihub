@@ -52,10 +52,12 @@ block content
                       b.linkTitle #{share.linkTitle}
                       .linkDescription #{share.linkDescription}
             - if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
+            - let commentedOrNot;
+            - for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
             .contentIcons
               i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}` style=`${likedOrNot}`)
                 small= share.likes.length
-              i.far.fa-comment(onclick=`showComments("${share._id}")` id=`commentIcon-${share._id}`)
+              i.far.fa-comment(onclick=`showComments("${share._id}")` id=`commentIcon-${share._id}` style=`${commentedOrNot}`)
                 small= share.comments.length
               i.fas.fa-bookmark
               i.fas.fa-share
@@ -73,7 +75,25 @@ block content
                 .commentContent(id=`commentContent-${share._id}` contentEditable="true" data-text="Write a comment..." onkeydown=`submitComment("${share._id}")`)
             .commentsList
               each comment in share.comments
-                .comment= comment
+                .listedComment
+                  .listedCommentContainer
+                    .listedCommentAuthor
+                      small <b>#{comment.userId}</b>
+                    i.fas.fa-caret-down
+                      .commentDropdown
+                        if comment.userId === userId
+                          button Edit
+                          button(onclick=`deleteComment("${comment._id}")`) Delete
+                        if comment.userId !== userId
+                          button Report
+                    .listedCommentContent= comment.content
+                  .listedCommentButtons
+                    .listedCommentLike <b>Like</b>
+                    .listedCommentReport <b>Report</b>
+                    - let elapsedMessage;
+                    - let elapsedTime = Math.floor((Date.now() - comment.commentedOn) / (1000 * 60));
+                    - if (elapsedTime < 1) {elapsedMessage = "Just now...";} else if (elapsedTime == 1) {elapsedMessage = "1 minute ago"} else if (elapsedTime < 60) {elapsedMessage = `${elapsedTime} minutes ago`;} else if (elapsedTime < 120) {elapsedMessage = "1 hour ago";} else if (elapsedTime < 1440) {elapsedMessage = `${Math.floor(elapsedTime / 60)} hours ago`;} else if (elapsedTime < 2880) {elapsedMessage = "1 day ago";} else if (elapsedTime < 43200) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24))} days ago`;} else if (elapsedTime < 86400) {elapsedMessage = "1 month ago";} else if (elapsedTime < 525600) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 30))} monthsago`;} else if (elapsedTime < 1051200) {elapsedMessage = "1 year ago";} else if (elapsedTime > 1051199) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 365))} years ago`;}
+                    .listedCommentDate !{elapsedMessage}
       if sharesList.length > 9
         .loadMoreWrapper
           .loadMoreContainer

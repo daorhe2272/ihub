@@ -8,11 +8,17 @@ const sanitize = require('sanitize-html');
 const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
 const sharesDefaultList = (req, res) => {
-  Share.find().sort({"timeRank": -1}).exec((err, results) =>  {
+  Share.find().sort({"timeRank": -1}).populate({path: "comments", model: "CommentInShare"}).exec((err, results) =>  {
     if (!results) {
       return res.status(404).json({"message" : "location not found"});
     } else if (err) {
       return res.status(404).json(err);
+    }
+    // Sort comments by most recent publication date
+    for (let i = 0; i < results.length; i++) {
+      results[i].comments.sort(function (a, b) {
+        return b.commentedOn - a.commentedOn;
+      });
     }
     res.status(200).json(results);
   });
@@ -80,7 +86,7 @@ const deletePost = (req, res) => {
     else if (!result) {return res.status(404).json({message:"Post not found"});}
     else {
       let index = result.userActivity.shares.indexOf(req.params.postId);
-      console.log(result);
+      console.log(result); // Remove for production
       if (index > -1) {
         result.userActivity.shares.splice(index, 1);
         result.save((err) => {
@@ -193,6 +199,56 @@ const addComment = (req, res) => {
   } else {return res.status(400).json({message:"Request unsuccessful."});}
 }
 
+const deleteComment = (req, res) => {
+  if (req.params.userId && req.params.commentId) {
+    CommentInShare.findOneAndDelete(req.params.commentId, (err, result) => {
+      if (err) {return res.status(400).json(err);}
+      else if (!result) {return res.status(400).json({message:"Bad request"});}
+      else {
+        User.findById(req.params.userId).exec((err, result2) => {
+          if (err) {return res.status(400).json(err);}
+          else if (!result2) {return res.status(400).json({message:"Bad request"});}
+          else {
+            if (req.params.userId == result.userId) {
+              let index = result2.userActivity.comments.indexOf(req.params.commentId);
+              if (index > -1) {
+                result2.userActivity.comments.splice(index, 1);
+              }
+              result2.save((err) => {
+                if (err) {return res.status(400).json({message:"Bad request"});}
+                else {
+                  Share.findById(result.postId).exec((err, result3) => {
+                    if (err) {return res.status(400).json({message:"Bad request"});}
+                    else if (!result3) {return res.status(400).json({message:"Bad request"});}
+                    else {
+                      let index2 = result3.comments.indexOf(req.params.commentId);
+                      if (index2 > -1) {
+                        result3.comments.splice(index2, 1);
+                      }
+                      result3.save((err) => {
+                        if (err) {return res.status(400).json({message:"Bad request"});}
+                        else {
+                          return res.status(200).json({message:"Comment deleted"});
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            } else {
+              return res.status(401).json({
+                message:"This user is not authorized to delete this comment"
+              });
+            }
+          }
+        });
+      }
+    })
+  } else {
+    return res.status(400).json({message:"Bad request"});
+  }
+}
+
 module.exports = {
   sharesDefaultList,
   addPost,
@@ -200,5 +256,6 @@ module.exports = {
   deletePost,
   likePost,
   getPost,
-  addComment
+  addComment,
+  deleteComment
 };

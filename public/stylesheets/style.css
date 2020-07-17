@@ -461,6 +461,72 @@ button {
 .commentsContainer .commentsList {
   width: 100%;
 }
+.commentsContainer .commentsList .listedComment {
+  margin: 5px 15px 10px 15px;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer {
+  background-color: #f6f6fa;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 3px 8px 3px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .listedCommentContent {
+  width: 100%;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .fa-caret-down {
+  cursor: pointer;
+  padding: 2px 5px 0 3px;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .fa-caret-down .commentDropdown {
+  visibility: hidden;
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 5px;
+  font-family: sans-serif;
+  box-shadow: 2px 2px 4px 4px #c8c8c8;
+  background-color: white;
+  padding: 8px;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .fa-caret-down .commentDropdown button {
+  background-color: white;
+  border-radius: 5px;
+  padding: 4px 5px 4px 5px;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .fa-caret-down .commentDropdown button:hover {
+  background-color: #f0f0f0;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons {
+  display: flex;
+  font-size: 1rem;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentLike {
+  color: #395462;
+  margin: 3px 0 3px 5px;
+  padding: 0 15px 3px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentLike:hover {
+  background-color: #f0faf5;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentReport {
+  color: #395462;
+  margin: 3px 0 3px 5px;
+  padding: 0 8px 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentReport:hover {
+  background-color: #f0faf5;
+}
+.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentDate {
+  margin: 3px 0 3px 5px;
+  padding: 0 5px 3px 5px;
+}
 .loadMoreWrapper {
   width: 100%;
   display: flex;

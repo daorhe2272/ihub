@@ -36,6 +36,7 @@ router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.post('/post-comment/:postId', getId, ctrlShares.addComment);
 router.delete('/delete-share/:postId', getId, ctrlShares.deletePost);
+router.delete('/delete-comment/:commentId', getId, ctrlShares.deleteComment);
 
 // Users
 router.get('/user/:userId', ctrlUsers.myProfile);
