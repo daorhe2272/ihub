@@ -106,7 +106,9 @@ const addComment = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {return res.send(err);}
     else if (headers.statusCode === 200) {
-      return res.send({message:"Comment posted"});
+      return res.status(200).json(body);
+    } else if (headers.statusCode === 401) {
+      return res.status(401).json({message:"Access forbidden"});
     } else {
       return res.render("error", {message: "Ups... Something went wrong."});
     }

@@ -165,28 +165,34 @@ const getPost = (req, res) => {
 
 const addComment = (req, res) => {
   if (req.body.commentContent && req.params.userId && req.params.postId) {
-    CommentInShare.create({
-      content: req.body.commentContent,
-      userId: req.params.userId,
-      postId: req.params.postId,
-      commentedOn: Date.now()
-    }, (err, commentInfo) => {
+    User.findById(req.params.userId).select("firstName lastName").exec((err, userFullName) => {
       if (err) {return res.status(400).json(err);}
       else {
-        User.findById(req.params.userId).exec((err, results) => {
+        CommentInShare.create({
+          content: req.body.commentContent,
+          userId: req.params.userId,
+          postId: req.params.postId,
+          commentedOn: Date.now(),
+          userName: `${userFullName.firstName} ${userFullName.lastName}` 
+        }, (err, commentInfo) => {
           if (err) {return res.status(400).json(err);}
           else {
-            results.userActivity.comments.push(commentInfo._id);
-            results.save((err) => {
+            User.findById(req.params.userId).exec((err, results) => {
               if (err) {return res.status(400).json(err);}
               else {
-                Share.findById(req.params.postId).exec((err, results2) => {
+                results.userActivity.comments.push(commentInfo._id);
+                results.save((err) => {
                   if (err) {return res.status(400).json(err);}
                   else {
-                    results2.comments.push(commentInfo._id);
-                    results2.save((err) => {
+                    Share.findById(req.params.postId).exec((err, results2) => {
                       if (err) {return res.status(400).json(err);}
-                      else {return res.status(200).json(commentInfo);}
+                      else {
+                        results2.comments.push(commentInfo._id);
+                        results2.save((err) => {
+                          if (err) {return res.status(400).json(err);}
+                          else {return res.status(200).json(commentInfo);}
+                        });
+                      }
                     });
                   }
                 });
@@ -248,7 +254,35 @@ const deleteComment = (req, res) => {
     return res.status(400).json({message:"Bad request"});
   }
 }
-
+/*
+const deleteComment = (req, res) => {
+  if (req.params.userId && req.params.commentId) {
+    CommentInShare.findById(req.params.commentId).exec((err, commentInfo) => {
+      if (err) {return res.status(400).json(err);}
+      else if (!commentInfo) {return res.status(400).json({message:"Bad request"});}
+      else {
+        User.findById(req.params.userId).exec((err, userInfo) => {
+          if (err) {return res.status(400).json(err);}
+          else if (!userInfo) {return res.status(400).json({message:"Bad request"});}
+          else {
+            Share.findById(commentInfo.postId).exec((err, shareInfo) => {
+              if (err) {return res.status(400).json(err);}
+              else if (!shareInfo) {return res.status(400).json({message:"Bad request"});}
+              else {
+                console.log(commentInfo);
+                console.log(userInfo);
+                console.log(shareInfo);
+              }
+            });
+          }
+        });
+      }
+    });
+  } else {
+    return res.status(400).json({message:"Bad request"});
+  }
+}
+*/
 module.exports = {
   sharesDefaultList,
   addPost,

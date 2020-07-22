@@ -7,16 +7,26 @@ const commentInShareSchema = new mongoose.Schema({
   content: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
   },
   postId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Share"
+    ref: "Share",
+    required: true
   },
   commentedOn: {
     type: Number,
     "default": Date.now(),
     min: 0
+  },
+  userName: {
+    type: String,
+    required: true
+  },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
   }
 });
 mongoose.model("CommentInShare", commentInShareSchema);

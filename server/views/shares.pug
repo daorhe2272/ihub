@@ -26,8 +26,8 @@ block content
             button(type="button" class="closebtn" onclick="closeForm()") <b>Close</b>
       .error= message
       each share in sharesList
-        .contentsContainer
-          .contents(id=`${share._id}`)
+        .contentsContainer(id=`${share._id}`)
+          .contents
             .contentsHeader
               .publisher
                 small Published by <a href="/user/#{share.publisherId}" style="font-weight:600;">#{share.publisher}</a>
@@ -51,9 +51,8 @@ block content
                     .linkText
                       b.linkTitle #{share.linkTitle}
                       .linkDescription #{share.linkDescription}
-            - if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
-            - let commentedOrNot;
-            - for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
+            - let likedOrNot; if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
+            - let commentedOrNot; for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
             .contentIcons
               i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}` style=`${likedOrNot}`)
                 small= share.likes.length
@@ -73,17 +72,17 @@ block content
             .postCommentContainer
               .commentBox
                 .commentContent(id=`commentContent-${share._id}` contentEditable="true" data-text="Write a comment..." onkeydown=`submitComment("${share._id}")`)
-            .commentsList
+            .commentsList(id=`commentsList-${share._id}`)
               each comment in share.comments
-                .listedComment
+                .listedComment(id=`${comment._id}`)
                   .listedCommentContainer
-                    .listedCommentAuthor
-                      small <b>#{comment.userId}</b>
+                    .listedCommentAuthor(id=`${comment.userId}`)
+                      small <a href="/user/#{comment.userId}" style="font-weight:600;">#{comment.userName}</a> says...
                     i.fas.fa-caret-down
                       .commentDropdown
                         if comment.userId === userId
                           button Edit
-                          button(onclick=`deleteComment("${comment._id}")`) Delete
+                          button(onclick=`deleteComment("${comment._id}", "${share._id}")`) Delete
                         if comment.userId !== userId
                           button Report
                     .listedCommentContent= comment.content

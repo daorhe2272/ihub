@@ -256,11 +256,50 @@ function submitComment(postId) {
       try {
         let response = await fetch(path, {method:"Post", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
         if (response.ok) {
-          let json = await response.json();
-          if (json.message) {alert(json.message);}
+          let json = JSON.parse(await response.json());
+          if (!json.message) {
+            let elem = document.getElementById(`commentIcon-${postId}`);
+            elem.children[0].innerHTML=`${parseInt(elem.children[0].innerHTML)+1}`;
+            elem.style.color="blue";
+            let div = document.createElement("div");
+            div.setAttribute("id", `${json._id}`);
+            div.setAttribute("class", "listedComment");
+            div.innerHTML = 
+              `<div class="listedCommentContainer">
+                <div class="listedCommentAuthor" id="${json.userId}">
+                  <small>
+                    <a href="/user/${json.userId}" style="font-weight:600;">${json.userName}</a> says...
+                  </small>
+                </div>
+                <i class="fas fa-caret-down">
+                  <div class="commentDropdown">
+                    <button>
+                      Edit
+                    </button>
+                    <button onclick="deleteComment('${json._id}', '${json.postId}')">
+                      Delete
+                    </button>
+                  </div>
+                </i>
+                <div class="listedCommentContent">
+                  ${json.content}
+                </div>
+              </div>
+              <div class="listedCommentButtons">
+                <div class="listedCommentLike">
+                  <b>Like</b>
+                </div>
+                <div class="listedCommentDate">
+                  Just now...
+                </div>
+              </div>`;
+            document.getElementById(`commentsList-${json.postId}`).insertAdjacentElement("afterbegin", div);
+          }
+        } else if (response.status == 401) {
+          alert("Please sign in. If you don't have an account, create one.");
         } else {
           let json = await response.json();
-          alert(json.message);
+          console.log(json); // Remove for production
         }
       } catch (err) {
         console.log(err);
@@ -269,15 +308,18 @@ function submitComment(postId) {
   }
 }
 
-async function deleteComment(commentId) {
+async function deleteComment(commentId, postId) {
   if (confirm("Delete comment?") === true) {
     let response = await fetch(`/delete-comment/${commentId}`, {method: "DELETE"});
     if (response.ok) {
       let json = await response.json();
-      alert(json.message);
-    } else {
-      let json = await response.json();
-      alert(json.message);
+      if (json.message === "Comment deleted") {
+        let elem = document.getElementById(`commentIcon-${postId}`);
+        elem.children[0].innerHTML=`${parseInt(elem.children[0].innerHTML)-1}`;
+        let div = document.getElementById(commentId);
+        div.parentNode.removeChild(div);
+        elem.style.color="#395462";
+      }
     }
   }
 }

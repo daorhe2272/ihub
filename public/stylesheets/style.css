@@ -473,6 +473,13 @@ button {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+.commentsContainer .commentsList .listedComment .listedCommentContainer .listedCommentAuthor {
+  margin-left: 5px;
+}
+.commentsContainer .commentsList .listedComment .listedCommentContainer .listedCommentAuthor a {
+  text-decoration: none;
+  color: black;
+}
 .commentsContainer .commentsList .listedComment .listedCommentContainer .listedCommentContent {
   width: 100%;
 }
