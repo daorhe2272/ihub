@@ -51,8 +51,9 @@ html
           .simpleWrapper
             input(type="checkbox" name="keepLogged" value="true" id="keepLogged")
             label(for="keepLogged") Keep me logged in
-          button(type="submit" class="submitbtn") <b>Log in</b>
-          button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
+          .buttons
+            button(type="submit" class="submitbtn") <b>Log in</b>
+            button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
       #registerForm
         form(method="POST" action="/register") To create your account, fill in all of the following fields:
           input(type="text" placeholder="First name/Given name*" name="firstName" maxlength="30" required)
@@ -62,8 +63,9 @@ html
           input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" maxlength="40" required)
           small#passwordMessage(style="display:none;") Password strength: 
             b#passwordStrength
-          button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
-          button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
+          .buttons
+            button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
+            button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
         
   body
     block content

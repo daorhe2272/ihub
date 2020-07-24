@@ -130,11 +130,28 @@ const deleteComment = (req, res) => {
   });
 }
 
+const reportPost = (req, res) => {
+  const path = "/api/report-post/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.postId}-${req.ip}`,
+    method: "GET",
+    headers: {cookie: req.headers.cookie},
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    else if (headers.statusCode === 200) {
+      res.status(200).json(body);
+    }
+  });
+}
+
 module.exports = {
 	sharesList,
 	createPost,
 	deletePost,
 	showPost,
 	addComment,
-	deleteComment
+	deleteComment,
+	reportPost
 };

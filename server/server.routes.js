@@ -29,10 +29,11 @@ router.get('/user/:userId', getId, ctrlUsers.myProfile);
 
 // Shares
 router.get('/', getId, ctrlShares.sharesList);
-router.post('/', ctrlShares.createPost);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
+router.get('/report-post/:postId', ctrlShares.reportPost)
 router.post('/post-comment/:postId', ctrlShares.addComment);
+router.post('/', ctrlShares.createPost);
 router.delete('/delete-comment/:commentId', ctrlShares.deleteComment);
 
 // Test

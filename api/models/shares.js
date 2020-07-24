@@ -3,6 +3,30 @@ const uri = 'mongodb://localhost/ehub';
 
 require('./users');
 
+const reportsLogSchema = new mongoose.Schema({
+  reporterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  ipAddress: String,
+  sourceId: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Number,
+    min: 0,
+    required: true
+  },
+  explanation: String,
+  assessed: {
+    type: Boolean,
+    "default": false
+  }
+});
+mongoose.model("ReportLog", reportsLogSchema);
+
 const commentInShareSchema = new mongoose.Schema({
   content: String,
   userId: {
@@ -25,6 +49,10 @@ const commentInShareSchema = new mongoose.Schema({
     required: true
   },
   likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
+  },
+  reports: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User"
   }
@@ -64,6 +92,10 @@ const sharesSchema = new mongoose.Schema({
   comments: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "CommentInShare"
+  },
+  reports: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
   },
   timeRank: {
     type: Number,

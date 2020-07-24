@@ -32,6 +32,8 @@ const getId = (req, res, next) => {
 router.get('/', ctrlShares.sharesDefaultList);
 router.get('/like-share/:postId', getId, ctrlShares.likePost);
 router.get('/get-post/:postId', ctrlShares.getPost);
+router.get('/like-share-comment/:commentId', getId, ctrlShares.likeComment);
+router.get('/report-post/:sourceId-:ipAddress', getId, ctrlShares.reportPost);
 router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.post('/post-comment/:postId', getId, ctrlShares.addComment);

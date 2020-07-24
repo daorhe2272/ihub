@@ -72,6 +72,10 @@ const userSchema = new mongoose.Schema({
     collections: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Share"
+    },
+    commentLikes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "CommentInShare"
     }
   }
 });

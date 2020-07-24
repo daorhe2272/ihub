@@ -8,7 +8,7 @@
 
 *{box-sizing:border-box;}
 
-.stdFormContainer{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;color:black;width:310px;font-size:1.2rem;align-items:center;justify-content:center;}
+.stdFormContainer{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px 20px 10px 15px;border-radius:5px;color:black;width:310px;font-size:1.2rem;align-items:center;justify-content:center;}
 
 .simpleDropdown{visibility:hidden;z-index:1;position:absolute;overflow:hidden;border-radius:5px;font-family:sans-serif;box-shadow:2px 2px 4px 4px rgb(200, 200, 200);background-color:white;padding:8px;}
 
@@ -36,20 +36,26 @@ header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-in
   #signinMenuWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;display:none;align-items:center;justify-content:center;text-align:center;}
     #signinForm{.stdFormContainer();display:none;
       form{
-        input{margin:10px auto 0 auto;}
+        input{margin:10px auto 0 auto;padding-left:5px;}
         p{margin:10px 0 6px 0;}
           small a{}
         .simpleWrapper{width:100%;text-align:left;margin-left:10px;
           input, label{display:inline-block;margin: 7px 3px 3px 3px;}
         }
         .submitbtn{margin-top:8px;}
+        .buttons{width:100%;display:flex;flex-direction:column;align-items:center;
+          button{border-radius:5px;max-width:130px;}
+        }
       }
     }
       .submitbtn2{text-align:center;width:51%;padding:3px 0 3px 0;background-color:#00a4c0;color:white;}
     #registerForm{.stdFormContainer();display:none;
-      input{margin:10px auto 0 auto;}
+      input{margin:10px auto 0 auto;padding-left:5px;}
       #passwordMessage{}
       .submitbtn{margin-top:8px;}
+      .buttons{width:100%;display:flex;flex-direction:column;align-items:center;
+        button{border-radius:5px;max-width:130px;}
+      }
     }
 
 // Shares - General
@@ -80,6 +86,18 @@ body{margin-top:56px;background:rgb(250,250,250);}
             }
             .submitbtn{width:100%;margin-top:10px;border-radius:5px;}
             .closebtn{width:100%;border-radius:5px;}
+          }
+        }
+        #reportsForm{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px;border-radius:5px;width:400px;display:none;
+          .header{text-align:center;margin-bottom:10px;}
+          .content{display:flex;flex-wrap:wrap;margin:5px 0 0 10px;
+            .option{width:100%;
+              input{margin:0 8px 0 5px;}
+              label{}
+            }
+          }
+          .buttons{display:flex;flex-direction:column;justify-content:center;width:100%;text-align:center;align-items:center;
+            button{max-width:150px;border-radius:5px;}
           }
         }
       }
@@ -143,10 +161,10 @@ body{margin-top:56px;background:rgb(250,250,250);}
                 }
               }
               .listedCommentButtons{display:flex;font-size:1rem;
-                .listedCommentLike{color:@darkColor;margin:3px 0 3px 5px;padding:0 15px 3px 15px;border-radius:5px;cursor:pointer;}
-                .listedCommentLike:hover{background-color:@buttonHover;}
-                .listedCommentReport{color:@darkColor;margin:3px 0 3px 5px;padding:0 8px 3px 8px;border-radius:5px;cursor:pointer;}
-                .listedCommentReport:hover{background-color:@buttonHover;}
+                .fa-thumbs-up{color:@darkColor;margin:3px 0 3px 15px;padding:0 20px 3px 20px;border-radius:5px;cursor:pointer;display:flex;align-items:center;
+                  div{margin-left:6px;}
+                }
+                .fa-thumbs-up:hover{background-color:@buttonHover;}
                 .listedCommentDate{margin:3px 0 3px 5px;padding:0 5px 3px 5px;}
               }
             }

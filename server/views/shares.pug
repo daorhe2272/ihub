@@ -24,7 +24,27 @@ block content
               #postLinkDescription
             button(type="button" class="submitbtn" onclick="postSharedContent()") <b>Post</b>
             button(type="button" class="closebtn" onclick="closeForm()") <b>Close</b>
-      .error= message
+        #reportsForm
+          .header <b>What seems to be the problem?</b>
+          .content
+            .option
+              input(type="radio" name="problem" id="problem1" value="Content is spam or irrelevant")
+              label(for="problem1") Content is spam or irrelevant
+            .option
+              input(type="radio" name="problem" id="problem2" value="Content is offensive")
+              label(for="problem2") Content is offensive
+            .option
+              input(type="radio" name="problem" id="problem3" value="Content could be harmful")
+              label(for="problem3") Content could be harmful
+            .option
+              input(type="radio" name="problem" id="problem4" value="Content could be used to commit fraud")
+              label(for="problem4") Content is fraudulent
+            .option
+              input(type="radio" name="problem" id="problem5" value="Other")
+              label(for="problem5") Other
+          .buttons
+            button(type="button" class="submitbtn" id="reportButton") <b>Report</b>
+            button(type="button" class="closebtn" onclick="closeReportsForm()") <b>Cancel</b>
       each share in sharesList
         .contentsContainer(id=`${share._id}`)
           .contents
@@ -38,7 +58,7 @@ block content
                       button Edit
                       button(onclick=`deletePost("${share._id}")`) Delete
                     if share.publisherId!==userId
-                      button Report
+                      button(onclick=`showReportsForm("${share._id}")`) Report
             - let url = share.content.match(urlRegex);
             - if (url != null && url.length) {for (let i = 0; i < url.length; i++) {share.content = share.content.replace(url[i],`<a href="${url[i]}" target="_blank" style="color:blue;">${url[i]}</a>`);}}
             .postContents !{share.content}
@@ -84,11 +104,12 @@ block content
                           button Edit
                           button(onclick=`deleteComment("${comment._id}", "${share._id}")`) Delete
                         if comment.userId !== userId
-                          button Report
+                          button(onclick=`showReportsForm("${comment._id}")`) Report
                     .listedCommentContent= comment.content
                   .listedCommentButtons
-                    .listedCommentLike <b>Like</b>
-                    .listedCommentReport <b>Report</b>
+                    - let commentLikedOrNot; if (comment.likes.indexOf(userId) > -1) {commentLikedOrNot = "color:blue";} else {commentLikedOrNot = "";};
+                    i.far.fa-thumbs-up(onclick=`likeComment("${comment._id}")` id=`commentLike-${comment._id}` style=`${commentLikedOrNot}`)
+                      div #{comment.likes.length}
                     - let elapsedMessage;
                     - let elapsedTime = Math.floor((Date.now() - comment.commentedOn) / (1000 * 60));
                     - if (elapsedTime < 1) {elapsedMessage = "Just now...";} else if (elapsedTime == 1) {elapsedMessage = "1 minute ago"} else if (elapsedTime < 60) {elapsedMessage = `${elapsedTime} minutes ago`;} else if (elapsedTime < 120) {elapsedMessage = "1 hour ago";} else if (elapsedTime < 1440) {elapsedMessage = `${Math.floor(elapsedTime / 60)} hours ago`;} else if (elapsedTime < 2880) {elapsedMessage = "1 day ago";} else if (elapsedTime < 43200) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24))} days ago`;} else if (elapsedTime < 86400) {elapsedMessage = "1 month ago";} else if (elapsedTime < 525600) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 30))} monthsago`;} else if (elapsedTime < 1051200) {elapsedMessage = "1 year ago";} else if (elapsedTime > 1051199) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 365))} years ago`;}
@@ -99,7 +120,3 @@ block content
             button
               .loadMore <b>Load more posts</b>
     .rightSideBar
-
-  script
-    | function openForm() {document.getElementById("popupWrapper").style.display="flex"; document.getElementById("popupForm").style.display="block";}
-    | function closeForm() {document.getElementById("popupWrapper").style.display="none"; document.getElementById("popupForm").style.display="none";}

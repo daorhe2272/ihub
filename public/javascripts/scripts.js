@@ -126,6 +126,16 @@ function checkPassStrength() {
   document.getElementById("passwordMessage").style = `display:inline;color:${messageColor};`;
 }
 
+function openForm() {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("popupForm").style.display="block";
+}
+
+function closeForm() {
+  document.getElementById("popupWrapper").style.display="none";
+  document.getElementById("popupForm").style.display="none";
+}
+
 function checkForLink() {
   // Set maximum amount of characters allowed
   let postInput = document.getElementById("postContent");
@@ -286,9 +296,9 @@ function submitComment(postId) {
                 </div>
               </div>
               <div class="listedCommentButtons">
-                <div class="listedCommentLike">
-                  <b>Like</b>
-                </div>
+                <i class="far fa-thumbs-up" onclick="likeComment('${json._id}')" id="commentLike-${json._id}" style="">
+                  <div>0</div>
+                </i>
                 <div class="listedCommentDate">
                   Just now...
                 </div>
@@ -320,6 +330,45 @@ async function deleteComment(commentId, postId) {
         div.parentNode.removeChild(div);
         elem.style.color="#395462";
       }
+    }
+  }
+}
+
+async function likeComment(commentId) {
+  let response = await fetch(`/api/like-share-comment/${commentId}`);
+  let element = document.getElementById(`commentLike-${commentId}`);
+  if (response.ok) {
+    let json = await response.json();
+    if (json.message === "Like added") {
+      element.style.color="blue";
+      element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)+1}`;
+    }
+    if (json.message === "Like removed") {
+      element.style.color="#395462";
+      element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)-1}`;
+    }
+  } else if (response.status === 401) {
+    alert("Please sign in. If you don't have an account, create one.");
+  }
+}
+
+function showReportsForm(sourceId) {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("reportsForm").style.display="block";
+  document.getElementById("reportButton").setAttribute("onclick", `reportPost("${sourceId}")`);
+}
+
+function closeReportsForm() {
+  document.getElementById("popupWrapper").style.display="none";
+  document.getElementById("reportsForm").style.display="none";
+}
+
+async function reportPost(sourceId) {
+  let response = await fetch(`/report-post/${sourceId}`);
+  if (response.ok) {
+    let json = await response.json();
+    if (json.message) {
+      alert(json.message)
     }
   }
 }

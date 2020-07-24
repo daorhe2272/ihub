@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Share = mongoose.model('Share');
 const User = mongoose.model('User');
 const CommentInShare = mongoose.model('CommentInShare');
+const ReportLog = mongoose.model('ReportLog');
 const grabity = require('grabity');
 const sanitize = require('sanitize-html');
 
@@ -283,6 +284,77 @@ const deleteComment = (req, res) => {
   }
 }
 */
+
+const likeComment = (req, res) => {
+  CommentInShare.findById(req.params.commentId).exec((err, results) => {
+    let index = results.likes.indexOf(req.params.userId);
+    // If user in likes array, remove him
+    if (index > -1) {
+      results.likes.splice(index, 1);
+      results.save((err) => {
+        if (err) {return res.status(400).json({message:"API error"});}
+        else {
+          User.findById(req.params.userId).exec((err, results2) => {
+            let index2 = results2.userActivity.commentLikes.indexOf(req.params.commentId);
+            if (index2 > -1) {
+              results2.userActivity.commentLikes.splice(index2, 1);
+              results2.save((err) => {
+                if (err) {return res.status(400).json({message:"API error"});}
+                else {return res.status(200).json({message:"Like removed"});}
+              });
+            }
+          });
+        }
+      });
+    }
+    // If user not in likes array, add him
+    else if (index === -1) {
+      results.likes.push(req.params.userId);
+      results.save((err) => {
+        if (err) {return res.status(400).json({message:"API error"});}
+        else {
+          User.findById(req.params.userId).exec((err, results2) => {
+            let index2 = results2.userActivity.commentLikes.indexOf(req.params.commentId);
+            if (index2 === -1) {
+              results2.userActivity.commentLikes.push(req.params.commentId);
+              results2.save((err) => {
+                if (err) {return res.status(400).json({message:"API error"});}
+                else {return res.status(200).json({message:"Like added"});}
+              });
+            }
+          });
+        }
+      });
+    }
+    else {return res.status(400).json({message:"Unexpected error."});}
+  });
+}
+
+const reportPost = (req, res) => {
+  ReportLog.find({reporterId: req.params.userId}).find({sourceId: req.params.sourceId}).exec(async (err, results) => {
+    if (err) {return res.status(400).json({message:"API error"});}
+    else if (results.length) {
+      return res.status(200).json({message:"A report has been filed already"});
+    }
+    else if (!results.length) {
+      await ReportLog.create({
+        reporterId: req.params.userId,
+        ipAddress: req.params.ipAddress,
+        sourceId: req.params.sourceId,
+        date: Date.now(),
+        explanation: "Blah blah"
+      }, (err, logged) => {
+        if (err) {res.status(400).json({message:"API error"});}
+        else {
+          console.log(logged);
+          return res.status(200).json({message:"Post reported"});
+        }
+      });
+    }
+    else {return res.status(400).json({message:"API error"});}
+  });
+}
+
 module.exports = {
   sharesDefaultList,
   addPost,
@@ -291,5 +363,7 @@ module.exports = {
   likePost,
   getPost,
   addComment,
-  deleteComment
+  deleteComment,
+  likeComment,
+  reportPost
 };

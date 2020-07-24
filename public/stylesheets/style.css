@@ -5,7 +5,7 @@
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
-  padding: 20px;
+  padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
   width: 310px;
@@ -115,7 +115,7 @@ header {
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
-  padding: 20px;
+  padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
   width: 310px;
@@ -126,6 +126,7 @@ header {
 }
 #signinForm form input {
   margin: 10px auto 0 auto;
+  padding-left: 5px;
 }
 #signinForm form p {
   margin: 10px 0 6px 0;
@@ -143,6 +144,16 @@ header {
 #signinForm form .submitbtn {
   margin-top: 8px;
 }
+#signinForm form .buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#signinForm form .buttons button {
+  border-radius: 5px;
+  max-width: 130px;
+}
 .submitbtn2 {
   text-align: center;
   width: 51%;
@@ -154,7 +165,7 @@ header {
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
-  padding: 20px;
+  padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
   width: 310px;
@@ -165,9 +176,20 @@ header {
 }
 #registerForm input {
   margin: 10px auto 0 auto;
+  padding-left: 5px;
 }
 #registerForm .submitbtn {
   margin-top: 8px;
+}
+#registerForm .buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#registerForm .buttons button {
+  border-radius: 5px;
+  max-width: 130px;
 }
 .gapA {
   height: 5px;
@@ -295,6 +317,42 @@ button {
 }
 #popupWrapper #popupForm form .closebtn {
   width: 100%;
+  border-radius: 5px;
+}
+#popupWrapper #reportsForm {
+  z-index: 9;
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  display: none;
+}
+#popupWrapper #reportsForm .header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+#popupWrapper #reportsForm .content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 0 0 10px;
+}
+#popupWrapper #reportsForm .content .option {
+  width: 100%;
+}
+#popupWrapper #reportsForm .content .option input {
+  margin: 0 8px 0 5px;
+}
+#popupWrapper #reportsForm .buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+#popupWrapper #reportsForm .buttons button {
+  max-width: 150px;
   border-radius: 5px;
 }
 .submitbtn {
@@ -510,24 +568,19 @@ button {
   display: flex;
   font-size: 1rem;
 }
-.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentLike {
+.commentsContainer .commentsList .listedComment .listedCommentButtons .fa-thumbs-up {
   color: #395462;
-  margin: 3px 0 3px 5px;
-  padding: 0 15px 3px 15px;
+  margin: 3px 0 3px 15px;
+  padding: 0 20px 3px 20px;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
-.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentLike:hover {
-  background-color: #f0faf5;
+.commentsContainer .commentsList .listedComment .listedCommentButtons .fa-thumbs-up div {
+  margin-left: 6px;
 }
-.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentReport {
-  color: #395462;
-  margin: 3px 0 3px 5px;
-  padding: 0 8px 3px 8px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentReport:hover {
+.commentsContainer .commentsList .listedComment .listedCommentButtons .fa-thumbs-up:hover {
   background-color: #f0faf5;
 }
 .commentsContainer .commentsList .listedComment .listedCommentButtons .listedCommentDate {
@@ -770,7 +823,7 @@ button {
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
-  padding: 20px;
+  padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
   width: 310px;
