@@ -33,12 +33,12 @@ router.get('/', ctrlShares.sharesDefaultList);
 router.get('/like-share/:postId', getId, ctrlShares.likePost);
 router.get('/get-post/:postId', ctrlShares.getPost);
 router.get('/like-share-comment/:commentId', getId, ctrlShares.likeComment);
-router.get('/report-post/:sourceId-:ipAddress', getId, ctrlShares.reportPost);
+router.post('/report-post/:sourceId-:ipAddress', getId, ctrlShares.reportPost);
 router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.post('/post-comment/:postId', getId, ctrlShares.addComment);
 router.delete('/delete-share/:postId', getId, ctrlShares.deletePost);
-router.delete('/delete-comment/:commentId', getId, ctrlShares.deleteComment);
+router.delete('/delete-comment/:commentId-:postId', getId, ctrlShares.deleteComment);
 
 // Users
 router.get('/user/:userId', ctrlUsers.myProfile);

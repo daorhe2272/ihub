@@ -233,7 +233,7 @@ async function likePost(postId) {
       element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)-1}`;
     }
   } else if (response.status === 401) {
-    alert("Please sign in. If you don't have an account, create one.");
+    showMessage("Please sign in. If you don't have an account, create one.");
   }
 }
 
@@ -241,9 +241,9 @@ function copyLink(postId) {
   let toCopy = `${window.location.href}shared-post/${postId}`;
   try {
     navigator.clipboard.writeText(toCopy);
-    // Show message "Link copied to clipboard"
+    showMessage("Link copied to clipboard.");
   } catch {
-   alert("Functionality available only over https or localhost. Not supported for Internet Explorer.");
+   showMessage("Functionality available only over https or localhost. Not supported for Internet Explorer.");
   }
 }
 
@@ -259,6 +259,7 @@ function showComments(postId) {
 function submitComment(postId) {
   let element = document.getElementById(`commentContent-${postId}`);
   element.onkeydown = async function (e) {
+    // If user press Enter and is not holding the shift key...
     if (e.keyCode == 13 && !e.shiftKey) {
       let data = {commentContent: element.innerText};
       let path = `/post-comment/${postId}`;
@@ -306,7 +307,7 @@ function submitComment(postId) {
             document.getElementById(`commentsList-${json.postId}`).insertAdjacentElement("afterbegin", div);
           }
         } else if (response.status == 401) {
-          alert("Please sign in. If you don't have an account, create one.");
+          showMessage("Please sign in. If you don't have an account, create one.");
         } else {
           let json = await response.json();
           console.log(json); // Remove for production
@@ -320,7 +321,7 @@ function submitComment(postId) {
 
 async function deleteComment(commentId, postId) {
   if (confirm("Delete comment?") === true) {
-    let response = await fetch(`/delete-comment/${commentId}`, {method: "DELETE"});
+    let response = await fetch(`/delete-comment/${commentId}-${postId}`, {method: "DELETE"});
     if (response.ok) {
       let json = await response.json();
       if (json.message === "Comment deleted") {
@@ -348,7 +349,7 @@ async function likeComment(commentId) {
       element.children[0].innerHTML=`${parseInt(element.children[0].innerHTML)-1}`;
     }
   } else if (response.status === 401) {
-    alert("Please sign in. If you don't have an account, create one.");
+    showMessage("Please sign in. If you don't have an account, create one.");
   }
 }
 
@@ -364,11 +365,34 @@ function closeReportsForm() {
 }
 
 async function reportPost(sourceId) {
-  let response = await fetch(`/report-post/${sourceId}`);
+  let data = {explanation: document.querySelector("input[name='problem']:checked").value};
+  let response = await fetch(`/report-post/${sourceId}`, {method:"Post", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
   if (response.ok) {
     let json = await response.json();
     if (json.message) {
-      alert(json.message)
+      closeReportsForm();
+      showMessage(json.message);
     }
   }
+}
+
+function showMessage(message) {
+  document.getElementById("signinMenuWrapper").style.display="flex";
+  document.getElementById("messageAlert").style.display="flex";
+  document.getElementById("messageText").innerText=message;
+}
+
+function closeMessage() {
+  document.getElementById("signinMenuWrapper").style.display="none";
+  document.getElementById("messageAlert").style.display="none";
+}
+
+function showEditForm(postId) {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("editPostForm").style.display="flex";
+}
+
+function closeEditForm() {
+  document.getElementById("popupWrapper").style.display="none";
+  document.getElementById("editPostForm").style.display="none";
 }

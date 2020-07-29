@@ -208,7 +208,7 @@ const addComment = (req, res) => {
 
 const deleteComment = (req, res) => {
   if (req.params.userId && req.params.commentId) {
-    CommentInShare.findOneAndDelete(req.params.commentId, (err, result) => {
+    CommentInShare.findByIdAndDelete(req.params.commentId, (err, result) => {
       if (err) {return res.status(400).json(err);}
       else if (!result) {return res.status(400).json({message:"Bad request"});}
       else {
@@ -255,35 +255,6 @@ const deleteComment = (req, res) => {
     return res.status(400).json({message:"Bad request"});
   }
 }
-/*
-const deleteComment = (req, res) => {
-  if (req.params.userId && req.params.commentId) {
-    CommentInShare.findById(req.params.commentId).exec((err, commentInfo) => {
-      if (err) {return res.status(400).json(err);}
-      else if (!commentInfo) {return res.status(400).json({message:"Bad request"});}
-      else {
-        User.findById(req.params.userId).exec((err, userInfo) => {
-          if (err) {return res.status(400).json(err);}
-          else if (!userInfo) {return res.status(400).json({message:"Bad request"});}
-          else {
-            Share.findById(commentInfo.postId).exec((err, shareInfo) => {
-              if (err) {return res.status(400).json(err);}
-              else if (!shareInfo) {return res.status(400).json({message:"Bad request"});}
-              else {
-                console.log(commentInfo);
-                console.log(userInfo);
-                console.log(shareInfo);
-              }
-            });
-          }
-        });
-      }
-    });
-  } else {
-    return res.status(400).json({message:"Bad request"});
-  }
-}
-*/
 
 const likeComment = (req, res) => {
   CommentInShare.findById(req.params.commentId).exec((err, results) => {
@@ -342,11 +313,40 @@ const reportPost = (req, res) => {
         ipAddress: req.params.ipAddress,
         sourceId: req.params.sourceId,
         date: Date.now(),
-        explanation: "Blah blah"
-      }, (err, logged) => {
+        explanation: req.body.explanation
+      }, (err, reportInfo) => {
         if (err) {res.status(400).json({message:"API error"});}
         else {
-          console.log(logged);
+          User.findById(req.params.userId).exec((err, userInfo) => {
+            if (err) {console.log(err);} // Handle error logging
+            else if (userInfo) {
+              userInfo.userActivity.reports.push(reportInfo._id);
+              userInfo.save((err) => {
+                if (err) {console.log(err);} // Handle error logging
+                else {console.log("Report registered for user");}
+              });
+            }
+          });
+          Share.findById(req.params.sourceId).exec((err, shareInfo) => {
+            if (err) {console.log(err);} // Handle error logging
+            else if (shareInfo) {
+              shareInfo.reports.push(reportInfo._id);
+              shareInfo.save((err) => {
+                if (err) {console.log(err);} // Handle error logging
+                else {console.log("Report registered for Share");}
+              });
+            }
+          });
+          CommentInShare.findById(req.params.sourceId).exec((err, commentInfo) => {
+            if (err) {console.log(err);} // Handle error logging
+            else if (commentInfo) {
+              commentInfo.reports.push(reportInfo._id);
+              commentInfo.save((err) => {
+                if (err) {console.log(err);} // Handle error logging
+                else {console.log("Report registered for comment in Share");}
+              });
+            }
+          });
           return res.status(200).json({message:"Post reported"});
         }
       });

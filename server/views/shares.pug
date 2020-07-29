@@ -45,6 +45,16 @@ block content
           .buttons
             button(type="button" class="submitbtn" id="reportButton") <b>Report</b>
             button(type="button" class="closebtn" onclick="closeReportsForm()") <b>Cancel</b>
+        #editPostForm
+          .contents
+            #editPostText
+            .editPostExtras
+              img#postExtrasImage
+              b#postExtrasTitle
+              #postExtrasDescription
+          .buttons
+            button(type="button" class="submitbtn" onclick="") <b>Update</b>
+            button(type="button" class="closebtn" onclick="closeEditForm()") <b>Cancel</b>
       each share in sharesList
         .contentsContainer(id=`${share._id}`)
           .contents
@@ -55,7 +65,7 @@ block content
                 i.fas.fa-caret-down
                   .postDropdown
                     if share.publisherId===userId
-                      button Edit
+                      button(onclick=`showEditForm("${share._id}")`) Edit
                       button(onclick=`deletePost("${share._id}")`) Delete
                     if share.publisherId!==userId
                       button(onclick=`showReportsForm("${share._id}")`) Report

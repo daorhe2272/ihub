@@ -41,6 +41,11 @@ html
               button My Collection
               button(onclick="location.href='/logout';") Log out
   #signinMenuWrapper
+      #messageAlert
+        .messageContainer
+          #messageText
+        .buttons
+          button(type="button" class="closebtn" onclick="closeMessage()") <b>Close</b>
       #signinForm
         form(method="POST" action="/login" id="loginForm" name="loginForm") To log in, please type in your e-mail address and password:
           input(type="email" placeholder="E-mail address" name="email" id="email" maxlength="50" required)

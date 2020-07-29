@@ -118,7 +118,7 @@ const addComment = (req, res) => {
 const deleteComment = (req, res) => {
   const path = "/api/delete-comment/";
   const requestOptions = {
-    url: `${apiServer.server}${path}${req.params.commentId}`,
+    url: `${apiServer.server}${path}${req.params.commentId}-${req.params.postId}`,
     method: "DELETE",
     headers: {cookie: req.headers.cookie}
   };
@@ -134,8 +134,9 @@ const reportPost = (req, res) => {
   const path = "/api/report-post/";
   const requestOptions = {
     url: `${apiServer.server}${path}${req.params.postId}-${req.ip}`,
-    method: "GET",
+    method: "POST",
     headers: {cookie: req.headers.cookie},
+    form: req.body,
     json: true
   };
   request(requestOptions, (err, headers, body) => {
