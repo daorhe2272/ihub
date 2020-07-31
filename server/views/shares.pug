@@ -13,7 +13,7 @@ block content
         .formContainer
           button(onclick="openForm()")
             .shareForm
-              i.fas.fa-pen-square <b> Add a post of your own!</b>
+              i.fas.fa-pen-square <b> Add your own post!</b>
       #popupWrapper
         #popupForm
           form
@@ -46,8 +46,8 @@ block content
             button(type="button" class="submitbtn" id="reportButton") <b>Report</b>
             button(type="button" class="closebtn" onclick="closeReportsForm()") <b>Cancel</b>
         #editPostForm
-          .contents
-            #editPostText
+          .editContents
+            #editPostText(contentEditable="true" oninput="checkForEditLink()")
             .editPostExtras
               img#postExtrasImage
               b#postExtrasTitle
@@ -71,16 +71,16 @@ block content
                       button(onclick=`showReportsForm("${share._id}")`) Report
             - let url = share.content.match(urlRegex);
             - if (url != null && url.length) {for (let i = 0; i < url.length; i++) {share.content = share.content.replace(url[i],`<a href="${url[i]}" target="_blank" style="color:blue;">${url[i]}</a>`);}}
-            .postContents !{share.content}
+            .postContents(id=`postContents-${share._id}`) !{share.content}
             if share.linkImage || share.linkTitle || share.linkDescription
               a(href=`${url[0]}` target="_blank")
                 .linkContents
                   if share.linkImage
-                    img.linkImage(src=`${share.linkImage}`)
+                    img.linkImage(src=`${share.linkImage}` id=`linkImage-${share._id}`)
                   if share.linkTitle || share.linkDescription
                     .linkText
-                      b.linkTitle #{share.linkTitle}
-                      .linkDescription #{share.linkDescription}
+                      b.linkTitle(id=`linkTitle-${share._id}`) #{share.linkTitle}
+                      .linkDescription(id=`linkDescription-${share._id}`) #{share.linkDescription}
             - let likedOrNot; if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
             - let commentedOrNot; for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
             .contentIcons

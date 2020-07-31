@@ -390,9 +390,72 @@ function closeMessage() {
 function showEditForm(postId) {
   document.getElementById("popupWrapper").style.display="flex";
   document.getElementById("editPostForm").style.display="flex";
+  document.getElementById("editPostText").innerText =
+    document.getElementById(`postContents-${postId}`).innerText;
+  if (document.getElementById(`linkImage-${postId}`) != null) {
+    document.getElementById("postExtrasImage").src =
+    document.getElementById(`linkImage-${postId}`).getAttribute("src");
+  } else {
+    document.getElementById("postExtrasImage").src="";
+  }
+  if (document.getElementById(`linkTitle-${postId}`) != null) {
+    document.getElementById("postExtrasTitle").innerText =
+    document.getElementById(`linkTitle-${postId}`).innerText;
+  } else {
+    document.getElementById("postExtrasTitle").innerText="";
+  }
+  if (document.getElementById(`linkDescription-${postId}`) != null) {
+    document.getElementById("postExtrasDescription").innerText = 
+    document.getElementById(`linkDescription-${postId}`).innerText;
+  } else {
+    document.getElementById("postExtrasDescription").innerText="";
+  }
 }
 
 function closeEditForm() {
   document.getElementById("popupWrapper").style.display="none";
   document.getElementById("editPostForm").style.display="none";
+}
+
+function checkForEditLink() {
+  // Set maximum amount of characters allowed
+  let postInput = document.getElementById("editPostText");
+  if (postInput.innerText.length > 1000) {
+    alert("Maximum number of characters reached! Please make your post shorter.");
+  }
+  
+  // Wait for user to stop typing
+  postInput.addEventListener("keyup", () => {
+    clearTimeout(window.typingTimer);
+    window.typingTimer = setTimeout(doneTyping, 1000);
+  });
+  // If time's up, check for links
+  function doneTyping() {
+    let url = postInput.innerHTML.match(urlRegex);
+    if (url) {
+      let string = postInput.innerHTML;
+      populatePost(url[0]);
+    } else {
+      document.getElementById("postExtrasImage").src="";
+      document.getElementById("postExtrasTitle").innerHTML="";
+      document.getElementById("postExtrasDescription").innerHTML="";
+    }
+  }
+  
+  // If there is a link, populate post form
+  async function populatePost(url) {
+    let data = {postContent: url}
+    let response = await fetch("/api/process-share", {method:"POST", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
+    if (response.ok) {
+      let json = await response.json();
+      if (json.image) {document.getElementById("postExtrasImage").src=json.image;}
+      if (json.title) {document.getElementById("postExtrasTitle").innerHTML=json.title;}
+      if (json.description) {
+        document.getElementById("postExtrasDescription").innerHTML=json.description;
+      }
+    } else {
+      let json = await response.json();
+      alert(json.message);
+    }
+  }
 }
