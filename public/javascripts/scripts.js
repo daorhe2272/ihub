@@ -283,8 +283,8 @@ function submitComment(postId) {
                   </small>
                 </div>
                 <i class="fas fa-caret-down">
-                  <div class="commentDropdown">
-                    <button>
+                  <div class="commentDropdown" id="moreOptions-${json._id}">
+                    <button onclick="showCommentEdit('${json._id}')">
                       Edit
                     </button>
                     <button onclick="deleteComment('${json._id}', '${json.postId}')">
@@ -292,8 +292,10 @@ function submitComment(postId) {
                     </button>
                   </div>
                 </i>
-                <div class="listedCommentContent">
+                <div class="listedCommentContent" id="listedCommentContent-${json._id}">
                   ${json.content}
+                </div>
+                <div class="updateButtons" id="updateButtons-${json._id}">
                 </div>
               </div>
               <div class="listedCommentButtons">
@@ -390,6 +392,7 @@ function closeMessage() {
 function showEditForm(postId) {
   document.getElementById("popupWrapper").style.display="flex";
   document.getElementById("editPostForm").style.display="flex";
+  document.getElementById("editPostButton").setAttribute("onclick", `postEditedShare("${postId}")`);
   document.getElementById("editPostText").innerText =
     document.getElementById(`postContents-${postId}`).innerText;
   if (document.getElementById(`linkImage-${postId}`) != null) {
@@ -458,4 +461,48 @@ function checkForEditLink() {
       alert(json.message);
     }
   }
+}
+
+function postEditedShare(postId) {
+  if (document.getElementById("editPostText").innerHTML === "") {
+    alert("Your desired update contains no information. Consider deleting your post instead.");
+  } else {
+    path = `/edit-share/${postId}`;
+    method = "POST";
+    params = {
+      postContent: document.getElementById("editPostText").innerHTML,
+      image: document.getElementById("postExtrasImage").getAttribute("src"),
+      title: document.getElementById("postExtrasTitle").innerHTML,
+      description: document.getElementById("postExtrasDescription").innerHTML
+    };
+  }
+  postShare(path, params, method);
+}
+
+function showCommentEdit(commentId) {
+  window.originalContentString = document.getElementById(`listedCommentContent-${commentId}`).innerHTML;
+  document.getElementById(`listedCommentContent-${commentId}`).setAttribute("contentEditable", "true");
+  document.getElementById(`updateButtons-${commentId}`).innerHTML=
+    `<button class="submitbtn" onclick="submitCommentEdit('${commentId}')"><b>Update</b></button>
+    <button class="darkclosebtn" onclick="cancelCommentEdit('${commentId}')"><b>Cancel</b></button>`
+  setCaretAtEnd(document.getElementById(`listedCommentContent-${commentId}`));
+}
+
+function setCaretAtEnd(element) {
+  let range = document.createRange();
+  range.selectNodeContents(element);
+  range.collapse(false);
+  let selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function cancelCommentEdit(commentId) {
+  document.getElementById(`listedCommentContent-${commentId}`).setAttribute("contentEditable", "false");
+  document.getElementById(`listedCommentContent-${commentId}`).innerHTML=window.originalContentString;
+  document.getElementById(`updateButtons-${commentId}`).innerHTML="";
+}
+
+function submitCommentEdit(commentId) {
+  alert("Submitting changes.");
 }

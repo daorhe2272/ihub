@@ -355,6 +355,29 @@ const reportPost = (req, res) => {
   });
 }
 
+const editPost = (req, res) => {
+  if (!req.body.postContent) {
+    return res.status(400).json({"message":"No content to post submitted."});
+  } else if (!req.params.postId) {
+    return res.status(400).json({"message":"API error."});
+  } else {
+    Share.findById(req.params.postId).exec((err, shareInfo) => {
+      if (shareInfo.publisherId === req.params.userId) {
+        shareInfo.content = sanitize(req.body.postContent, {allowedAttributes: {}}),
+        shareInfo.linkTitle = req.body.title,
+        shareInfo.linkDescription = req.body.description,
+        shareInfo.linkImage = req.body.image
+        shareInfo.save((err) => {
+          if (err) {return res.status(400).json({"message":"API error."});}
+          else {return res.status(200).json({message:"All good so far."});}
+        });
+      } else {
+        return res.status(400).json({"message":"API error."});
+      }
+    });
+  }
+}
+
 module.exports = {
   sharesDefaultList,
   addPost,
@@ -365,5 +388,6 @@ module.exports = {
   addComment,
   deleteComment,
   likeComment,
-  reportPost
+  reportPost,
+  editPost
 };

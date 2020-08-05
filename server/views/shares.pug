@@ -53,7 +53,7 @@ block content
               b#postExtrasTitle
               #postExtrasDescription
           .buttons
-            button(type="button" class="submitbtn" onclick="") <b>Update</b>
+            button(type="button" class="submitbtn" id="editPostButton") <b>Update</b>
             button(type="button" class="closebtn" onclick="closeEditForm()") <b>Cancel</b>
       each share in sharesList
         .contentsContainer(id=`${share._id}`)
@@ -109,13 +109,14 @@ block content
                     .listedCommentAuthor(id=`${comment.userId}`)
                       small <a href="/user/#{comment.userId}" style="font-weight:600;">#{comment.userName}</a> says...
                     i.fas.fa-caret-down
-                      .commentDropdown
+                      .commentDropdown(id=`moreOptions-${comment._id}`)
                         if comment.userId === userId
-                          button Edit
+                          button(onclick=`showCommentEdit("${comment._id}")`) Edit
                           button(onclick=`deleteComment("${comment._id}", "${share._id}")`) Delete
                         if comment.userId !== userId
                           button(onclick=`showReportsForm("${comment._id}")`) Report
-                    .listedCommentContent= comment.content
+                    .listedCommentContent(id=`listedCommentContent-${comment._id}`)= comment.content
+                    .updateButtons(id=`updateButtons-${comment._id}`)
                   .listedCommentButtons
                     - let commentLikedOrNot; if (comment.likes.indexOf(userId) > -1) {commentLikedOrNot = "color:blue";} else {commentLikedOrNot = "";};
                     i.far.fa-thumbs-up(onclick=`likeComment("${comment._id}")` id=`commentLike-${comment._id}` style=`${commentLikedOrNot}`)

@@ -147,6 +147,25 @@ const reportPost = (req, res) => {
   });
 }
 
+const updatePost = (req, res) => {
+  const path = "/api/edit-share/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.postId}`,
+    method: "PUT",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    else if (headers.statusCode === 200) {
+      return res.redirect("/");
+    } else {
+      return res.render('error', {message: body.message});
+    }
+  });
+}
+
 module.exports = {
 	sharesList,
 	createPost,
@@ -154,5 +173,6 @@ module.exports = {
 	showPost,
 	addComment,
 	deleteComment,
-	reportPost
+	reportPost,
+	updatePost
 };

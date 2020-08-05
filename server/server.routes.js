@@ -34,6 +34,7 @@ router.get('/shared-post/:postId', getId, ctrlShares.showPost);
 router.post('/report-post/:postId', ctrlShares.reportPost)
 router.post('/post-comment/:postId', ctrlShares.addComment);
 router.post('/', ctrlShares.createPost);
+router.post('/edit-share/:postId', ctrlShares.updatePost);
 router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
 
 // Test

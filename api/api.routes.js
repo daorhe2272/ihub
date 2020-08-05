@@ -37,6 +37,7 @@ router.post('/report-post/:sourceId-:ipAddress', getId, ctrlShares.reportPost);
 router.post('/', ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.post('/post-comment/:postId', getId, ctrlShares.addComment);
+router.put('/edit-share/:postId', getId, ctrlShares.editPost);
 router.delete('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.delete('/delete-comment/:commentId-:postId', getId, ctrlShares.deleteComment);
 
