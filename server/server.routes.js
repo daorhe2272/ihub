@@ -26,15 +26,18 @@ router.post('/change-password/:verHash', ctrlAuth.changePassword);
 
 // Users
 router.get('/user/:userId', getId, ctrlUsers.myProfile);
+router.get('/user-collection/:userId', getId, ctrlUsers.myCollection);
 
 // Shares
 router.get('/', getId, ctrlShares.sharesList);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
+router.get('/add-to-collection/:sourceId', ctrlShares.addToCollection);
 router.post('/report-post/:postId', ctrlShares.reportPost)
 router.post('/post-comment/:postId', ctrlShares.addComment);
 router.post('/', ctrlShares.createPost);
 router.post('/edit-share/:postId', ctrlShares.updatePost);
+router.post('/edit-comment/:commentId', ctrlShares.updateComment);
 router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
 
 // Test

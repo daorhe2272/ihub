@@ -26,6 +26,11 @@ const myProfile = (req, res) => {
   });
 }
 
+const myCollection = (req, res) => {
+  res.render("myCollection");
+}
+
 module.exports = {
-  myProfile
+  myProfile,
+  myCollection
 }

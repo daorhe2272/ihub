@@ -88,7 +88,7 @@ block content
                 small= share.likes.length
               i.far.fa-comment(onclick=`showComments("${share._id}")` id=`commentIcon-${share._id}` style=`${commentedOrNot}`)
                 small= share.comments.length
-              i.fas.fa-bookmark
+              i.fas.fa-bookmark(onclick=`addToCollection("${share._id}")` id=`bookmarkIcon-${share._id}`)
               i.fas.fa-share
                 .shareDropdown
                   .shareDropdownContainer(onclick=`copyLink("${share._id}")`)

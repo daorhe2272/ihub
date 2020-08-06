@@ -166,6 +166,42 @@ const updatePost = (req, res) => {
   });
 }
 
+const updateComment = (req, res) => {
+  const path = "/api/edit-comment/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.commentId}`,
+    method: "PUT",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    else if (headers.statusCode === 200) {
+      return res.status(200).json(body);
+    }
+    else {return res.status(400).json({message:"An error has occurred"});}
+  });
+}
+
+const addToCollection = (req, res) => {
+  const path = "/api/add-to-collection/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${req.params.sourceId}`,
+    method: "GET",
+    headers: {cookie: req.headers.cookie},
+    json:true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    else if (headers.statusCode === 200) {
+      return res.status(200).json(body);
+    } else {
+      return res.status(400).json({message:"An error has occurred"});
+    }
+  });
+}
+
 module.exports = {
 	sharesList,
 	createPost,
@@ -174,5 +210,7 @@ module.exports = {
 	addComment,
 	deleteComment,
 	reportPost,
-	updatePost
+	updatePost,
+	updateComment,
+	addToCollection
 };

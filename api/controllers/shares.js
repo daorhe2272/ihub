@@ -368,13 +368,71 @@ const editPost = (req, res) => {
         shareInfo.linkDescription = req.body.description,
         shareInfo.linkImage = req.body.image
         shareInfo.save((err) => {
-          if (err) {return res.status(400).json({"message":"API error."});}
-          else {return res.status(200).json({message:"All good so far."});}
+          if (err) {return res.status(400).json({"message":"API error"});}
+          else {return res.status(200).json({message:"Post updated successfully"});}
         });
       } else {
+        return res.status(400).json({"message":"API error"});
+      }
+    });
+  }
+}
+
+const editComment = (req, res) => {
+  if (!req.body.content || !req.params.commentId || !req.params.userId) {
+    return res.status(400).json({"message":"API error."});
+  } else {
+    CommentInShare.findById(req.params.commentId).exec((err, commentInfo) => {
+      if (err) {
+        // Log error info
+        return res.status(400).json({"message":"API error."});
+      } else if (commentInfo) {
+        commentInfo.content = req.body.content;
+        commentInfo.save((err) => {
+          if (err) {return res.status(400).json({"message":"API error"});} // Log error info
+          else {return res.status(200).json({content: commentInfo.content});}
+        });
+      } else {
+        // Log "An unexpected error occurred when user tried to edit comment"
         return res.status(400).json({"message":"API error."});
       }
     });
+  }
+}
+
+const addToCollection = (req, res) => {
+  if (req.params.userId && req.params.sourceId) {
+    User.findById(req.params.userId).exec((err, userInfo) => {
+      if (err) {
+        return res.status(400).json({"message":"API error."});
+      } else if (userInfo) {
+        let index = userInfo.userActivity.collections.indexOf(req.params.sourceId);
+        if (index === -1) {
+          userInfo.userActivity.collections.push(req.params.sourceId);
+          userInfo.save((err) => {
+            if (err) {return res.status(400).json({"message":"API error"});}
+            else {
+              // Add userId to shareInfo.collections
+              res.status(200).json({message:"Element successfully added to My Collection."});
+            }
+          });
+        } else if (index > -1) {
+          userInfo.userActivity.collections.splice(index, 1);
+          userInfo.save((err) => {
+            if (err) {return res.status(400).json({"message":"API error"});}
+            else {
+              // Remove userId from shareInfo.collections
+              res.status(200).json({message:"Element successfully removed from My Collection."});
+            }
+          });
+        }
+      } else {
+        // Log "An unexpected error occurred when adding or removing element from user collection"
+        return res.status(400).json({"message":"API error."});
+      }
+    });
+  } else {
+    return res.status(400).json({"message":"API error."});
   }
 }
 
@@ -389,5 +447,7 @@ module.exports = {
   deleteComment,
   likeComment,
   reportPost,
-  editPost
+  editPost,
+  editComment,
+  addToCollection
 };

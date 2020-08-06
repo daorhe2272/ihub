@@ -503,6 +503,32 @@ function cancelCommentEdit(commentId) {
   document.getElementById(`updateButtons-${commentId}`).innerHTML="";
 }
 
-function submitCommentEdit(commentId) {
-  alert("Submitting changes.");
+async function submitCommentEdit(commentId) {
+  let data = {content: document.getElementById(`listedCommentContent-${commentId}`).innerText};
+  let response = await fetch(`/edit-comment/${commentId}`, {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
+  if (response.ok) {
+    let json = await response.json();
+    document.getElementById(`listedCommentContent-${commentId}`).setAttribute("contentEditable", "false");
+    document.getElementById(`updateButtons-${commentId}`).innerHTML="";
+    document.getElementById(`listedCommentContent-${commentId}`).innerText=json.content;
+  } else {
+    showMessage("An error has occurred. It was not possible to change your comment");
+    cancelCommentEdit(commentId);
+  }
+}
+
+async function addToCollection(sourceId) {
+  let response = await fetch(`/add-to-collection/${sourceId}`);
+  if (response.ok) {
+    let json = await response.json();
+    if (json.message == "Element successfully added to My Collection.") {
+      document.getElementById(`bookmarkIcon-${sourceId}`).style.color="blue";
+    } else if (json.message == "Element successfully removed from My Collection.") {
+      document.getElementById(`bookmarkIcon-${sourceId}`).style.color="#395462";
+    } else {
+      showMessage(json.message);
+    }
+  } else {
+    showMessage("An error occurred. It was not possible to add this element to your collection.");
+  }
 }
