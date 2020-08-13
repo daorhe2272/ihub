@@ -13,8 +13,9 @@ html
       #header_logo
         a(href='/') E-Hub
       #header_menu
-        .menu_item
-          a(href='/') Share
+        if userId
+          .menu_item
+            a(href='/') Share
         //- Uncomment when functionality added
           .menu_item
             a(href='') Discuss
@@ -24,21 +25,24 @@ html
             a(href='') Events
           .menu_item
             a(href='') Suggestions
-        .menu_item
-          a(href='') About
         if !userId
+          .menu_item
+            a(href='') About
           .menu_item#logIn
             button Log in
             .dropdownContent
               button(onclick="openSignin()") Log in
               button(onclick="openRegister()") Register
         if userId
+          .menu_item
+            button
+              i.fas.fa-bell
           .menu_item#myAccount(name=`${userId}`)
             button
               i.fas.fa-user
             .dropdownContent
               button(onclick=`location.href="/user/${userId}";`) My Profile
-              button(onclick=`location.href="/user-collection/${userId}";`) My Collection
+              button(onclick=`location.href="/user-collection";`) My Collection
               button(onclick="location.href='/logout';") Log out
   #signinMenuWrapper
       #messageAlert

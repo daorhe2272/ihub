@@ -97,6 +97,10 @@ const sharesSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User"
   },
+  collections: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User"
+  },
   timeRank: {
     type: Number,
     'default': Date.now(),

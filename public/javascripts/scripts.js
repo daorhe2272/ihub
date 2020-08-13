@@ -213,6 +213,7 @@ function postSharedContent() {
   postShare(path, params, method);
 }
 
+// Extremely unsafe!!!! Fix immidiately!!!!!!
 async function deletePost(postId) {
   if (confirm("Delete post?") === true) {
     location.href = `/delete-share/${postId}`;
@@ -521,10 +522,27 @@ async function addToCollection(sourceId) {
   let response = await fetch(`/add-to-collection/${sourceId}`);
   if (response.ok) {
     let json = await response.json();
+    console.log(json.message);
     if (json.message == "Element successfully added to My Collection.") {
       document.getElementById(`bookmarkIcon-${sourceId}`).style.color="blue";
     } else if (json.message == "Element successfully removed from My Collection.") {
       document.getElementById(`bookmarkIcon-${sourceId}`).style.color="#395462";
+    } else {
+      showMessage(json.message);
+    }
+  } else {
+    showMessage("An error occurred. It was not possible to add this element to your collection.");
+  }
+}
+
+async function removeFromCollection(sourceId) {
+  let response = await fetch(`/add-to-collection/${sourceId}`);
+  if (response.ok) {
+    let json = await response.json();
+    if (json.message == "Element successfully added to My Collection.") {
+      
+    } else if (json.message == "Element successfully removed from My Collection.") {
+      window.location = "/user-collection";
     } else {
       showMessage(json.message);
     }

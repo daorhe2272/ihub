@@ -27,7 +27,24 @@ const myProfile = (req, res) => {
 }
 
 const myCollection = (req, res) => {
-  res.render("myCollection");
+  const path = "/api/user-collection";
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: "GET",
+    headers: {cookie: req.headers.cookie},
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (headers.statusCode === 200) {
+      res.render("myCollection", {collectionList: body, title: "My Collection | E-Hub"});
+    } else {
+      if (body.message) {
+        return res.render("error", {message: body.message});
+      } else {
+        return res.render('error', {message: "Ups, an error has occurred."});
+      }
+    }
+  });
 }
 
 module.exports = {

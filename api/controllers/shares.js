@@ -406,22 +406,49 @@ const addToCollection = (req, res) => {
       if (err) {
         return res.status(400).json({"message":"API error."});
       } else if (userInfo) {
-        let index = userInfo.userActivity.collections.indexOf(req.params.sourceId);
-        if (index === -1) {
-          userInfo.userActivity.collections.push(req.params.sourceId);
+        let collectionsSearch;
+        let collections = userInfo.userActivity.collections;
+        for (let i = 0; i < collections.length; i++) {
+          if (collections[i].sourceId == req.params.sourceId) {
+            collectionsSearch = collections[i];
+            break;
+          }
+        }
+        if (collectionsSearch == undefined) {
+          collections.push({sourceId: req.params.sourceId, addedOn: Date.now()});
           userInfo.save((err) => {
             if (err) {return res.status(400).json({"message":"API error"});}
             else {
-              // Add userId to shareInfo.collections
+              Share.findById(req.params.sourceId).exec((err, shareInfo) => {
+                if (shareInfo) {
+                  let index2 = shareInfo.collections.indexOf(req.params.userId);
+                  if (index2 === -1) {
+                    shareInfo.collections.push(req.params.userId);
+                    shareInfo.save((err) => {
+                      if (err) {/* Log error */}
+                    });
+                  }
+                }
+              });
               res.status(200).json({message:"Element successfully added to My Collection."});
             }
           });
-        } else if (index > -1) {
-          userInfo.userActivity.collections.splice(index, 1);
+        } else {
+          collections.pull(collectionsSearch);
           userInfo.save((err) => {
             if (err) {return res.status(400).json({"message":"API error"});}
             else {
-              // Remove userId from shareInfo.collections
+              Share.findById(req.params.sourceId).exec((err, shareInfo) => {
+                if (shareInfo) {
+                  let index2 = shareInfo.collections.indexOf(req.params.userId);
+                  if (index2 > -1) {
+                    shareInfo.collections.splice(index2, 1);
+                    shareInfo.save((err) => {
+                      if (err) {/* Log error */}
+                    });
+                  }
+                }
+              });
               res.status(200).json({message:"Element successfully removed from My Collection."});
             }
           });

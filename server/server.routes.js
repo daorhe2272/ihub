@@ -26,7 +26,7 @@ router.post('/change-password/:verHash', ctrlAuth.changePassword);
 
 // Users
 router.get('/user/:userId', getId, ctrlUsers.myProfile);
-router.get('/user-collection/:userId', getId, ctrlUsers.myCollection);
+router.get('/user-collection', getId, ctrlUsers.myCollection);
 
 // Shares
 router.get('/', getId, ctrlShares.sharesList);

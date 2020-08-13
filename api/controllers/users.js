@@ -10,6 +10,26 @@ const myProfile = (req, res) => {
   });
 };
 
+const myCollection = (req, res) => {
+  if (req.params.userId) {
+    User.findById(req.params.userId).populate({path: "userActivity.collections.sourceId", model: "Share"}).exec((err, userInfo) => {
+      if (err) {return res.status(400).json({message: "API error"});}
+      else if (userInfo) {
+        let results = userInfo.userActivity.collections;
+        results.sort(function (a, b) {
+          return b.addedOn - a.addedOn;
+        });
+        res.status(200).json(userInfo.userActivity.collections);
+      } else {
+        return res.status(400).json({message: "API error"});
+      }
+    });
+  } else {
+    res.status(400).json({message: "API error"});
+  }
+}
+
 module.exports = {
-  myProfile
+  myProfile,
+  myCollection
 };

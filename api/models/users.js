@@ -4,6 +4,17 @@ const jwt = require('jsonwebtoken');
 
 require('./shares');
 
+const myCollectionSchema = new mongoose.Schema({
+  sourceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Share"
+  },
+  addedOn: {
+    type: Number,
+    min: 0
+  }
+}, {_id: false});
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -69,10 +80,7 @@ const userSchema = new mongoose.Schema({
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Share"
     },
-    collections: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Share"
-    },
+    collections: [myCollectionSchema],
     commentLikes: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "CommentInShare"

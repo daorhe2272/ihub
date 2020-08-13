@@ -18,6 +18,7 @@ const register = (req, res) => {
       });
     }
     if (!JSON.parse(body).message) {
+      console.log(body);
       return res.render('error', {
         message: "Ups, something went wrong. Let us know and we'll be working to solve it as soon as possible."
       });
