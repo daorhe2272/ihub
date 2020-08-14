@@ -53,19 +53,19 @@ const userSchema = new mongoose.Schema({
   },
   userDescription: {
     type: String,
-    'default': ""
+    'default': "Add a brief description of yourself"
   },
   userCompany: {
     type: String,
-    'default': ""
+    'default': "Add your company's name"
   },
   userWebsite: {
     type: String,
-    "default": ""
+    "default": "Add your company's website"
   },
   userLinkedIn: {
     type: String,
-    "default": ""
+    "default": "Add your LinkedIn profile"
   },
   userActivity: {
     likes: {

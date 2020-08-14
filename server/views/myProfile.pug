@@ -11,7 +11,8 @@ block content
           if userId === visitorId
             .profileDescriptionContainer
               b#profileDescription About me
-              #profileDescriptionContents Add a brief description of yourself
+              #profileDescriptionContents(onclick=`editProfileDescription("${userId}")`) #{userDescription}
+              .updateButtons#aboutMeUpdateButtons
           if userId !== visitorId
             .profileDescriptionContainer
               b#profileDescription About #{userName}:

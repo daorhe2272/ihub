@@ -46,6 +46,7 @@ router.delete('/delete-comment/:commentId-:postId', getId, ctrlShares.deleteComm
 // Users
 router.get('/user/:userId', ctrlUsers.myProfile);
 router.get('/user-collection', getId, ctrlUsers.myCollection);
+router.post('/update-user-description', getId, ctrlUsers.editUserDescription);
   
 // Authentication
 router.post('/login', ctrlAuth.login);

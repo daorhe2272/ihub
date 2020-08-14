@@ -485,7 +485,7 @@ function showCommentEdit(commentId) {
   document.getElementById(`listedCommentContent-${commentId}`).setAttribute("contentEditable", "true");
   document.getElementById(`updateButtons-${commentId}`).innerHTML=
     `<button class="submitbtn" onclick="submitCommentEdit('${commentId}')"><b>Update</b></button>
-    <button class="darkclosebtn" onclick="cancelCommentEdit('${commentId}')"><b>Cancel</b></button>`
+    <button class="darkclosebtn" onclick="cancelCommentEdit('${commentId}')"><b>Cancel</b></button>`;
   setCaretAtEnd(document.getElementById(`listedCommentContent-${commentId}`));
 }
 
@@ -549,4 +549,37 @@ async function removeFromCollection(sourceId) {
   } else {
     showMessage("An error occurred. It was not possible to add this element to your collection.");
   }
+}
+
+function editProfileDescription(userId) {
+  let element = document.getElementById("profileDescriptionContents");
+  window.originalAboutMeString = element.innerText;
+  element.setAttribute("contentEditable", "true");
+  if (element.innerText === "Add a brief description of yourself") {
+    element.innerHTML="";
+  }
+  setCaretAtEnd(element);
+  document.getElementById("aboutMeUpdateButtons").innerHTML=
+    `<button class="submitbtn" onclick="submitAboutMeChanges('${userId}')"><b>Update</b></button>
+    <button class="darkclosebtn" onclick="cancelAboutMeChanges()"><b>Cancel</b></button>`;
+}
+
+async function submitAboutMeChanges(userId) {
+  let data = {userDescription: document.getElementById("profileDescriptionContents").innerText, userId: userId};
+  let response = await fetch("/update-user-description", {method: "POST", body: JSON.stringify(data),headers: {"Content-Type":"application/json"}});
+  if (response.ok) {
+    let json = await response.json();
+    document.getElementById("profileDescriptionContents").setAttribute("contentEditable", "false");
+    document.getElementById("aboutMeUpdateButtons").innerHTML="";
+    document.getElementById("profileDescriptionContents").innerText=json.userDescription;
+  } else {
+    showMessage("An error occurred. It was not possible to update your profile description.");
+    cancelAboutMeChanges();
+  }
+}
+
+function cancelAboutMeChanges() {
+  document.getElementById("profileDescriptionContents").setAttribute("contentEditable", "false");
+  document.getElementById("profileDescriptionContents").innerText=window.originalAboutMeString;
+  document.getElementById("aboutMeUpdateButtons").innerHTML="";
 }

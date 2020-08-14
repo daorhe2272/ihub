@@ -29,7 +29,33 @@ const myCollection = (req, res) => {
   }
 }
 
+const editUserDescription = (req, res) => {
+  if (req.params.userId && req.body.userDescription && req.body.userId) {
+    if (req.params.userId === req.body.userId) {
+      User.findById(req.params.userId).exec((err, userInfo) => {
+        if (err) {return res.status(400).json({message:"API error"});}
+        else if (userInfo) {
+          userInfo.userDescription = req.body.userDescription;
+          userInfo.save((err) => {
+            if (err) {return res.status(400).json({message:"API error"});}
+            else {
+              res.status(200).json({userDescription: userInfo.userDescription});
+            }
+          });
+        } else {
+          return res.status(400).json({message:"API error"});
+        }
+      });
+    } else {
+      res.status(400).json({message:"API error"});
+    }
+  } else {
+    res.status(400).json({message: "API error"});
+  }
+}
+
 module.exports = {
   myProfile,
-  myCollection
+  myCollection,
+  editUserDescription
 };

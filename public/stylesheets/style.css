@@ -797,6 +797,25 @@ button {
   cursor: pointer;
   background-color: #e6e6eb;
 }
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .updateButtons {
+  display: flex;
+  max-width: 280px;
+  margin: 0 0 8px 18px;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .updateButtons button {
+  border-radius: 5px;
+  min-width: 100px;
+  font-size: 1.1rem;
+  align-items: flex-start;
+  text-align: center;
+  margin: 5px 0 5px 10px;
+  padding: 0;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .updateButtons .darkclosebtn {
+  background-color: white;
+  color: #395462;
+  border: 2px solid #395462;
+}
 .profileWrapper .profileInfo {
   flex-basis: 65%;
   background-color: white;
