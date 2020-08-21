@@ -24,23 +24,41 @@ block content
             .extraContainer
               b Company name
               if userId === visitorId
-                span Add your company's name
+                if userCompany == ""
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") Add your company's name
+                if userCompany != ""
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") #{userCompany}
               if userId !== visitorId
-                span Information not available
+                if userCompany == ""
+                  span Information not available
+                if userCompany != ""
+                  span #{userCompany}
           li.Website
             .extraContainer
               b Website
               if userId === visitorId
-                span Add your company's website
+                if userWebsite == ""
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") Add your company's website
+                if userWebsite != ""
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") #{userWebsite}
               if userId !== visitorId
-                span Information not available
+                if userWebsite == ""
+                  span Information not available
+                if userWebsite != ""
+                  span #{userWebsite}
           li.LinkedIn
             .extraContainer
-              b LinkedIn Profile
+              b External Profile
               if userId === visitorId
-                span Add your LinkedIn profile
+                if userLinkedIn == ""
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") Add an external profile (e.g. LinkedIn)
+                if userLinkedIn != ""
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") #{userLinkedIn}
               if userId !== visitorId
-                span Information not available
+                if userLinkedIn == ""
+                  span Information not available
+                if userLinkedIn != ""
+                  span #{userLinkedIn}
           li.profileLikes
             .extraContainer
               b Likes received
@@ -49,10 +67,12 @@ block content
             .extraContainer
               b Comments received
               span 0 comments received
-          li.profileShares
-            .extraContainer
-              b Posts shared
-              span 0 posts shared
+        if userId === visitorId
+          .updateButtons#profileInfoUpdateButtons
+            button(class="submitbtn" onclick="submitProfileInfoChanges()")
+              b Update changes
+            button(class="darkclosebtn" onclick="cancelProfileInfoChanges()")
+              b Cancel
       if userId === visitorId
         .profileSettings
           b.profileSettingsTitle Profile Settings

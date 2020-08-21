@@ -19,7 +19,10 @@ const myProfile = (req, res) => {
        visitorId: body._id,
        userName: body.firstName,
        userEmail: body.email,
-       userDescription: body.userDescription
+       userDescription: body.userDescription,
+       userCompany: body.userCompany,
+       userWebsite: body.userWebsite,
+       userLinkedIn: body.userLinkedIn
       });
     } else {
       res.render("myProfile", {userName: "Error!!!"});
@@ -48,8 +51,30 @@ const myCollection = (req, res) => {
   });
 }
 
-editUserDescription = (req, res) => {
+const editUserDescription = (req, res) => {
   const path = "/api/update-user-description";
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: "POST",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  }
+  request(requestOptions, (err, headers, body) => {
+    if (headers.statusCode === 200) {
+      return res.status(200).json(body);
+    } else {
+      if (body.message) {
+        return res.status(headers.statusCode).json({message: body.message});
+      } else {
+        return res.status(headers.statusCode).json({message: "Ups, an error has occurred."});
+      }
+    }
+  });
+}
+
+const editProfileInfo = (req, res) => {
+  const path = "/api/update-profile-contents";
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: "POST",
@@ -73,5 +98,6 @@ editUserDescription = (req, res) => {
 module.exports = {
   myProfile,
   myCollection,
-  editUserDescription
+  editUserDescription,
+  editProfileInfo
 }

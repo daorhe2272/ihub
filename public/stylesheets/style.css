@@ -39,6 +39,7 @@
   display: flex;
   flex-wrap: wrap;
   min-width: 400px;
+  border-radius: 5px;
 }
 header {
   background-color: #2d313a;
@@ -756,6 +757,7 @@ button {
   flex-wrap: wrap;
   flex-basis: 100%;
   margin-top: 15px;
+  border-radius: 5px;
 }
 .profileWrapper .profileHeader .profileUserHeader .profileUserIntro {
   display: flex;
@@ -824,6 +826,8 @@ button {
   display: flex;
   flex-wrap: wrap;
   min-width: 400px;
+  border-radius: 5px;
+  padding: 0 0 10px 0;
 }
 .profileWrapper .profileInfo .profileInfoTitle {
   color: #395462;
@@ -834,7 +838,7 @@ button {
 }
 .profileWrapper .profileInfo .profileInfoContents {
   width: 100%;
-  margin-right: 40px;
+  margin: 0 40px 0 0;
 }
 .profileWrapper .profileInfo .profileInfoContents li {
   list-style: none;
@@ -854,10 +858,32 @@ button {
 }
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer span {
   margin-left: 15px;
+  width: 100%;
 }
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer:hover {
   background-color: #e6e6eb;
   cursor: pointer;
+}
+.profileWrapper .profileInfo .updateButtons {
+  width: 100%;
+  justify-content: center;
+  padding: 5px 5px 2px 5px;
+  margin: 0 20px 0 0;
+  display: none;
+}
+.profileWrapper .profileInfo .updateButtons button {
+  border-radius: 5px;
+  font-size: 1.1rem;
+  align-items: flex-start;
+  text-align: center;
+  margin: 0 0 5px 10px;
+  padding: 2px 0 2px 0;
+  width: 160px;
+}
+.profileWrapper .profileInfo .updateButtons .darkclosebtn {
+  background-color: white;
+  color: #395462;
+  border: 2px solid #395462;
 }
 .profileWrapper .profileSettings {
   flex-basis: 65%;
@@ -867,6 +893,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   min-width: 400px;
+  border-radius: 5px;
 }
 .profileWrapper .profileSettings .profileSettingsTitle {
   color: #395462;
@@ -910,6 +937,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   min-width: 400px;
+  border-radius: 5px;
   margin-bottom: 8px;
 }
 .profileWrapper .profileContent2 .activityTitle {

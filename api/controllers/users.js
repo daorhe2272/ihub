@@ -54,8 +54,32 @@ const editUserDescription = (req, res) => {
   }
 }
 
+const editProfileInfo = (req, res) => {
+  if (req.params.userId && req.body.userCompany && req.body.userWebsite && req.body.userLinkedIn) {
+    User.findById(req.params.userId).exec((err, userInfo) => {
+      if (err) {return res.status(400).json({message:"API error"});}
+      else if (userInfo) {
+        userInfo.userCompany = req.body.userCompany;
+        userInfo.userWebsite = req.body.userWebsite;
+        userInfo.userLinkedIn = req.body.userLinkedIn;
+        userInfo.save((err) => {
+          if (err) {res.status(400).json({message: "API error"});}
+          else {
+            res.status(200).json({userCompany: userInfo.userCompany, userWebsite: userInfo.userWebsite, userLinkedIn: userInfo.userLinkedIn});
+          }
+        });
+      } else {
+        res.status(400).json({message: "API error"});
+      }
+    });
+  } else {
+    res.status(400).json({message: "API error"});
+  }
+}
+
 module.exports = {
   myProfile,
   myCollection,
-  editUserDescription
+  editUserDescription,
+  editProfileInfo
 };

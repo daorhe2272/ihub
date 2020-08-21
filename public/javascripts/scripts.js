@@ -553,15 +553,17 @@ async function removeFromCollection(sourceId) {
 
 function editProfileDescription(userId) {
   let element = document.getElementById("profileDescriptionContents");
-  window.originalAboutMeString = element.innerText;
-  element.setAttribute("contentEditable", "true");
-  if (element.innerText === "Add a brief description of yourself") {
-    element.innerHTML="";
+  if (element.getAttribute("contentEditable") === "false" || element.getAttribute("contentEditable") === null) {
+    window.originalAboutMeString = element.innerText;
+    element.setAttribute("contentEditable", "true");
+    if (element.innerText === "Add a brief description of yourself") {
+      element.innerHTML="";
+    }
+    setCaretAtEnd(element);
+    document.getElementById("aboutMeUpdateButtons").innerHTML=
+      `<button class="submitbtn" onclick="submitAboutMeChanges('${userId}')"><b>Update</b></button>
+      <button class="darkclosebtn" onclick="cancelAboutMeChanges()"><b>Cancel</b></button>`;
   }
-  setCaretAtEnd(element);
-  document.getElementById("aboutMeUpdateButtons").innerHTML=
-    `<button class="submitbtn" onclick="submitAboutMeChanges('${userId}')"><b>Update</b></button>
-    <button class="darkclosebtn" onclick="cancelAboutMeChanges()"><b>Cancel</b></button>`;
 }
 
 async function submitAboutMeChanges(userId) {
@@ -582,4 +584,66 @@ function cancelAboutMeChanges() {
   document.getElementById("profileDescriptionContents").setAttribute("contentEditable", "false");
   document.getElementById("profileDescriptionContents").innerText=window.originalAboutMeString;
   document.getElementById("aboutMeUpdateButtons").innerHTML="";
+}
+
+function editGeneralProfileInfo(id) {
+  document.getElementById("profileInfoUpdateButtons").style.display="flex";
+  let element = document.getElementById(id);
+  if (element.getAttribute("contentEditable") === "false" || element.getAttribute("contentEditable") === null) {
+    element.style.cursor="text";
+    element.setAttribute("contentEditable", "true");
+    setCaretAtEnd(element);
+    if (id === "companyName") {
+      window.originalCompanyNameString = element.innerText;
+    } else if (id === "companyWebsite") {
+      window.originalCompanyWebsiteString = element.innerText;
+    } else if (id === "externalProfile") {
+      window.originalExternalProfileString = element.innerText;
+    }
+  }
+}
+
+function cancelProfileInfoChanges() {
+  function element(id) {return document.getElementById(id);}
+  element("profileInfoUpdateButtons").style.display="none";
+  if (window.originalCompanyNameString) {
+    element("companyName").innerText = window.originalCompanyNameString;
+  }
+  if (window.originalCompanyWebsiteString) {
+    element("companyWebsite").innerText = window.originalCompanyWebsiteString;
+  }
+  if (window.originalExternalProfileString) {
+    element("externalProfile").innerText = window.originalExternalProfileString;
+  }
+  element("companyName").setAttribute("contentEditable", "false");
+  element("companyName").style.cursor="pointer";
+  element("companyWebsite").setAttribute("contentEditable", "false");
+  element("companyWebsite").style.cursor="pointer";
+  element("externalProfile").setAttribute("contentEditable", "false");
+  element("externalProfile").style.cursor="pointer";
+}
+
+async function submitProfileInfoChanges() {
+  function element(id) {return document.getElementById(id);}
+  let data = {userCompany: element("companyName").innerText, userWebsite: element("companyWebsite").innerText, userLinkedIn: element("externalProfile").innerText};
+  let response = await fetch("/update-profile-contents", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
+  if (response.ok) {
+    let json = await response.json();
+    element("companyName").setAttribute("contentEditable", "false");
+    element("companyName").innerText=json.userCompany;
+    element("companyName").style.cursor="pointer";
+    window.originalCompanyNameString = element("companyName").innerText;
+    element("companyWebsite").setAttribute("contentEditable", "false");
+    element("companyWebsite").innerText=json.userWebsite;
+    element("companyWebsite").style.cursor="pointer";
+    window.originalCompanyWebsiteString = element("companyWebsite").innerText;
+    element("externalProfile").setAttribute("contentEditable", "false");
+    element("externalProfile").innerText=json.userLinkedIn;
+    element("externalProfile").style.cursor="pointer";
+    window.originalExternalProfileString = element("externalProfile").innerText;
+    element("profileInfoUpdateButtons").style.display="none";
+  } else {
+    showMessage("An error occurred. It was not possible to update your profile information.");
+    cancelProfileInfoChanges();
+  }
 }

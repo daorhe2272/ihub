@@ -14,7 +14,7 @@
 
 .stdProfileTitle{color:@darkColor;font-size:1.6rem;flex-basis:100%;padding-left:15px;margin:5px;}
 
-.stdProfileContainer{flex-basis:65%;background-color:white;margin-top:10px;box-shadow:3px 3px 3px rgb(230, 230, 230);display:flex;flex-wrap:wrap;min-width:400px;}
+.stdProfileContainer{flex-basis:65%;background-color:white;margin-top:10px;box-shadow:3px 3px 3px rgb(230, 230, 230);display:flex;flex-wrap:wrap;min-width:400px;border-radius:5px;}
 
 // Basic Layout - General
 header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-index:1;font-size:1.2rem;box-shadow:0px 3px 3px rgb(160, 160, 170);}
@@ -215,7 +215,7 @@ body{margin-top:56px;background:rgb(250,250,250);}
 // My Profile
 .profileWrapper{display:flex;flex-direction:row;justify-content:center;flex-basis:100%;flex-wrap:wrap;
   .profileHeader{display:flex;flex-direction:row;justify-content:center;align-items:center;flex-basis:65%;min-width:400px;
-    .profileUserHeader{display:flex;flex-direction:row;background-color:white;box-shadow:3px 3px 3px rgb(230, 230, 230);flex-wrap:wrap;flex-basis:100%;margin-top:15px;
+    .profileUserHeader{display:flex;flex-direction:row;background-color:white;box-shadow:3px 3px 3px rgb(230, 230, 230);flex-wrap:wrap;flex-basis:100%;margin-top:15px;border-radius:5px;
       .profileUserIntro{display:flex;flex-direction:row;align-items:flex-end;width:100%;justify-content:center;
         .fa-user-circle{color:@darkColor;font-size:5rem;padding:5px;}
         #profileUser{font-size:1.8rem;color:@darkColor;padding:3px;margin-left:5px;}
@@ -231,16 +231,20 @@ body{margin-top:56px;background:rgb(250,250,250);}
       }
     }
   }
-  .profileInfo{.stdProfileContainer();
+  .profileInfo{.stdProfileContainer();padding:0 0 10px 0;
     .profileInfoTitle{.stdProfileTitle();}
-    .profileInfoContents{width:100%;margin-right:40px;
+    .profileInfoContents{width:100%;margin:0 40px 0 0;
       li{list-style:none;border-top:1px solid lightgrey;display:flex;align-items:center;
         .extraContainer{display:flex;margin:5px 0;width:100%;border-radius:5px;padding:3px;
           b{min-width:180px;}
-          span{margin-left:15px;}
+          span{margin-left:15px;width:100%;}
         }
         .extraContainer:hover{background-color:rgb(230, 230, 235);cursor:pointer;}
       }
+    }
+    .updateButtons{width:100%;justify-content:center;padding:5px 5px 2px 5px;margin:0 20px 0 0;display:none;
+      button{border-radius:5px;font-size:1.1rem;align-items:flex-start;text-align:center;margin:0 0 5px 10px;padding:2px 0 2px 0;width:160px;}
+      .darkclosebtn{background-color:white;color:#395462;border:2px solid #395462;}
     }
   }
   .profileSettings{.stdProfileContainer();
