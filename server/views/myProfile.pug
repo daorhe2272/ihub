@@ -2,6 +2,22 @@ extends layout
 
 block content
   .bodyWrapper
+    if userId === visitorId
+      #popupWrapper
+        form#deleteAccountForm(method="POST" action="/user-account-delete" name="deleteUserForm")
+          #warningContainer1
+            .warningText If you are absolutely sure you want to delete your account, please type in your password in the field below:
+            input(type="password" id="passwordForAccountDelete" placeholder="Password*" name="password" maxlength="30")
+          #warningContainer2
+            .warningText Please let us know why you want to delete your account:
+            textarea(id="reasonForAccountDelete" name="reasonForAccountDelete")
+          #warningContainer3
+            .warningText All of your data and activity will be removed and deleted. You will not be able to recover your data. To confirm, press the delete button.
+          .buttons
+            button.closebtn(type="button" onclick="cancelAccountDelete()") <b>Cancel</b>
+            button.darkclosebtn(type="button" onclick="continueAccountDelete1()" id="continueAccountDeleteButton1") <b>Continue</b>
+            button.darkclosebtn(type="button" onclick="continueAccountDelete2()" id="continueAccountDeleteButton2") <b>Continue</b>
+            button.darkclosebtn(type="button" id="deleteAccountButton" onclick="deleteUserAccount()") <b>Delete</b>
     .profileWrapper
       .profileHeader
         .profileUserHeader
@@ -96,7 +112,7 @@ block content
             li.profileDeleteAccount
               .extraContainer
                 b Delete Account
-                span(style="color:grey;") Delete your account and all of your personal data permanently
+                span(style="color:grey;" onclick="showDeleteAccountMenu()") Delete your account and all of your personal data permanently
       .profileContent2
         b.activityTitle My Activity
         .profileActivityContents

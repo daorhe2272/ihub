@@ -9,7 +9,13 @@ const sanitize = require('sanitize-html');
 const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
 const sharesDefaultList = (req, res) => {
-  Share.find().sort({"timeRank": -1}).populate({path: "comments", model: "CommentInShare"}).exec((err, results) =>  {
+  let skipping;
+  if (req.body.skipping) {
+    skipping = parseInt(req.body.skipping);
+  } else {
+    skipping = 0;
+  }
+  Share.find().sort({"timeRank": -1}).skip(skipping).limit(10).populate({path: "comments", model: "CommentInShare"}).exec((err, results) =>  {
     if (!results) {
       return res.status(404).json({"message" : "location not found"});
     } else if (err) {
@@ -110,47 +116,69 @@ const deletePost = (req, res) => {
 }
 
 const likePost = (req, res) => {
-  Share.findById(req.params.postId).exec((err, results) => {
-    let index = results.likes.indexOf(req.params.userId);
-    // If user in likes array, remove him
-    if (index > -1) {
-      results.likes.splice(index, 1);
-      results.save((err) => {
-        if (err) {return res.status(400).json({message:"API error"});}
-        else {
-          User.findById(req.params.userId).exec((err, results2) => {
-            let index2 = results2.userActivity.likes.indexOf(req.params.postId);
-            if (index2 > -1) {
-              results2.userActivity.likes.splice(index2, 1);
-              results2.save((err) => {
-                if (err) {return res.status(400).json({message:"API error"});}
-                else {return res.status(200).json({message:"Like removed"});}
-              });
-            }
-          });
+  Share.findById(req.params.postId).exec((err, shareInfo) => {
+    if (err) {return res.status(400).json({message: "API error"});}
+    else if (shareInfo) {
+      let likesSearch;
+      let likes = shareInfo.likes;
+      for (let i = 0; i < likes.length; i++) {
+        if (likes[i].sourceId == req.params.userId) {
+          likesSearch = likes[i];
+          break;
         }
-      });
-    }
-    // If user not in likes array, add him
-    else if (index === -1) {
-      results.likes.push(req.params.userId);
-      results.save((err) => {
-        if (err) {return res.status(400).json({message:"API error"});}
-        else {
-          User.findById(req.params.userId).exec((err, results2) => {
-            let index2 = results2.userActivity.likes.indexOf(req.params.postId);
-            if (index2 === -1) {
-              results2.userActivity.likes.push(req.params.postId);
-              results2.save((err) => {
-                if (err) {return res.status(400).json({message:"API error"});}
-                else {return res.status(200).json({message:"Like added"});}
-              });
-            }
-          });
-        }
-      });
-    }
-    else {return res.status(400).json({message:"Unexpected error."});}
+      }
+      // If user not in likes array, add him
+      if (likesSearch == undefined) {
+        likes.push({sourceId: req.params.userId, addedOn: Date.now()});
+        shareInfo.save((err) => {
+          if (err) {return res.status(400).json({message:"API error"});}
+          else {
+            User.findById(req.params.userId).exec((err, userInfo) => {
+              let userLikesSearch;
+              let userLikes = userInfo.userActivity.likes;
+              for (let i = 0; i < userLikes.length; i++) {
+                if (userLikes[i].sourceId == req.params.postId) {
+                  userLikesSearch = userLikes[i];
+                  break;
+                }
+              }
+              if (userLikesSearch == undefined) {
+                userLikes.push({sourceId: req.params.postId, addedOn: Date.now()});
+                userInfo.save((err) => {
+                  if (err) {return res.status(400).json({message:"API error"});}
+                  else {return res.status(200).json({message:"Like added"});}
+                });
+              }
+            });
+          }
+        });
+      // If user in likes array, remove him
+      } else {
+        likes.pull(likesSearch);
+        shareInfo.save((err) => {
+          if (err) {return res.status(400).json({"message":"API error"});}
+          else {
+            User.findById(req.params.userId).exec((err, userInfo) => {
+              let userLikesSearch;
+              let userLikes = userInfo.userActivity.likes;
+              for (let i = 0; i < userLikes.length; i++) {
+                if (userLikes[i].sourceId == req.params.postId) {
+                  userLikesSearch = userLikes[i];
+                  break;
+                }
+              }
+              if (userLikesSearch != undefined) {
+                userLikes.pull(userLikesSearch);
+                userInfo.save((err) => {
+                  if (err) {return res.status(400).json({message:"API error"});}
+                  else {return res.status(200).json({message:"Like removed"});}
+                });
+              }
+            });
+          }
+        });
+      }
+    } else {return res.status(400).json({message:"Unexpected error."});}
   });
 }
 

@@ -40,6 +40,27 @@ const renderShares = (req, res, responseBody) => {
 	});
 };
 
+const loadMorePosts = (req, res) => {
+  const path = "/api/load-more-posts";
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: "POST",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    else if (headers.statusCode === 200) {
+      res.render("./mixins/morePosts", {
+        sharesList: body
+      });
+    } else {
+      return res.status(400).json({message:"An error has occurred"});
+    }
+  });
+}
+
 const createPost = (req, res) => {
   const path = '/api';
   const requestOptions = {
@@ -204,6 +225,7 @@ const addToCollection = (req, res) => {
 
 module.exports = {
 	sharesList,
+	loadMorePosts,
 	createPost,
 	deletePost,
 	showPost,

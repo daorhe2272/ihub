@@ -85,10 +85,17 @@ const sharesSchema = new mongoose.Schema({
     type: String,
     'default':""
   },
-  likes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "User"
-  },
+  likes: [{
+    _id: false,
+    sourceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    addedOn: {
+      type: Number,
+      min: 0
+    }
+  }],
   comments: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "CommentInShare"

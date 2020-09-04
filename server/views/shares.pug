@@ -81,7 +81,7 @@ block content
                     .linkText
                       b.linkTitle(id=`linkTitle-${share._id}`) #{share.linkTitle}
                       .linkDescription(id=`linkDescription-${share._id}`) #{share.linkDescription}
-            - let likedOrNot; if (share.likes.indexOf(userId) > -1) {likedOrNot = "color:blue";} else {likedOrNot = "";}
+            - let likedOrNot; for (let i = 0; i < share.likes.length; i++) {if (share.likes.indexOf(userId) > -1) {break} likedOrNot = "color:blue";}
             - let commentedOrNot; for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
             - let bookmarkedOrNot; if (share.collections.indexOf(userId) > -1) {bookmarkedOrNot = "color:blue";} else {bookmarkedOrNot = "";}
             .contentIcons
@@ -129,6 +129,6 @@ block content
       if sharesList.length > 9
         .loadMoreWrapper
           .loadMoreContainer
-            button
+            button(id="loadMoreButton" data-skip="10" onclick="loadMorePosts()")
               .loadMore <b>Load more posts</b>
     .rightSideBar

@@ -68,10 +68,17 @@ const userSchema = new mongoose.Schema({
     "default": "Add your LinkedIn profile"
   },
   userActivity: {
-    likes: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Share"
-    },
+    likes: [{
+      _id: false,
+      sourceId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Share"
+      },
+      addedOn: {
+        type: Number,
+        min: 0
+      }
+    }],
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "CommentInShare"

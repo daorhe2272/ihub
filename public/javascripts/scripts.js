@@ -647,3 +647,73 @@ async function submitProfileInfoChanges() {
     cancelProfileInfoChanges();
   }
 }
+
+async function loadMorePosts() {
+  let data = {skipping: document.getElementById("loadMoreButton").getAttribute("data-skip")}
+  let response = await fetch("/load-more-posts", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
+  if (response.ok) {
+    let body = await response.text();
+    if (body.length > 10) {
+      let element = document.getElementsByClassName("mainContent")[0];
+      let targetElement = element.childNodes[element.childNodes.length - 2];
+      targetElement.insertAdjacentHTML("afterend", body);
+      document.getElementById("loadMoreButton").setAttribute("data-skip", `${parseInt(data.skipping) + 10}`);
+    } else {
+      showMessage("Whoops, looks like you've seen it all. There are no more posts to show.");
+    }
+  } else {
+    showMessage("An error occurred. Please try again later.");
+  }
+}
+
+function showDeleteAccountMenu() {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("deleteAccountForm").style.display="flex";
+}
+
+function cancelAccountDelete() {
+  function element(id) {return document.getElementById(id);}
+  element("popupWrapper").style.display="none";
+  element("deleteAccountForm").style.display="none";
+  element("warningContainer1").style.display="flex";
+  element("warningContainer2").style.display="none";
+  element("warningContainer3").style.display="none";
+  element("continueAccountDeleteButton2").style.display="none";
+  element("deleteAccountButton").style.display="none";
+  element("continueAccountDeleteButton1").style.display="inline-block";
+}
+
+function continueAccountDelete1() {
+  if (document.getElementById("passwordForAccountDelete").value) {
+    document.getElementById("warningContainer1").style.display="none";
+    document.getElementById("warningContainer2").style.display="flex";
+    document.getElementById("continueAccountDeleteButton1").style.display="none";
+    document.getElementById("continueAccountDeleteButton2").style.display="inline-block";
+  } else {
+    alert("Please type in your password");
+  }
+}
+
+function continueAccountDelete2() {
+  function element(id) {return document.getElementById(id);}
+  if (!element("reasonForAccountDelete").value) {
+    alert("Please let us know why you want to delete your account");
+  } else if (element("reasonForAccountDelete").value.length < 11) {
+    alert("Your answer is too short. Please let us know more about why you want to delete your account.");
+  } else {
+    element("warningContainer2").style.display="none";
+    element("warningContainer3").style.display="flex";
+    element("continueAccountDeleteButton2").style.display="none";
+    element("deleteAccountButton").style.display="inline-block";
+  }
+}
+
+function deleteUserAccount() {
+  function element(id) {return document.getElementById(id);}
+  if (element("reasonForAccountDelete").value && element("passwordForAccountDelete").value) {
+    document.deleteUserForm.submit();
+  } else {
+    cancelAccountDelete();
+    showMessage("Password or user feedback not submitted. Please try again.");
+  }
+}

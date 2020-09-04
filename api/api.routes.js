@@ -30,6 +30,7 @@ const getId = (req, res, next) => {
 
 // Shares
 router.get('/', ctrlShares.sharesDefaultList);
+router.post("/load-more-posts", ctrlShares.sharesDefaultList);
 router.get('/like-share/:postId', getId, ctrlShares.likePost);
 router.get('/get-post/:postId', ctrlShares.getPost);
 router.get('/like-share-comment/:commentId', getId, ctrlShares.likeComment);
@@ -48,6 +49,7 @@ router.get('/user/:userId', ctrlUsers.myProfile);
 router.get('/user-collection', getId, ctrlUsers.myCollection);
 router.post('/update-user-description', getId, ctrlUsers.editUserDescription);
 router.post('/update-profile-contents', getId, ctrlUsers.editProfileInfo);
+router.delete('/user-account-delete', getId, ctrlUsers.deleteUserAccount);
   
 // Authentication
 router.post('/login', ctrlAuth.login);

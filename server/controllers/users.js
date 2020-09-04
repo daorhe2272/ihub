@@ -45,7 +45,7 @@ const myCollection = (req, res) => {
       if (body.message) {
         return res.render("error", {message: body.message});
       } else {
-        return res.render('error', {message: "Ups, an error has occurred."});
+        return res.render('error', {message: "Whoops, an error has occurred."});
       }
     }
   });
@@ -67,7 +67,7 @@ const editUserDescription = (req, res) => {
       if (body.message) {
         return res.status(headers.statusCode).json({message: body.message});
       } else {
-        return res.status(headers.statusCode).json({message: "Ups, an error has occurred."});
+        return res.status(headers.statusCode).json({message: "Whoops, an error has occurred."});
       }
     }
   });
@@ -89,8 +89,33 @@ const editProfileInfo = (req, res) => {
       if (body.message) {
         return res.status(headers.statusCode).json({message: body.message});
       } else {
-        return res.status(headers.statusCode).json({message: "Ups, an error has occurred."});
+        return res.status(headers.statusCode).json({message: "Whoops, an error has occurred."});
       }
+    }
+  });
+}
+
+const deleteUserAccount = (req, res) => {
+  const path = "/api/user-account-delete";
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: "DELETE",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  }
+  request(requestOptions, (err, headers, body) => {
+    if (headers.statusCode === 200) {
+      //res.clearCookie("token");
+      res.render("error", {
+        message: "It's sad to see you leave. If you ever feel like coming back, we'll be here working every day to make things better.",
+        trigger: "true",
+        //userId: ""
+      });
+    } else {
+      res.render("error", {
+        message: "Whoops, an error occurred. Please try again later."
+      });
     }
   });
 }
@@ -99,5 +124,6 @@ module.exports = {
   myProfile,
   myCollection,
   editUserDescription,
-  editProfileInfo
+  editProfileInfo,
+  deleteUserAccount
 }

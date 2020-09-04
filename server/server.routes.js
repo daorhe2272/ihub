@@ -29,9 +29,11 @@ router.get('/user/:userId', getId, ctrlUsers.myProfile);
 router.get('/user-collection', getId, ctrlUsers.myCollection);
 router.post('/update-user-description', ctrlUsers.editUserDescription);
 router.post('/update-profile-contents', ctrlUsers.editProfileInfo);
+router.post('/user-account-delete', getId, ctrlUsers.deleteUserAccount);
 
 // Shares
 router.get('/', getId, ctrlShares.sharesList);
+router.post("/load-more-posts", getId, ctrlShares.loadMorePosts);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
 router.get('/add-to-collection/:sourceId', ctrlShares.addToCollection);

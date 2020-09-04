@@ -2,6 +2,22 @@ const mongoose = require('mongoose');
 const Share = mongoose.model('Share');
 const User = mongoose.model('User');
 
+const _checkPassword = (req, res) => {
+  User.findById(req.params.userId).exec((err, userInfo) => {
+    if (err) {return false;}
+    else if (userInfo) {
+      console.log(userInfo.validPassword(req.body.password));
+      if (!userInfo.validPassword(req.body.password)) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  });
+}
+
 const myProfile = (req, res) => {
   User.findById(req.params.userId).select("-hash -salt -verHash").exec((err, results) => {
     if (err) {return res.status(404).json(err);}
@@ -77,9 +93,25 @@ const editProfileInfo = (req, res) => {
   }
 }
 
+const deleteUserAccount = async (req, res) => {
+  if (req.params.userId && req.body.password && req.body.reasonForAccountDelete) {
+    let checkForPassword = await _checkPassword(req, res);
+    if (checkForPassword === false) {
+      console.log("Incorrect password");
+      res.status(200).json({});
+    } else {
+      console.log("Account deleted");
+      res.status(200).json({});
+    }
+  } else {
+    res.status(400).json({message: "API error"});
+  }
+}
+
 module.exports = {
   myProfile,
   myCollection,
   editUserDescription,
-  editProfileInfo
+  editProfileInfo,
+  deleteUserAccount
 };

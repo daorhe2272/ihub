@@ -734,6 +734,97 @@ button {
 .errorWrapper .errorContainer .errorDiv2 {
   padding-left: 12%;
 }
+#popupWrapper #deleteAccountForm {
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px 20px 20px 20px;
+  border-radius: 5px;
+  color: black;
+  width: 380px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  align-content: space-between;
+  flex-wrap: wrap;
+  z-index: 10;
+  display: none;
+}
+#popupWrapper #deleteAccountForm #warningContainer1 {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#popupWrapper #deleteAccountForm #warningContainer1 .warningText {
+  text-align: center;
+}
+#popupWrapper #deleteAccountForm #warningContainer1 input {
+  margin: 15px 0 15px 0;
+  width: 85%;
+  padding-left: 5px;
+}
+#popupWrapper #deleteAccountForm #warningContainer2 {
+  width: 100%;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+#popupWrapper #deleteAccountForm #warningContainer2 .warningText {
+  text-align: center;
+}
+#popupWrapper #deleteAccountForm #warningContainer2 textarea {
+  min-height: 150px;
+  margin: 10px 0 10px 0;
+  width: 90%;
+  border-radius: 5px;
+}
+#popupWrapper #deleteAccountForm #warningContainer3 {
+  width: 100%;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 0 10px 0;
+}
+#popupWrapper #deleteAccountForm #warningContainer3 .warningText {
+  text-align: center;
+}
+#popupWrapper #deleteAccountForm #warningContainer3 textarea {
+  min-height: 150px;
+  margin: 10px 0 10px 0;
+  width: 90%;
+  border-radius: 5px;
+}
+#popupWrapper #deleteAccountForm #warningContainer3 .warningText {
+  text-align: center;
+}
+#popupWrapper #deleteAccountForm .buttons {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 0;
+}
+#popupWrapper #deleteAccountForm .buttons button {
+  width: 150px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 3px 0 3px 5px;
+  padding: 0;
+  font-size: 1.1rem;
+  height: 30px;
+}
+#popupWrapper #deleteAccountForm .buttons .darkclosebtn {
+  background-color: white;
+  color: #395462;
+  border: 2px solid #395462;
+}
+#popupWrapper #deleteAccountForm .buttons #deleteAccountButton {
+  display: none;
+}
+#popupWrapper #deleteAccountForm .buttons #continueAccountDeleteButton2 {
+  display: none;
+}
 .profileWrapper {
   display: flex;
   flex-direction: row;
@@ -852,6 +943,7 @@ button {
   width: 100%;
   border-radius: 5px;
   padding: 3px;
+  flex-wrap: wrap;
 }
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer b {
   min-width: 180px;
@@ -859,6 +951,7 @@ button {
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer span {
   margin-left: 15px;
   width: 100%;
+  overflow: hidden;
 }
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer:hover {
   background-color: #e6e6eb;
@@ -924,6 +1017,7 @@ button {
 }
 .profileWrapper .profileSettings .profileSettingsContents li .extraContainer span {
   margin-left: 15px;
+  overflow: hidden;
 }
 .profileWrapper .profileSettings .profileSettingsContents li .extraContainer:hover {
   background-color: #e6e6eb;
