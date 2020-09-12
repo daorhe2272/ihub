@@ -53,8 +53,13 @@ const login = (req, res) => {
         } else {
           message = {"message": "Incorrect usename or password. Please try again."};
         }
-        result.save((err) => {if (err) {return message = err;}});
-        return res.status(401).json(message);
+        result.save((err) => {
+          if (err) {
+            return res.status(400).json({message: "API error"});
+          } else {
+            return res.status(401).json(message); 
+          }
+        });
       }
       // Successful log-in!
       result.failedLogins = 0;
@@ -132,7 +137,7 @@ const verifyAccount = (req, res) => {
 const sendResetEmail = (req, res) => {
   if (!req.body.email) {
     return res.status(400).json({
-      message: "No email received. Please go back to the log in menu and type in your email address before requesting a password reset."
+      message: "No email provided. Please go back to the log in menu and type in your email address before requesting a password reset."
     });
   }
   User.findOne({ email: req.body.email }).select("-salt -hash").exec((err, result) => {

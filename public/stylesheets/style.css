@@ -780,6 +780,9 @@ button {
   width: 90%;
   border-radius: 5px;
 }
+#popupWrapper #deleteAccountForm #warningContainer2 .charactersCounter {
+  margin: -10px 0 0 0;
+}
 #popupWrapper #deleteAccountForm #warningContainer3 {
   width: 100%;
   display: none;
@@ -796,6 +799,9 @@ button {
   margin: 10px 0 10px 0;
   width: 90%;
   border-radius: 5px;
+}
+#popupWrapper #deleteAccountForm #warningContainer3 .charactersCounter {
+  margin: -10px 0 0 0;
 }
 #popupWrapper #deleteAccountForm #warningContainer3 .warningText {
   text-align: center;
@@ -889,6 +895,9 @@ button {
 .profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer #profileDescriptionContents:hover {
   cursor: pointer;
   background-color: #e6e6eb;
+}
+.profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .charactersCounter {
+  margin: -10px 0 0 30px;
 }
 .profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .updateButtons {
   display: flex;

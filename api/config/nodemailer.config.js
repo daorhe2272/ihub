@@ -5,13 +5,14 @@ let apiServer = {server: 'http://localhost:3000'};
 // if (process.env.NODE_ENV === 'production') {apiServer.server = 'https://your-URL.com';}
 
 let transporter = nodemailer.createTransport({
-  host: "smtp.live.com",
-  port: "25",
-  secure: false,
+  host: "smtp-mail.outlook.com",
+  port: "587",
+  secureConnection: false,
   auth: {
     user: "daorhe2272@hotmail.com",
     pass: process.env.EMAIL_PWD
-  }
+  },
+  tls: {ciphers: "SSLv3"}
 });
 
 const sendVerEmail = (req, res, verHash) => {

@@ -53,19 +53,23 @@ const userSchema = new mongoose.Schema({
   },
   userDescription: {
     type: String,
-    'default': "Add a brief description of yourself"
+    'default': "",
+    maxlength: 300
   },
   userCompany: {
     type: String,
-    'default': "Add your company's name"
+    'default': "",
+    maxlength: 150
   },
   userWebsite: {
     type: String,
-    "default": "Add your company's website"
+    "default": "",
+    maxlength: 150
   },
   userLinkedIn: {
     type: String,
-    "default": "Add your LinkedIn profile"
+    "default": "",
+    maxlength: 150
   },
   userActivity: {
     likes: [{

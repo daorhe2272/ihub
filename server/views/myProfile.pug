@@ -4,13 +4,14 @@ block content
   .bodyWrapper
     if userId === visitorId
       #popupWrapper
-        form#deleteAccountForm(method="POST" action="/user-account-delete" name="deleteUserForm")
+        form#deleteAccountForm(method="POST" action="/user-account-delete" name="deleteUserForm" onkeydown="return event.key != 'Enter';")
           #warningContainer1
             .warningText If you are absolutely sure you want to delete your account, please type in your password in the field below:
             input(type="password" id="passwordForAccountDelete" placeholder="Password*" name="password" maxlength="30")
           #warningContainer2
             .warningText Please let us know why you want to delete your account:
-            textarea(id="reasonForAccountDelete" name="reasonForAccountDelete")
+            textarea(id="reasonForAccountDelete" name="reasonForAccountDelete" oninput="charactersCount('reasonForAccountDelete', 150)" maxlength="150")
+            .charactersCounter
           #warningContainer3
             .warningText All of your data and activity will be removed and deleted. You will not be able to recover your data. To confirm, press the delete button.
           .buttons
@@ -27,12 +28,19 @@ block content
           if userId === visitorId
             .profileDescriptionContainer
               b#profileDescription About me
-              #profileDescriptionContents(onclick=`editProfileDescription("${userId}")`) #{userDescription}
+              if userDescription != ""
+                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") #{userDescription}
+              if userDescription == ""
+                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") Add a brief description of yourself
+              .charactersCounter
               .updateButtons#aboutMeUpdateButtons
-          if userId !== visitorId
+          if userId !== visitorId || !userId
             .profileDescriptionContainer
               b#profileDescription About #{userName}:
-              #profileDescriptionContents This user has not added a description yet
+              if userDescription != ""
+                #profileDescriptionContents #{userDescription}
+              if userDescription == ""
+                #profileDescriptionContents This user has not added a description yet
       .profileInfo
         b.profileInfoTitle General Information
         ul.profileInfoContents
@@ -44,7 +52,7 @@ block content
                   span(id="companyName" onclick="editGeneralProfileInfo('companyName')") Add your company's name
                 if userCompany != ""
                   span(id="companyName" onclick="editGeneralProfileInfo('companyName')") #{userCompany}
-              if userId !== visitorId
+              if userId !== visitorId || !userId
                 if userCompany == ""
                   span Information not available
                 if userCompany != ""
@@ -57,7 +65,7 @@ block content
                   span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") Add your company's website
                 if userWebsite != ""
                   span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") #{userWebsite}
-              if userId !== visitorId
+              if userId !== visitorId || !userId
                 if userWebsite == ""
                   span Information not available
                 if userWebsite != ""
@@ -70,19 +78,20 @@ block content
                   span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") Add an external profile (e.g. LinkedIn)
                 if userLinkedIn != ""
                   span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") #{userLinkedIn}
-              if userId !== visitorId
+              if userId !== visitorId || !userId
                 if userLinkedIn == ""
                   span Information not available
                 if userLinkedIn != ""
                   span #{userLinkedIn}
-          li.profileLikes
-            .extraContainer
-              b Likes received
-              span 0 likes received
-          li.profileComments
-            .extraContainer
-              b Comments received
-              span 0 comments received
+          //- Uncomment when functionality added
+            li.profileLikes
+              .extraContainer
+                b Likes received
+                span 0 likes received
+            li.profileComments
+              .extraContainer
+                b Comments received
+                span 0 comments received
         if userId === visitorId
           .updateButtons#profileInfoUpdateButtons
             button(class="submitbtn" onclick="submitProfileInfoChanges()")

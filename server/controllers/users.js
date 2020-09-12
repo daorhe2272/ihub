@@ -106,15 +106,15 @@ const deleteUserAccount = (req, res) => {
   }
   request(requestOptions, (err, headers, body) => {
     if (headers.statusCode === 200) {
-      //res.clearCookie("token");
+      res.clearCookie("token");
       res.render("error", {
         message: "It's sad to see you leave. If you ever feel like coming back, we'll be here working every day to make things better.",
         trigger: "true",
-        //userId: ""
+        userId: ""
       });
     } else {
       res.render("error", {
-        message: "Whoops, an error occurred. Please try again later."
+        message: body.message
       });
     }
   });
