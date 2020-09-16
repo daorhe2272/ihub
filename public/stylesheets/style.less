@@ -214,6 +214,29 @@ body{margin-top:56px;background:rgb(250,250,250);}
 
 // My Profile
 #popupWrapper{
+  #changeNameMenu{background-color:white;border:2px solid @darkColor;padding:20px 20px 20px 20px;border-radius:5px;color:black;width:380px;font-size:1.2rem;align-items:center;justify-content:center;min-height:200px;flex-wrap:wrap;display:none;
+    #changeNameWarning{width:100%;display:flex;flex-wrap:wrap;justify-content:center;
+      .warningText{}
+    }
+    #changeNameWarning2{width:100%;display:none;flex-wrap:wrap;justify-content:center;
+      .warningText{text-align:center;}
+      input{margin:10px 0 0 0;width:80%;}
+    }
+    .buttons{display:flex;flex-direction:column;margin:8px 0 0 0;
+      button{width:150px;border-radius:5px;text-align:center;margin:3px 0 3px 5px;padding:0;font-size:1.1rem;height:30px;}
+      .darkclosebtn{background-color:white;color:#395462;border:2px solid #395462;}
+      #submitNameChangeButton{display:none;}
+    }
+  }
+  #changePasswordMenu{background-color:white;border:2px solid @darkColor;padding:20px 20px 20px 20px;border-radius:5px;color:black;width:380px;font-size:1.2rem;align-items:center;justify-content:center;min-height:200px;flex-wrap:wrap;display:none;
+    #changePasswordWarning{width:100%;display:flex;flex-wrap:wrap;justify-content:center;
+      .warningText{text-align:center;}
+    }
+    .buttons{display:flex;flex-direction:column;margin:0 0 0 0;
+      button{width:150px;border-radius:5px;text-align:center;margin:3px 0 3px 5px;padding:0;font-size:1.1rem;height:30px;}
+      .darkclosebtn{background-color:white;color:#395462;border:2px solid #395462;}
+    }
+  }
   #deleteAccountForm{background-color:white;border:2px solid @darkColor;padding:20px 20px 20px 20px;border-radius:5px;color:black;width:380px;font-size:1.2rem;align-items:center;justify-content:center;min-height:200px;align-content:space-between;flex-wrap:wrap;z-index:10;display:none;
     #warningContainer1{width:100%;display:flex;flex-wrap:wrap;justify-content:center;
       .warningText{text-align:center;}
@@ -320,6 +343,11 @@ body{margin-top:56px;background:rgb(250,250,250);}
 
 // Other layouts - General
 .formWrapper{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(57, 84, 98, 0.7);z-index:8;align-items:center;justify-content:center;display:flex;
-  #resetForm{.stdFormContainer();
+  #resetForm{z-index:9;background-color:white;border:2px solid @darkColor;padding:20px 20px 20px 20px;border-radius:5px;color:black;width:310px;font-size:1.2rem;display:flex;
+    form{width:100%;display:flex;flex-wrap:wrap;justify-content:center;
+      p{text-align:center;}
+      input{margin:0 0 8px 0;}
+      button{width:150px;border-radius:5px;text-align:center;margin:3px 0 3px 5px;padding:0;font-size:1.1rem;height:30px;}
+    }
   }
 }

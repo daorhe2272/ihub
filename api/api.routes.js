@@ -49,6 +49,7 @@ router.get('/user/:userId', ctrlUsers.myProfile);
 router.get('/user-collection', getId, ctrlUsers.myCollection);
 router.post('/update-user-description', getId, ctrlUsers.editUserDescription);
 router.post('/update-profile-contents', getId, ctrlUsers.editProfileInfo);
+router.put('/users/change-name', getId, ctrlUsers.changeUserName);
 router.delete('/user-account-delete', getId, ctrlUsers.deleteUserAccount);
   
 // Authentication

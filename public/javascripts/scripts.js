@@ -81,7 +81,11 @@ function resetPassword() {
 
 function checkPassword2() {
   if (document.getElementById("password2").value === document.getElementById("confirmPassword2").value) {
-    document.getElementById("changePasswordButton").type="submit";
+    if (document.getElementById("passwordStrength2").innerHTML !== "too weak") {
+      document.getElementById("changePasswordButton").type="submit";
+    } else {
+      document.getElementById("changePasswordButton").type="button";
+    }
   } else {
     document.getElementById("changePasswordButton").type="button";
   }
@@ -90,6 +94,9 @@ function checkPassword2() {
 function checkAndAlert2() {
   if (document.getElementById("password2").value !== document.getElementById("confirmPassword2").value) {
     alert("Password confirmation failed. Plase make sure that both passwords match.");
+  }
+  if (document.getElementById("passwordStrength2").innerHTML === "too weak") {
+    alert("Please use a stronger password.");
   }
 }
 
@@ -124,6 +131,17 @@ function checkPassStrength() {
   else {message = "too weak"; messageColor = "red";}
   document.getElementById("passwordStrength").innerHTML = message;
   document.getElementById("passwordMessage").style = `display:inline;color:${messageColor};`;
+}
+
+function checkPassStrength2() {
+  let score = scorePassword(document.getElementById("password2").value);
+  if (password.length < 8) {message = "too weak"; messageColor = "red";}
+  else if (score > 80) {message = "strong"; messageColor = "green";}
+  else if (score > 60) {message = "good"; messageColor = "blue";}
+  else if (score >= 30) {message = "too weak"; messageColor = "red";}
+  else {message = "too weak"; messageColor = "red";}
+  document.getElementById("passwordStrength2").innerHTML = message;
+  document.getElementById("passwordMessage2").style=`display:inline;color:${messageColor};`;
 }
 
 function openForm() {
@@ -751,5 +769,67 @@ function deleteUserAccount() {
   } else {
     cancelAccountDelete();
     showMessage("Password or user feedback not submitted. Please try again.");
+  }
+}
+
+function changePasswordMenu() {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("changePasswordMenu").style.display="flex";
+}
+
+async function changePassword(email) {
+  let data = {"email": email};
+  let response = await fetch("/reset-password", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type": "application/json"}});
+  if (response.ok) {
+    cancelPasswordChange();
+    showMessage("Please check your email inbox. We have sent you a link to modify your password.");
+  } else {
+    cancelPasswordChange();
+    showMessage("An error occurred. Please try again later.");
+  }
+}
+
+function cancelPasswordChange() {
+  document.getElementById("popupWrapper").style.display="none";
+  document.getElementById("changePasswordMenu").style.display="none";
+}
+
+function changeNameMenu() {
+  document.getElementById("popupWrapper").style.display="flex";
+  document.getElementById("changeNameMenu").style.display="flex";
+}
+
+function continueNameChange() {
+  document.getElementById("changeNameWarning").style.display="none";
+  document.getElementById("changeNameWarning2").style.display="flex";
+  document.getElementById("continueNameChangeButton").style.display="none";
+  document.getElementById("submitNameChangeButton").style.display="inline-block";
+}
+
+function cancelNameChange() {
+  document.getElementById("popupWrapper").style.display="none";
+  document.getElementById("changeNameMenu").style.display="none";
+  document.getElementById("changeNameWarning").style.display="flex";
+  document.getElementById("changeNameWarning2").style.display="none";
+  document.getElementById("continueNameChangeButton").style.display="inline-block";
+  document.getElementById("submitNameChangeButton").style.display="none";
+}
+
+async function changeUserName(userId) {
+  let firstName = document.getElementById("firstNameToChange").value;
+  let lastName = document.getElementById("lastNameToChange").value;
+  if (firstName && lastName) {
+    let data = {"firstName": firstName, "lastName": lastName};
+    let response = await fetch("/users/change-name", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
+    if (response.ok) {
+      window.location = `/user/${userId}`;
+    } else {
+      cancelNameChange();
+      showMessage("An error occurred. Please try again later.");
+    }
+  } else {
+    console.log(`${firstName} ${lastName}`);
+    cancelNameChange();
+    showMessage("Please make sure you filled in all the necessary fields.");
   }
 }

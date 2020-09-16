@@ -59,7 +59,7 @@ const editUserDescription = (req, res) => {
     headers: {cookie: req.headers.cookie},
     form: req.body,
     json: true
-  }
+  };
   request(requestOptions, (err, headers, body) => {
     if (headers.statusCode === 200) {
       return res.status(200).json(body);
@@ -103,7 +103,7 @@ const deleteUserAccount = (req, res) => {
     headers: {cookie: req.headers.cookie},
     form: req.body,
     json: true
-  }
+  };
   request(requestOptions, (err, headers, body) => {
     if (headers.statusCode === 200) {
       res.clearCookie("token");
@@ -120,10 +120,29 @@ const deleteUserAccount = (req, res) => {
   });
 }
 
+const changeUserName = (req, res) => {
+  const path = "/api/users/change-name";
+  const requestOptions = {
+    url: `${apiServer.server}${path}`,
+    method: "PUT",
+    headers: {cookie: req.headers.cookie},
+    form: req.body,
+    json: true
+  };
+  request(requestOptions, (err, headers, body) => {
+    if (headers.statusCode === 200) {
+      res.status(200).json({});
+    } else {
+      res.status(400).json({message:"API error"});
+    }
+  });
+}
+
 module.exports = {
   myProfile,
   myCollection,
   editUserDescription,
   editProfileInfo,
-  deleteUserAccount
+  deleteUserAccount,
+  changeUserName
 }

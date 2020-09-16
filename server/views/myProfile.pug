@@ -4,6 +4,23 @@ block content
   .bodyWrapper
     if userId === visitorId
       #popupWrapper
+        #changeNameMenu
+          #changeNameWarning
+            .warningText You can change your name once, but afterwards you will have to wait 60 days to do it again. Are you sure you want to change your name?
+          #changeNameWarning2
+            .warningText Please choose your first and last name (name and surname):
+            input#firstNameToChange(type="text" placeholder="Name*" name="firstName" maxlength="30" required)
+            input#lastNameToChange(type="text" placeholder="Surname*" name="lastName" maxlength="30" required)
+          .buttons
+            button.closebtn(onclick="cancelNameChange()") <b>Cancel</b>
+            button.darkclosebtn(onclick="continueNameChange()" id="continueNameChangeButton") <b>Continue</b>
+            button.darkclosebtn(onclick=`changeUserName('${userId}')` id="submitNameChangeButton") <b>Change name</b>
+        #changePasswordMenu
+          #changePasswordWarning
+            .warningText Please confirm you want to change your password.
+          .buttons
+            button.closebtn(onclick="cancelPasswordChange()") <b>Cancel</b>
+            button.darkclosebtn(onclick=`changePassword('${userEmail}')`) <b>Confirm</b>
         form#deleteAccountForm(method="POST" action="/user-account-delete" name="deleteUserForm" onkeydown="return event.key != 'Enter';")
           #warningContainer1
             .warningText If you are absolutely sure you want to delete your account, please type in your password in the field below:
@@ -111,17 +128,17 @@ block content
                 b Change Email
                 span(style="color:grey;") Change your contact e-mail
             li.profileChangeName
-              .extraContainer
+              .extraContainer(onclick="changeNameMenu()")
                 b Change Name
                 span #{userFullName}
             li.profileChangePassword
-              .extraContainer
+              .extraContainer(onclick="changePasswordMenu()")
                 b Change Password
                 span(style="color:grey;") Change your log-in password
             li.profileDeleteAccount
-              .extraContainer
+              .extraContainer(onclick="showDeleteAccountMenu()")
                 b Delete Account
-                span(style="color:grey;" onclick="showDeleteAccountMenu()") Delete your account and all of your personal data permanently
+                span(style="color:grey;") Delete your account and all of your personal data permanently
       .profileContent2
         b.activityTitle My Activity
         .profileActivityContents

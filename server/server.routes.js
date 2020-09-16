@@ -30,6 +30,7 @@ router.get('/user-collection', getId, ctrlUsers.myCollection);
 router.post('/update-user-description', ctrlUsers.editUserDescription);
 router.post('/update-profile-contents', ctrlUsers.editProfileInfo);
 router.post('/user-account-delete', getId, ctrlUsers.deleteUserAccount);
+router.post('/users/change-name', ctrlUsers.changeUserName);
 
 // Shares
 router.get('/', getId, ctrlShares.sharesList);

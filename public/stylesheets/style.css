@@ -734,6 +734,103 @@ button {
 .errorWrapper .errorContainer .errorDiv2 {
   padding-left: 12%;
 }
+#popupWrapper #changeNameMenu {
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px 20px 20px 20px;
+  border-radius: 5px;
+  color: black;
+  width: 380px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  flex-wrap: wrap;
+  display: none;
+}
+#popupWrapper #changeNameMenu #changeNameWarning {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#popupWrapper #changeNameMenu #changeNameWarning2 {
+  width: 100%;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#popupWrapper #changeNameMenu #changeNameWarning2 .warningText {
+  text-align: center;
+}
+#popupWrapper #changeNameMenu #changeNameWarning2 input {
+  margin: 10px 0 0 0;
+  width: 80%;
+}
+#popupWrapper #changeNameMenu .buttons {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0 0 0;
+}
+#popupWrapper #changeNameMenu .buttons button {
+  width: 150px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 3px 0 3px 5px;
+  padding: 0;
+  font-size: 1.1rem;
+  height: 30px;
+}
+#popupWrapper #changeNameMenu .buttons .darkclosebtn {
+  background-color: white;
+  color: #395462;
+  border: 2px solid #395462;
+}
+#popupWrapper #changeNameMenu .buttons #submitNameChangeButton {
+  display: none;
+}
+#popupWrapper #changePasswordMenu {
+  background-color: white;
+  border: 2px solid #395462;
+  padding: 20px 20px 20px 20px;
+  border-radius: 5px;
+  color: black;
+  width: 380px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  flex-wrap: wrap;
+  display: none;
+}
+#popupWrapper #changePasswordMenu #changePasswordWarning {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#popupWrapper #changePasswordMenu #changePasswordWarning .warningText {
+  text-align: center;
+}
+#popupWrapper #changePasswordMenu .buttons {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 0;
+}
+#popupWrapper #changePasswordMenu .buttons button {
+  width: 150px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 3px 0 3px 5px;
+  padding: 0;
+  font-size: 1.1rem;
+  height: 30px;
+}
+#popupWrapper #changePasswordMenu .buttons .darkclosebtn {
+  background-color: white;
+  color: #395462;
+  border: 2px solid #395462;
+}
 #popupWrapper #deleteAccountForm {
   background-color: white;
   border: 2px solid #395462;
@@ -1157,11 +1254,31 @@ button {
   z-index: 9;
   background-color: white;
   border: 2px solid #395462;
-  padding: 20px 20px 10px 15px;
+  padding: 20px 20px 20px 20px;
   border-radius: 5px;
   color: black;
   width: 310px;
   font-size: 1.2rem;
-  align-items: center;
+  display: flex;
+}
+.formWrapper #resetForm form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+}
+.formWrapper #resetForm form p {
+  text-align: center;
+}
+.formWrapper #resetForm form input {
+  margin: 0 0 8px 0;
+}
+.formWrapper #resetForm form button {
+  width: 150px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 3px 0 3px 5px;
+  padding: 0;
+  font-size: 1.1rem;
+  height: 30px;
 }

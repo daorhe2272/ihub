@@ -138,10 +138,16 @@ const deleteUserAccount = (req, res) => {
   }
 }
 
+const changeUserName = (req, res) => {
+  // Add functionality
+  res.status(200).json({});
+}
+
 module.exports = {
   myProfile,
   myCollection,
   editUserDescription,
   editProfileInfo,
-  deleteUserAccount
+  deleteUserAccount,
+  changeUserName
 };

@@ -185,9 +185,9 @@ const changePassword = (req, res) => {
     if (req.body.email !== result.email) {
       let message = {"message": "Invalid email. Please make sure that the email you typed matches the one related to your account."};
       result.resetAttempts += 1;
-      result.save((err) => {if (err) {return message = err;}});
+      result.save((err) => {if (err) {return message = "API error.";}});
       if (result.resetAttempts > 3) {
-      auditLog(req);
+        auditLog(req);
         result.allowedLogin = Date.now() + (1000*60*10);
         message = {"message": "Time restriction in place. Try again later."};
       }
