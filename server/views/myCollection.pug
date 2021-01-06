@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  - const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  .gapA
+  if !collectionList.length
+    .errorWrapper
+      .errorContainer
+        .errorDiv1
+          i.fas.fa-exclamation-triangle.fa-4x#icon
+        .errorDiv2
+          h3 No items saved in My Collection. Use the bookmark icon when reading through posts to add new items.
+  .bodyWrapper
+    .sideBar
+    .mainCollectionContent
+      each item in collectionList
+        .collectionContentsContainer(id=`${item.sourceId._id}`)
+          .collectionContents
+            .collectionContentsHeader
+              .publisher
+                small Published by <a href="/user/#{item.sourceId.publisherId}" style="font-weight:600;">#{item.sourceId.publisher}</a>
+              if userId
+                i.fas.fa-caret-down
+                  .postDropdown
+                    a(href=`/shared-post/${item.sourceId._id}` target="_blank")
+                      button Original post
+                    button(onclick=`removeFromCollection("${item.sourceId._id}")`) Remove
+            - let url = item.sourceId.content.match(urlRegex);
+            - if (url != null && url.length) {for (let i = 0; i < url.length; i++) {item.sourceId.content = item.sourceId.content.replace(url[i],`<a href="${url[i]}" target="_blank" style="color:blue;">${url[i]}</a>`);}}
+            .collectionPostContents(id=`postContents-${item.sourceId._id}`) !{item.sourceId.content}
+              if item.sourceId.linkTitle || item.sourceId.linkDescription
+                a(href=`${url[0]}` target="_blank")
+                  .linkContents
+                    if item.sourceId.linkImage
+                      img.linkImage(src=`${item.sourceId.linkImage}` id=`linkImage-${item.sourceId._id}`)
+                    if !item.sourceId.linkImage
+                      img.linkImage(src="https://images.unsplash.com/photo-1570747408017-38b4c5959378?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80")
+                    if item.sourceId.linkTitle || item.sourceId.linkDescription
+                      .linkText
+                        b.linkTitle(id=`linkTitle-${item.sourceId._id}`) #{item.sourceId.linkTitle}
+                        .linkDescription(id=`linkDescription-${item.sourceId._id}`) #{item.sourceId.linkDescription}
+    .rightSideBar

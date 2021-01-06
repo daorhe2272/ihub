@@ -1,0 +1,31 @@
+{
+  "name": "ehub",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "less": "lessc ./public/stylesheets/style.less ./public/stylesheets/style.css",
+    "lessWatch": "watch 'npm run less'"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "express-jwt": "^5.3.3",
+    "grabity": "^1.0.5",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.10",
+    "nodemailer": "^6.4.6",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pug": "2.0.0-beta11",
+    "request": "^2.88.2",
+    "sanitize-html": "^1.27.0"
+  },
+  "devDependencies": {
+    "less": "^3.11.1",
+    "watch": "^1.0.2"
+  }
+}

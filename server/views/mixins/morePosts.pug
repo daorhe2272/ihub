@@ -1,0 +1,73 @@
+- const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+each share in sharesList
+  .contentsContainer(id=`${share._id}`)
+    .contents
+      .contentsHeader
+        .publisher
+          small Published by <a href="/user/#{share.publisherId}" style="font-weight:600;">#{share.publisher}</a>
+        if userId
+          i.fas.fa-caret-down
+            .postDropdown
+              if share.publisherId===userId
+                button(onclick=`showEditForm("${share._id}")`) Edit
+                button(onclick=`deletePost("${share._id}")`) Delete
+              if share.publisherId!==userId
+                button(onclick=`showReportsForm("${share._id}")`) Report
+      - let url = share.content.match(urlRegex);
+      - if (url != null && url.length) {for (let i = 0; i < url.length; i++) {share.content = share.content.replace(url[i],`<a href="${url[i]}" target="_blank" style="color:blue;">${url[i]}</a>`);}}
+      .postContents(id=`postContents-${share._id}`) !{share.content}
+      if share.linkImage || share.linkTitle || share.linkDescription
+        a(href=`${url[0]}` target="_blank")
+          .linkContents
+            if share.linkImage
+              img.linkImage(src=`${share.linkImage}` id=`linkImage-${share._id}`)
+            if share.linkTitle || share.linkDescription
+              .linkText
+                b.linkTitle(id=`linkTitle-${share._id}`) #{share.linkTitle}
+                .linkDescription(id=`linkDescription-${share._id}`) #{share.linkDescription}
+      - let likedOrNot; for (let i = 0; i < share.likes.length; i++) {if (share.likes.indexOf(userId) > -1) {break} likedOrNot = "color:blue";}
+      - let commentedOrNot; for (let i = 0; i < share.comments.length; i++) {if (share.comments[i].userId === userId) {commentedOrNot = "color:blue"; break;} else {commentedOrNot = "";}}
+      - let bookmarkedOrNot; if (share.collections.indexOf(userId) > -1) {bookmarkedOrNot = "color:blue";} else {bookmarkedOrNot = "";}
+      .contentIcons
+        i.far.fa-thumbs-up(onclick=`likePost("${share._id}")` id=`like-${share._id}` style=`${likedOrNot}`)
+          small= share.likes.length
+        i.far.fa-comment(onclick=`showComments("${share._id}")` id=`commentIcon-${share._id}` style=`${commentedOrNot}`)
+          small= share.comments.length
+        i.fas.fa-bookmark(onclick=`addToCollection("${share._id}")` id=`bookmarkIcon-${share._id}` style=`${bookmarkedOrNot}`)
+        i.fas.fa-share
+          .shareDropdown
+            .shareDropdownContainer(onclick=`copyLink("${share._id}")`)
+              i.fas.fa-link
+              button Copy Link
+            a(href=`/shared-post/${share._id}` target="_blank")
+              .shareDropdownContainer
+                i.fas.fa-external-link-alt
+                button Open in Tab
+    .commentsContainer(id=`commentsSection-${share._id}`)
+      .postCommentContainer
+        .commentBox
+          .commentContent(id=`commentContent-${share._id}` contentEditable="true" data-text="Write a comment..." onkeydown=`submitComment("${share._id}")`)
+      .commentsList(id=`commentsList-${share._id}`)
+        each comment in share.comments
+          .listedComment(id=`${comment._id}`)
+            .listedCommentContainer
+              .listedCommentAuthor(id=`${comment.userId}`)
+                small <a href="/user/#{comment.userId}" style="font-weight:600;">#{comment.userName}</a> says...
+              i.fas.fa-caret-down
+                .commentDropdown(id=`moreOptions-${comment._id}`)
+                  if comment.userId === userId
+                    button(onclick=`showCommentEdit("${comment._id}")`) Edit
+                    button(onclick=`deleteComment("${comment._id}", "${share._id}")`) Delete
+                  if comment.userId !== userId
+                    button(onclick=`showReportsForm("${comment._id}")`) Report
+              .listedCommentContent(id=`listedCommentContent-${comment._id}`)= comment.content
+              .updateButtons(id=`updateButtons-${comment._id}`)
+            .listedCommentButtons
+              - let commentLikedOrNot; if (comment.likes.indexOf(userId) > -1) {commentLikedOrNot = "color:blue";} else {commentLikedOrNot = "";};
+              i.far.fa-thumbs-up(onclick=`likeComment("${comment._id}")` id=`commentLike-${comment._id}` style=`${commentLikedOrNot}`)
+                div #{comment.likes.length}
+              - let elapsedMessage;
+              - let elapsedTime = Math.floor((Date.now() - comment.commentedOn) / (1000 * 60));
+              - if (elapsedTime < 1) {elapsedMessage = "Just now...";} else if (elapsedTime == 1) {elapsedMessage = "1 minute ago"} else if (elapsedTime < 60) {elapsedMessage = `${elapsedTime} minutes ago`;} else if (elapsedTime < 120) {elapsedMessage = "1 hour ago";} else if (elapsedTime < 1440) {elapsedMessage = `${Math.floor(elapsedTime / 60)} hours ago`;} else if (elapsedTime < 2880) {elapsedMessage = "1 day ago";} else if (elapsedTime < 43200) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24))} days ago`;} else if (elapsedTime < 86400) {elapsedMessage = "1 month ago";} else if (elapsedTime < 525600) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 30))} monthsago`;} else if (elapsedTime < 1051200) {elapsedMessage = "1 year ago";} else if (elapsedTime > 1051199) {elapsedMessage = `${Math.floor(elapsedTime / (60 * 24 * 365))} years ago`;}
+              .listedCommentDate !{elapsedMessage}

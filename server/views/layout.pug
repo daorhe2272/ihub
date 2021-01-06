@@ -1,0 +1,82 @@
+doctype html
+html
+  head
+    meta(name='viewport',content='width=device-width,initial-scale=1.0')
+    title= title
+    link(rel='stylesheet',href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet',href='/stylesheets/all.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap')
+  header
+    #trigger2(style="display:none;")= trigger2
+    .header_wrapper
+      #header_logo
+        a(href='/') Idea-Hub
+      #header_menu
+        if userId
+          .menu_item
+            a(href='/') Share
+        //- Uncomment when functionality added
+          .menu_item
+            a(href='') Discuss
+          .menu_item
+            a(href='') News
+          .menu_item
+            a(href='') Events
+          .menu_item
+            a(href='') Suggestions
+        if !userId
+          .menu_item
+            a(href="/about") About
+          .menu_item#logIn
+            button Log in
+            .dropdownContent
+              button(onclick="openSignin()") Log in
+              button(onclick="openRegister()") Register
+        if userId
+          .menu_item
+            button
+              i.fas.fa-bell
+          .menu_item#myAccount(name=`${userId}`)
+            button
+              i.fas.fa-user
+            .dropdownContent
+              button(onclick=`location.href="/user/${userId}";`) My Profile
+              button(onclick=`location.href="/user-collection";`) My Collection
+              button(onclick="location.href='/logout';") Log out
+  #signinMenuWrapper
+      #messageAlert
+        .messageContainer
+          #messageText
+        .buttons
+          button(type="button" class="closebtn" onclick="closeMessage()") <b>Close</b>
+      #signinForm
+        form(method="POST" action="/login" id="loginForm" name="loginForm") To log in, please type in your e-mail address and password:
+          input(type="email" placeholder="E-mail address" name="email" id="email" maxlength="50" required)
+          input(type="password" placeholder="Password" name="password" maxlength="30" required)
+          small
+            a(href="#" onclick="resetPassword()" id="passwordReset")
+              b Ups, I forgot my password!
+          .simpleWrapper
+            input(type="checkbox" name="keepLogged" value="true" id="keepLogged")
+            label(for="keepLogged") Keep me logged in
+          .buttons
+            button(type="submit" class="submitbtn") <b>Log in</b>
+            button(type="button" class="closebtn" onclick="closeSignin()") <b>Cancel</b>
+      #registerForm
+        form(method="POST" action="/register") To create your account, fill in all of the following fields:
+          input(type="text" placeholder="First name/Given name*" name="firstName" maxlength="30" required)
+          input(type="text" placeholder="Last name/Family name*" name="lastName" maxlength="30" required)
+          input(type="email" placeholder="E-mail address*" name="email" maxlength="50" required)
+          input(type="password" placeholder="Password*" name="password" id="password" oninput="checkPassStrength()" onchange="checkPassword()" maxlength="30" minlength="8" required)
+          input(type="password" placeholder="Confirm password*" name="confirmPassword" id="confirmPassword" onchange="checkPassword()" maxlength="40" required)
+          small#passwordMessage(style="display:none;") Password strength:
+            b#passwordStrength
+          .buttons
+            button(class="submitbtn" id="registerButton" onclick="checkAndAlert()") <b>Register</b>
+            button(type="button" class="closebtn" onclick="closeRegister()") <b>Cancel</b>
+
+  body
+    block content
+
+    script(src='/javascripts/scripts.js')

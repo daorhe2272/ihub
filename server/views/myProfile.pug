@@ -1,0 +1,146 @@
+extends layout
+
+block content
+  .bodyWrapper
+    if userId === visitorId
+      #popupWrapper
+        #changeNameMenu
+          #changeNameWarning
+            .warningText You can change your name once, but afterwards you will have to wait 60 days to do it again. Are you sure you want to change your name?
+          #changeNameWarning2
+            .warningText Please choose your first and last name (name and surname):
+            input#firstNameToChange(type="text" placeholder="Name*" name="firstName" maxlength="30" required)
+            input#lastNameToChange(type="text" placeholder="Surname*" name="lastName" maxlength="30" required)
+          .buttons
+            button.closebtn(onclick="cancelNameChange()") <b>Cancel</b>
+            button.darkclosebtn(onclick="continueNameChange()" id="continueNameChangeButton") <b>Continue</b>
+            button.darkclosebtn(onclick=`changeUserName('${userId}')` id="submitNameChangeButton") <b>Change name</b>
+        #changePasswordMenu
+          #changePasswordWarning
+            .warningText Please confirm you want to change your password.
+          .buttons
+            button.closebtn(onclick="cancelPasswordChange()") <b>Cancel</b>
+            button.darkclosebtn(onclick=`changePassword('${userEmail}')`) <b>Confirm</b>
+        form#deleteAccountForm(method="POST" action="/user-account-delete" name="deleteUserForm" onkeydown="return event.key != 'Enter';")
+          #warningContainer1
+            .warningText If you are absolutely sure you want to delete your account, please type in your password in the field below:
+            input(type="password" id="passwordForAccountDelete" placeholder="Password*" name="password" maxlength="30")
+          #warningContainer2
+            .warningText Please let us know why you want to delete your account:
+            textarea(id="reasonForAccountDelete" name="reasonForAccountDelete" oninput="charactersCount('reasonForAccountDelete', 150)" maxlength="150")
+            .charactersCounter
+          #warningContainer3
+            .warningText All of your data and activity will be removed and deleted. You will not be able to recover your data. To confirm, press the delete button.
+          .buttons
+            button.closebtn(type="button" onclick="cancelAccountDelete()") <b>Cancel</b>
+            button.darkclosebtn(type="button" onclick="continueAccountDelete1()" id="continueAccountDeleteButton1") <b>Continue</b>
+            button.darkclosebtn(type="button" onclick="continueAccountDelete2()" id="continueAccountDeleteButton2") <b>Continue</b>
+            button.darkclosebtn(type="button" id="deleteAccountButton" onclick="deleteUserAccount()") <b>Delete</b>
+    .profileWrapper
+      .profileHeader
+        .profileUserHeader
+          .profileUserIntro
+            i.fas.fa-user-circle
+            b#profileUser #{userFullName}
+          if userId === visitorId
+            .profileDescriptionContainer
+              b#profileDescription About me
+              if userDescription != ""
+                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") #{userDescription}
+              if userDescription == ""
+                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") Add a brief description of yourself
+              .charactersCounter
+              .updateButtons#aboutMeUpdateButtons
+          if userId !== visitorId || !userId
+            .profileDescriptionContainer
+              b#profileDescription About #{userName}:
+              if userDescription != ""
+                #profileDescriptionContents #{userDescription}
+              if userDescription == ""
+                #profileDescriptionContents This user has not added a description yet
+      .profileInfo
+        b.profileInfoTitle General Information
+        ul.profileInfoContents
+          li.companyName
+            .extraContainer
+              b Company name
+              if userId === visitorId
+                if userCompany == ""
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") Add your company's name
+                if userCompany != ""
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") #{userCompany}
+              if userId !== visitorId || !userId
+                if userCompany == ""
+                  span Information not available
+                if userCompany != ""
+                  span #{userCompany}
+          li.Website
+            .extraContainer
+              b Website
+              if userId === visitorId
+                if userWebsite == ""
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") Add your company's website
+                if userWebsite != ""
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") #{userWebsite}
+              if userId !== visitorId || !userId
+                if userWebsite == ""
+                  span Information not available
+                if userWebsite != ""
+                  span #{userWebsite}
+          li.LinkedIn
+            .extraContainer
+              b External Profile
+              if userId === visitorId
+                if userLinkedIn == ""
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") Add an external profile (e.g. LinkedIn)
+                if userLinkedIn != ""
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") #{userLinkedIn}
+              if userId !== visitorId || !userId
+                if userLinkedIn == ""
+                  span Information not available
+                if userLinkedIn != ""
+                  span #{userLinkedIn}
+          //- Uncomment when functionality added
+            li.profileLikes
+              .extraContainer
+                b Likes received
+                span 0 likes received
+            li.profileComments
+              .extraContainer
+                b Comments received
+                span 0 comments received
+        if userId === visitorId
+          .updateButtons#profileInfoUpdateButtons
+            button(class="submitbtn" onclick="submitProfileInfoChanges()")
+              b Update changes
+            button(class="darkclosebtn" onclick="cancelProfileInfoChanges()")
+              b Cancel
+      if userId === visitorId
+        .profileSettings
+          b.profileSettingsTitle Profile Settings
+          ul.profileSettingsContents
+            li.profileContact
+              .extraContainer
+                b Contact Email:
+                span #{userEmail}
+            li.profileChangeContact
+              .extraContainer
+                b Change Email
+                span(style="color:grey;") Change your contact e-mail
+            li.profileChangeName
+              .extraContainer(onclick="changeNameMenu()")
+                b Change Name
+                span #{userFullName}
+            li.profileChangePassword
+              .extraContainer(onclick="changePasswordMenu()")
+                b Change Password
+                span(style="color:grey;") Change your log-in password
+            li.profileDeleteAccount
+              .extraContainer(onclick="showDeleteAccountMenu()")
+                b Delete Account
+                span(style="color:grey;") Delete your account and all of your personal data permanently
+      .profileContent2
+        //-
+          b.activityTitle My Activity
+          .profileActivityContents
+            .noProfileActivity You do not have any activity to show
