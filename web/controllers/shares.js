@@ -1,7 +1,7 @@
 const request = require('request');
+require("dotenv").config();
 
-const apiServer = {server: 'http://localhost:3000'};
-// if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';}
+const apiServer = {server: process.env.WEB_SERVER};
 
 /* GET shares list (homepage) */
 const sharesList = (req, res) => {

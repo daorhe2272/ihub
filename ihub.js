@@ -5,13 +5,13 @@ const cookieParser = require('cookie-parser');
 require('./api/models/db');
 require('dotenv').config();
 
-const appRouter = require('./server/server.routes');
+const appRouter = require('./web/web.routes');
 const apiRouter = require('./api/api.routes');
 
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'server', 'views'));
+app.set('views', path.join(__dirname, 'web', 'pages'));
 app.set('view engine', 'pug');
 
 app.use(express.json());

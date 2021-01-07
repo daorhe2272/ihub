@@ -34,9 +34,10 @@ html
               button(onclick="openSignin()") Log in
               button(onclick="openRegister()") Register
         if userId
-          .menu_item
-            button
-              i.fas.fa-bell
+          //- Uncomment when functionality added
+            .menu_item
+              button
+                i.fas.fa-bell
           .menu_item#myAccount(name=`${userId}`)
             button
               i.fas.fa-user

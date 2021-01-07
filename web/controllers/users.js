@@ -1,7 +1,7 @@
 const request = require('request');
+require("dotenv").config();
 
-const apiServer = {server: 'http://localhost:3000'};
-if (process.env.NODE_ENV === 'production') {apiOptions.server = 'https://your-URL.com';} // Make sure to add the correct URL
+const apiServer = {server: process.env.WEB_SERVER};
 
 const myProfile = (req, res) => {
   const path = '/api/user/';
@@ -12,7 +12,6 @@ const myProfile = (req, res) => {
   };
   request(requestOptions, (err, headers, body) => {
     if (headers.statusCode === 200) {
-      console.log(body); // Don't forget to hide sensitive information!!!!
       res.render("myProfile", {
        title: `${body.firstName} ${body.lastName} | Idea-Hub`,
        userFullName: `${body.firstName} ${body.lastName}`,

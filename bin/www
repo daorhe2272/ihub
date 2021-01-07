@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../ihub');
 var debug = require('debug')('ehub:server');
 var http = require('http');
 

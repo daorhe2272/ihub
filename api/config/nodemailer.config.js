@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
+require("dotenv").config();
 
-let apiServer = {server: 'http://localhost:3000'};
-// if (process.env.NODE_ENV === 'production') {apiServer.server = 'https://your-URL.com';}
+let apiServer = {server: process.env.WEB_SERVER};
 
 let transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com",
@@ -17,9 +17,9 @@ let transporter = nodemailer.createTransport({
 
 const sendVerEmail = (req, res, verHash) => {
   const path = `${apiServer.server}/verify-account/`
-  let htmlFile = pug.renderFile(process.cwd() + '/server/views/email.templates/validationEmail.pug', {firstName: req.body.firstName, verLink: path + verHash});
+  let htmlFile = pug.renderFile(process.cwd() + '/web/pages/email.templates/validationEmail.pug', {firstName: req.body.firstName, verLink: path + verHash});
   transporter.sendMail({
-    from: '"idea-hub.com" <daorhe2272@hotmail.com>',
+    from: '"idea-hub.net" <daorhe2272@hotmail.com>',
     to: req.body.email,
     subject: "Verify your account - Idea-Hub",
     text: "",
@@ -34,9 +34,9 @@ const sendVerEmail = (req, res, verHash) => {
 
 const sendResetEmail = (req, res, result) => {
   const path = `${apiServer.server}/request-reset/`
-  let htmlFile = pug.renderFile(process.cwd() + '/server/views/email.templates/resetPasswordEmail.pug', {firstName: result.firstName, verLink: path + result.verHash});
+  let htmlFile = pug.renderFile(process.cwd() + '/web/pages/email.templates/resetPasswordEmail.pug', {firstName: result.firstName, verLink: path + result.verHash});
   transporter.sendMail({
-    from: '"idea-hub.com" <daorhe2272@hotmail.com>',
+    from: '"idea-hub.net" <daorhe2272@hotmail.com>',
     to: req.body.email,
     subject: "Password reset - Idea-Hub",
     text: "",
