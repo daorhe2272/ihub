@@ -60,7 +60,7 @@ const editUserDescription = (req, res) => {
 }
 
 const editProfileInfo = (req, res) => {
-  if (req.params.userId && req.body.userCompany && req.body.userWebsite && req.body.userLinkedIn) {
+  if (req.params.userId) {
     User.findById(req.params.userId).exec((err, userInfo) => {
       if (err) {return _apiError(req, res);}
       else if (userInfo) {
@@ -68,7 +68,9 @@ const editProfileInfo = (req, res) => {
         userInfo.userWebsite = req.body.userWebsite;
         userInfo.userLinkedIn = req.body.userLinkedIn;
         userInfo.save((err) => {
-          if (err) {_apiError(req, res);}
+          if (err) {
+            _apiError(req, res);
+          }
           else {
             res.status(200).json({userCompany: userInfo.userCompany, userWebsite: userInfo.userWebsite, userLinkedIn: userInfo.userLinkedIn});
           }

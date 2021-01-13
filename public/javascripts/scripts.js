@@ -160,7 +160,7 @@ function checkForLink() {
   if (postInput.innerText.length > 1000) {
     alert("Maximum number of characters reached! Please make your post shorter.");
   }
-  
+
   // Wait for user to stop typing
   postInput.addEventListener("keyup", () => {
     clearTimeout(window.typingTimer);
@@ -178,7 +178,7 @@ function checkForLink() {
       document.getElementById("postLinkDescription").innerHTML="";
     }
   }
-  
+
   // If there is a link, populate post form
   async function populatePost(url) {
     let data = {postContent: url}
@@ -294,7 +294,7 @@ function submitComment(postId) {
             let div = document.createElement("div");
             div.setAttribute("id", `${json._id}`);
             div.setAttribute("class", "listedComment");
-            div.innerHTML = 
+            div.innerHTML =
               `<div class="listedCommentContainer">
                 <div class="listedCommentAuthor" id="${json.userId}">
                   <small>
@@ -427,7 +427,7 @@ function showEditForm(postId) {
     document.getElementById("postExtrasTitle").innerText="";
   }
   if (document.getElementById(`linkDescription-${postId}`) != null) {
-    document.getElementById("postExtrasDescription").innerText = 
+    document.getElementById("postExtrasDescription").innerText =
     document.getElementById(`linkDescription-${postId}`).innerText;
   } else {
     document.getElementById("postExtrasDescription").innerText="";
@@ -445,7 +445,7 @@ function checkForEditLink() {
   if (postInput.innerText.length > 1000) {
     alert("Maximum number of characters reached! Please make your post shorter.");
   }
-  
+
   // Wait for user to stop typing
   postInput.addEventListener("keyup", () => {
     clearTimeout(window.typingTimer);
@@ -463,7 +463,7 @@ function checkForEditLink() {
       document.getElementById("postExtrasDescription").innerHTML="";
     }
   }
-  
+
   // If there is a link, populate post form
   async function populatePost(url) {
     let data = {postContent: url}
@@ -558,7 +558,7 @@ async function removeFromCollection(sourceId) {
   if (response.ok) {
     let json = await response.json();
     if (json.message == "Element successfully added to My Collection.") {
-      
+
     } else if (json.message == "Element successfully removed from My Collection.") {
       window.location = "/user-collection";
     } else {
@@ -590,11 +590,11 @@ function charactersCount(elementId, charLimit) {
 
 function editProfileDescription(userId) {
   let element = document.getElementById("profileDescriptionContents");
-  if (element.getAttribute("contentEditable") === "false" || element.getAttribute("contentEditable") === null) {
-    window.originalAboutMeString = element.innerText;
-    element.setAttribute("contentEditable", "true");
-    if (element.innerText === "Add a brief description of yourself") {
-      element.innerHTML="";
+  if (element.style.cursor !== "text") {
+    window.originalAboutMeString = element.value;
+    element.style.cursor = "text";
+    if (element.value === "Add a brief description of yourself") {
+      element.value="";
     }
     setCaretAtEnd(element);
     document.getElementById("aboutMeUpdateButtons").innerHTML=
@@ -604,7 +604,7 @@ function editProfileDescription(userId) {
 }
 
 async function submitAboutMeChanges(userId) {
-  let descriptionContents = document.getElementById("profileDescriptionContents").innerText;
+  let descriptionContents = document.getElementById("profileDescriptionContents").value;
   if (descriptionContents.length <= 300) {
     let data = {userDescription: descriptionContents, userId: userId};
     let response = await fetch("/update-user-description", {method: "POST", body: JSON.stringify(data),headers: {"Content-Type":"application/json"}});
@@ -612,8 +612,9 @@ async function submitAboutMeChanges(userId) {
       let json = await response.json();
       document.getElementById("profileDescriptionContents").setAttribute("contentEditable", "false");
       document.getElementById("aboutMeUpdateButtons").innerHTML="";
-      document.getElementById("profileDescriptionContents").innerText=json.userDescription;
+      document.getElementById("profileDescriptionContents").value=json.userDescription;
       document.getElementById("profileDescriptionContents").nextElementSibling.style.display="none";
+      document.getElementById("profileDescriptionContents").style.cursor="pointer";
     } else {
       cancelAboutMeChanges();
       showMessage("An error occurred. It was not possible to update your profile description.");
@@ -626,8 +627,9 @@ async function submitAboutMeChanges(userId) {
 
 function cancelAboutMeChanges() {
   document.getElementById("profileDescriptionContents").setAttribute("contentEditable", "false");
-  document.getElementById("profileDescriptionContents").innerText=window.originalAboutMeString;
+  document.getElementById("profileDescriptionContents").value=window.originalAboutMeString;
   document.getElementById("profileDescriptionContents").nextElementSibling.style.display="none";
+  document.getElementById("profileDescriptionContents").style.cursor="pointer";
   document.getElementById("aboutMeUpdateButtons").innerHTML="";
 }
 
@@ -639,14 +641,26 @@ function editGeneralProfileInfo(id) {
     element.setAttribute("contentEditable", "true");
     setCaretAtEnd(element);
     if (id === "companyName") {
-      window.originalCompanyNameString = element.innerText;
-      if (element.innerText == "Add your company's name") {element.innerText = "";}
+      if (element.innerText != "Add your company's name") {
+        window.originalCompanyNameString = element.innerText;
+      } else {
+        window.originalCompanyNameString = "";
+        element.innerText = "";
+      }
     } else if (id === "companyWebsite") {
-      window.originalCompanyWebsiteString = element.innerText;
-      if (element.innerText == "Add your company's website") {element.innerText = "";}
+      if (element.innerText != "Add your company's website") {
+        window.originalCompanyWebsiteString = element.innerText;
+      } else {
+        window.originalCompanyWebsiteString = "";
+        element.innerText = "";
+      }
     } else if (id === "externalProfile") {
-      window.originalExternalProfileString = element.innerText;
-      if (element.innerText == "Add an external profile (e.g. LinkedIn)") {element.innerText = "";}
+      if (element.innerText != "Add an external profile (e.g. LinkedIn)") {
+        window.originalExternalProfileString = element.innerText;
+      } else {
+        window.originalExternalProfileString = "";
+        element.innerText = "";
+      }
     }
   }
 }
@@ -654,14 +668,20 @@ function editGeneralProfileInfo(id) {
 function cancelProfileInfoChanges() {
   function element(id) {return document.getElementById(id);}
   element("profileInfoUpdateButtons").style.display="none";
-  if (window.originalCompanyNameString) {
+  if (window.originalCompanyNameString && window.originalCompanyNameString != "") {
     element("companyName").innerText = window.originalCompanyNameString;
+  } else {
+    element("companyName").innerText = "Add your company's name";
   }
-  if (window.originalCompanyWebsiteString) {
+  if (window.originalCompanyWebsiteString && window.originalCompanyWebsiteString != "") {
     element("companyWebsite").innerText = window.originalCompanyWebsiteString;
+  } else {
+    element("companyWebsite").innerText = "Add your company's website";
   }
-  if (window.originalExternalProfileString) {
+  if (window.originalExternalProfileString && window.originalExternalProfileString != "") {
     element("externalProfile").innerText = window.originalExternalProfileString;
+  } else {
+    element("externalProfile").innerText = "Add an external profile (e.g. LinkedIn)";
   }
   element("companyName").setAttribute("contentEditable", "false");
   element("companyName").style.cursor="pointer";
@@ -675,22 +695,50 @@ async function submitProfileInfoChanges() {
   // Add control of 150 characters max
   function element(id) {return document.getElementById(id);}
   if (element("companyName").innerText.length <= 150 && element("externalProfile").innerText.length <= 150 && element("companyWebsite").innerText.length <=150) {
-    let data = {userCompany: element("companyName").innerText, userWebsite: element("companyWebsite").innerText, userLinkedIn: element("externalProfile").innerText};
-    let response = await fetch("/update-profile-contents", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
+    let userCompany, userWebsite, userLinkedIn;
+    if (element("companyName").innerText != "Add your company's name") {
+      userCompany = element("companyName").innerText;
+    } else {
+      userCompany = "";
+    }
+    if (element("companyWebsite").innerText != "Add your company's website") {
+      userWebsite = element("companyWebsite").innerText;
+    } else {
+      userWebsite = "";
+    }
+    if (element("externalProfile").innerText != "Add an external profile (e.g. LinkedIn)") {
+      userLinkedIn = element("externalProfile").innerText;
+    } else {
+      userLinkedIn = "";
+    }
+    let data = { "userCompany": userCompany, "userWebsite": userWebsite, "userLinkedIn": userLinkedIn };
+    let response = await fetch("/update-profile-contents", { method: "POST", body: JSON.stringify(data), headers: { "Content-Type":"application/json" } });
     if (response.ok) {
       let json = await response.json();
       element("companyName").setAttribute("contentEditable", "false");
-      element("companyName").innerText=json.userCompany;
+      if (json.userCompany != "") {
+        element("companyName").innerText=json.userCompany;
+      } else {
+        element("companyName").innerText="Add your company's name";
+      }
       element("companyName").style.cursor="pointer";
-      window.originalCompanyNameString = element("companyName").innerText;
+      window.originalCompanyNameString = json.userCompany;
       element("companyWebsite").setAttribute("contentEditable", "false");
-      element("companyWebsite").innerText=json.userWebsite;
+      if (json.userWebsite != "") {
+        element("companyWebsite").innerText=json.userWebsite;
+      } else {
+        element("companyWebsite").innerText = "Add your company's website";
+      }
       element("companyWebsite").style.cursor="pointer";
-      window.originalCompanyWebsiteString = element("companyWebsite").innerText;
+      window.originalCompanyWebsiteString = json.userWebsite;
       element("externalProfile").setAttribute("contentEditable", "false");
-      element("externalProfile").innerText=json.userLinkedIn;
+      if (json.userLinkedIn != "") {
+        element("externalProfile").innerText=json.userLinkedIn;
+      } else {
+        element("externalProfile").innerText = "Add an external profile (e.g. LinkedIn)";
+      }
       element("externalProfile").style.cursor="pointer";
-      window.originalExternalProfileString = element("externalProfile").innerText;
+      window.originalExternalProfileString = json.userLinkedIn;
       element("profileInfoUpdateButtons").style.display="none";
     } else {
       showMessage("An error occurred. It was not possible to update your profile information.");

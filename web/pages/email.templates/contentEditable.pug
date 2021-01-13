@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    style(type="text/css")
+      | #editableDiv{margin: 5% 10%; border: solid; border-radius: 5px; min-height: 40px; font-size: 1.5rem;
+      | padding: 3px 8px; cursor: pointer;}
+  body
+    #editableDiv(onclick="beginEdit()") Example text goes here
+  script
+    | function beginEdit() {
+    |   let el = document.getElementById("editableDiv");
+    |   el.setAttribute("contentEditable", "true");
+    | }

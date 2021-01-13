@@ -8,7 +8,9 @@
   padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
-  width: 310px;
+  max-width: 310px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -32,13 +34,14 @@
   margin: 5px;
 }
 .stdProfileContainer {
-  flex-basis: 65%;
   background-color: white;
   margin-top: 10px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 900px;
+  width: 97%;
   border-radius: 5px;
 }
 header {
@@ -56,7 +59,6 @@ header {
   text-decoration: none;
   color: white;
   padding: 10px;
-  font-size: 1.2em;
   font-family: raleway, sans-serif;
   background-color: #2d313a;
 }
@@ -93,6 +95,17 @@ header {
 #header_logo {
   padding-left: 5%;
 }
+#header_logo a {
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 5px;
+  color: #83b4b1;
+  padding: 0 6px;
+  font-family: "Baloo Thambi 2", "raleway", sans-serif;
+}
+#header_logo img {
+  height: 36px;
+  border-radius: 5px;
+}
 #header_menu {
   padding-right: 5%;
 }
@@ -118,7 +131,9 @@ header {
   padding: 20px 20px 20px 15px;
   border-radius: 5px;
   color: black;
-  width: 380px;
+  max-width: 380px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -142,7 +157,9 @@ header {
   padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
-  width: 310px;
+  max-width: 310px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -196,7 +213,9 @@ header {
   padding: 20px 20px 10px 15px;
   border-radius: 5px;
   color: black;
-  width: 310px;
+  max-width: 310px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -220,6 +239,30 @@ header {
   border-radius: 5px;
   max-width: 130px;
 }
+@media screen and (min-width: 601px) {
+  #header_logo a {
+    font-size: 1.8rem;
+  }
+  .header_wrapper a,
+  .menu_item button {
+    font-size: 1.5rem;
+  }
+  .dropdownContent {
+    margin: 0 0 0 -30px;
+  }
+}
+@media screen and (max-width: 600px) {
+  #header_logo a {
+    font-size: 1.5rem;
+  }
+  .header_wrapper a,
+  .menu_item button {
+    font-size: 1.2rem;
+  }
+  .dropdownContent {
+    margin: 0 0 0 -30px;
+  }
+}
 .gapA {
   height: 5px;
   background: rgba(0, 20, 0, 0.05);
@@ -227,6 +270,7 @@ header {
 body {
   margin-top: 56px;
   background: rgba(0, 20, 0, 0.05);
+  width: 100%;
 }
 .bodyWrapper {
   font-size: 1.2rem;
@@ -238,7 +282,6 @@ body {
   display: none;
 }
 .mainContent {
-  flex-basis: 50%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -250,22 +293,22 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Open Sans', sans-serif;
-  font-size: 2.2rem;
   padding: 0% 10% 0% 10%;
   text-align: center;
+  display: flex;
   margin: 5px 0;
   border-radius: 3px;
-  width: 100%;
+  width: 97%;
   max-width: 600px;
-  min-width: 400px;
+  min-width: 300px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
 }
 .formContainer {
   padding-top: 5px;
   font-size: 1.3rem;
-  width: 100%;
+  width: 97%;
   max-width: 600px;
-  min-width: 400px;
+  min-width: 300px;
 }
 button {
   border: none;
@@ -307,7 +350,9 @@ button {
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
-  width: 500px;
+  max-width: 500px;
+  min-width: 300px;
+  width: 100%;
   max-height: 550px;
   overflow: auto;
 }
@@ -356,7 +401,9 @@ button {
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
-  width: 400px;
+  max-width: 400px;
+  min-width: 300px;
+  width: 100%;
   display: none;
 }
 #popupWrapper #reportsForm .header {
@@ -392,7 +439,9 @@ button {
   border: 2px solid #395462;
   padding: 20px;
   border-radius: 5px;
-  width: 500px;
+  max-width: 500px;
+  min-width: 300px;
+  width: 100%;
   overflow: hidden;
   flex-wrap: wrap;
 }
@@ -452,9 +501,9 @@ button {
 }
 .contentsContainer {
   margin-top: 10px;
-  width: 100%;
+  width: 97%;
   max-width: 600px;
-  min-width: 400px;
+  min-width: 300px;
   background: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -490,9 +539,6 @@ button {
   box-shadow: 2px 2px 4px 4px #c8c8c8;
   background-color: white;
   padding: 8px;
-  width: 120px;
-  font-size: 1.4rem;
-  margin: 3px 0 0 0;
 }
 .contentsHeader i .postDropdown button {
   background-color: white;
@@ -525,10 +571,11 @@ button {
   padding: 5px;
 }
 .contentIcons {
-  margin: 0 30px 0 30px;
+  margin: 0 2.5% 0 2.5%;
   padding-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  width: 95%;
 }
 .contentIcons .shareDropdown {
   visibility: hidden;
@@ -540,8 +587,7 @@ button {
   box-shadow: 2px 2px 4px 4px #c8c8c8;
   background-color: white;
   padding: 8px;
-  font-size: 1.4rem;
-  margin: 7px 0 0 5px;
+  min-width: 150px;
 }
 .contentIcons .shareDropdown .shareDropdownContainer {
   background-color: white;
@@ -562,8 +608,8 @@ button {
 }
 .contentIcons i {
   color: #395462;
-  padding: 7px 5px 7px 5px;
-  min-width: 85px;
+  padding: 7px 5px;
+  min-width: 70px;
   border-radius: 5px;
   text-align: center;
 }
@@ -740,13 +786,58 @@ button {
 .errorWrapper .errorContainer .errorDiv2 {
   padding-left: 12%;
 }
+@media screen and (min-width: 601px) {
+  #title {
+    font-size: 2.2rem;
+  }
+  .postDropdown {
+    font-size: 1.4rem;
+    width: 120px;
+  }
+  .shareDropdown {
+    font-size: 1.4rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  #title {
+    font-size: 1.8rem;
+  }
+  .postDropdown {
+    font-size: 1.25rem;
+    width: 100px;
+  }
+  .shareDropdown {
+    font-size: 1.25rem;
+  }
+}
+@media screen and (min-width: 801px) {
+  .postDropdown {
+    margin: 3px 0 0 0;
+  }
+  .shareDropdown {
+    margin: 7px 0 0 5px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .postDropdown {
+    margin: 3px 0 0 -65px;
+  }
+  .commentDropdown {
+    margin: 0 0 0 -55px;
+  }
+  .shareDropdown {
+    margin: 7px 0 0 -65px;
+  }
+}
 #popupWrapper #changeNameMenu {
   background-color: white;
   border: 2px solid #395462;
   padding: 20px 20px 20px 20px;
   border-radius: 5px;
   color: black;
-  width: 380px;
+  max-width: 380px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -801,7 +892,9 @@ button {
   padding: 20px 20px 20px 20px;
   border-radius: 5px;
   color: black;
-  width: 380px;
+  max-width: 380px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -843,7 +936,9 @@ button {
   padding: 20px 20px 20px 20px;
   border-radius: 5px;
   color: black;
-  width: 380px;
+  max-width: 380px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   align-items: center;
   justify-content: center;
@@ -938,7 +1033,7 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  flex-basis: 100%;
+  width: 100%;
   flex-wrap: wrap;
 }
 .profileWrapper .profileHeader {
@@ -946,8 +1041,9 @@ button {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-basis: 65%;
-  min-width: 400px;
+  max-width: 900px;
+  min-width: 300px;
+  width: 97%;
 }
 .profileWrapper .profileHeader .profileUserHeader {
   display: flex;
@@ -993,10 +1089,11 @@ button {
   border: 1px solid lightgrey;
   border-radius: 5px;
   min-height: 60px;
-  margin: 8px 15px 12px 15px;
+  margin: 8px 2.5% 12px 2.5%;
+  width: 95%;
+  resize: none;
 }
 .profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer #profileDescriptionContents:hover {
-  cursor: pointer;
   background-color: #e6e6eb;
 }
 .profileWrapper .profileHeader .profileUserHeader .profileDescriptionContainer .charactersCounter {
@@ -1022,13 +1119,14 @@ button {
   border: 2px solid #395462;
 }
 .profileWrapper .profileInfo {
-  flex-basis: 65%;
   background-color: white;
   margin-top: 10px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 900px;
+  width: 97%;
   border-radius: 5px;
   padding: 0 0 10px 0;
 }
@@ -1064,10 +1162,13 @@ button {
   margin-left: 15px;
   width: 100%;
   overflow: hidden;
+  min-height: 29px;
+}
+.profileWrapper .profileInfo .profileInfoContents li .extraContainer span a {
+  text-decoration: none;
 }
 .profileWrapper .profileInfo .profileInfoContents li .extraContainer:hover {
   background-color: #e6e6eb;
-  cursor: pointer;
 }
 .profileWrapper .profileInfo .updateButtons {
   width: 100%;
@@ -1091,13 +1192,14 @@ button {
   border: 2px solid #395462;
 }
 .profileWrapper .profileSettings {
-  flex-basis: 65%;
   background-color: white;
   margin-top: 10px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 900px;
+  width: 97%;
   border-radius: 5px;
 }
 .profileWrapper .profileSettings .profileSettingsTitle {
@@ -1136,13 +1238,14 @@ button {
   cursor: pointer;
 }
 .profileWrapper .profileContent2 {
-  flex-basis: 65%;
   background-color: white;
   margin-top: 10px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-wrap: wrap;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 900px;
+  width: 97%;
   border-radius: 5px;
   margin-bottom: 8px;
 }
@@ -1154,7 +1257,6 @@ button {
   margin: 5px;
 }
 .mainCollectionContent {
-  flex-basis: 50%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -1162,9 +1264,10 @@ button {
 }
 .mainCollectionContent .collectionContentsContainer {
   margin: 5px 0 0 0;
-  width: 100%;
-  min-width: 400px;
+  width: 97%;
+  min-width: 300px;
   background: white;
+  max-width: 800px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
@@ -1203,9 +1306,6 @@ button {
   box-shadow: 2px 2px 4px 4px #c8c8c8;
   background-color: white;
   padding: 8px;
-  width: 160px;
-  font-size: 1.4rem;
-  margin: 3px 0 0 0;
 }
 .mainCollectionContent .collectionContentsContainer .collectionContents .collectionContentsHeader i .postDropdown button {
   background-color: white;
@@ -1244,6 +1344,22 @@ button {
 .mainCollectionContent .collectionContentsContainer .collectionContents .collectionPostContents a .linkContents .linkText .linkDescription {
   overflow: hidden;
 }
+@media screen and (max-width: 1000px) and (min-width: 601px) {
+  .collectionContents .postDropdown {
+    margin: 3px 0 0 -120px;
+  }
+}
+@media screen and (min-width: 601px) {
+  .collectionContents .postDropdown {
+    width: 160px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .collectionContents .postDropdown {
+    width: 140px;
+    margin: 3px 0 0 -100px;
+  }
+}
 .formWrapper {
   position: fixed;
   top: 0;
@@ -1263,7 +1379,9 @@ button {
   padding: 20px 20px 20px 20px;
   border-radius: 5px;
   color: black;
-  width: 310px;
+  max-width: 310px;
+  min-width: 300px;
+  width: 100%;
   font-size: 1.2rem;
   display: flex;
 }

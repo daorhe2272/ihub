@@ -1,17 +1,19 @@
 doctype html
 html
   head
-    meta(name='viewport',content='width=device-width,initial-scale=1.0')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
     link(rel='stylesheet',href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet',href='/stylesheets/all.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@700&display=swap')
   header
     #trigger2(style="display:none;")= trigger2
     .header_wrapper
       #header_logo
-        a(href='/') Idea-Hub
+        a(href='/') idea-hub.net
+        //- img(src="/images/logo01.png")
       #header_menu
         if userId
           .menu_item

@@ -46,9 +46,9 @@ block content
             .profileDescriptionContainer
               b#profileDescription About me
               if userDescription != ""
-                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") #{userDescription}
+                textarea#profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)" style="cursor: pointer;") #{userDescription}
               if userDescription == ""
-                #profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)") Add a brief description of yourself
+                textarea#profileDescriptionContents(onclick=`editProfileDescription("${userId}")` oninput="charactersCount('profileDescriptionContents', 300)" style="cursor: pointer") Add a brief description of yourself
               .charactersCounter
               .updateButtons#aboutMeUpdateButtons
           if userId !== visitorId || !userId
@@ -66,9 +66,9 @@ block content
               b Company name
               if userId === visitorId
                 if userCompany == ""
-                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") Add your company's name
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')" style="cursor: pointer;") Add your company's name
                 if userCompany != ""
-                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')") #{userCompany}
+                  span(id="companyName" onclick="editGeneralProfileInfo('companyName')" style="cursor: pointer;") #{userCompany}
               if userId !== visitorId || !userId
                 if userCompany == ""
                   span Information not available
@@ -79,27 +79,29 @@ block content
               b Website
               if userId === visitorId
                 if userWebsite == ""
-                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") Add your company's website
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')" style="cursor: pointer;") Add your company's website
                 if userWebsite != ""
-                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')") #{userWebsite}
+                  span(id="companyWebsite" onclick="editGeneralProfileInfo('companyWebsite')" style="cursor: pointer;") #{userWebsite}
               if userId !== visitorId || !userId
                 if userWebsite == ""
                   span Information not available
                 if userWebsite != ""
-                  span #{userWebsite}
+                  span
+                    a(href=`${userWebsite}`) #{userWebsite}
           li.LinkedIn
             .extraContainer
               b External Profile
               if userId === visitorId
                 if userLinkedIn == ""
-                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") Add an external profile (e.g. LinkedIn)
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')" style="cursor: pointer;") Add an external profile (e.g. LinkedIn)
                 if userLinkedIn != ""
-                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')") #{userLinkedIn}
+                  span(id="externalProfile" onclick="editGeneralProfileInfo('externalProfile')" style="cursor: pointer;") #{userLinkedIn}
               if userId !== visitorId || !userId
                 if userLinkedIn == ""
                   span Information not available
                 if userLinkedIn != ""
-                  span #{userLinkedIn}
+                  span
+                    a(href=`${userLinkedIn}`) #{userLinkedIn}
           //- Uncomment when functionality added
             li.profileLikes
               .extraContainer
@@ -123,10 +125,11 @@ block content
               .extraContainer
                 b Contact Email:
                 span #{userEmail}
-            li.profileChangeContact
-              .extraContainer
-                b Change Email
-                span(style="color:grey;") Change your contact e-mail
+            //- Add missing functionality
+              li.profileChangeContact
+                .extraContainer
+                  b Change Email
+                  span(style="color:grey;") Change your contact e-mail
             li.profileChangeName
               .extraContainer(onclick="changeNameMenu()")
                 b Change Name

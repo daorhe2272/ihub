@@ -33,7 +33,7 @@ const renderShares = (req, res, responseBody) => {
 	}
 	if (res.locals.userId) {trigger2 = "true";} else {trigger2 = "";}
 	res.render('shares', {
-	  title: 'Idea-Hub',
+	  title: 'idea-hub.net',
 	  sharesList: responseBody,
 	  message,
 	  trigger2

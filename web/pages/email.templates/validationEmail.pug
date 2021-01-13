@@ -1,5 +1,4 @@
-- let url = "http://localhost:3000";
-- // if (process.env.NODE_ENV === "production") {URL = "https://your-URL.com";}
+- const url = process.env.WEB_SERVER;
 
 doctype html
 html
@@ -7,20 +6,21 @@ html
     meta
     title
     link(rel='stylesheet', href="//fonts.googleapis.com/css?family=Raleway")
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@700&display=swap')
     style(type="text/css")
       | *{box-sizing:border-box;}
-      | p{font-family:sans-serif;font-size:1.2em;}
-      | .link{text-align:center;font-size:1.2em;}
-      | #logo a, #logo a:visited{text-decoration:none;color:white;font-family:raleway, sans-serif;font-size:1.4em;}
+      | p{font-family:sans-serif;font-size:1.2rem;}
+      | .link{text-align:center;font-size:1.2rem;}
+      | #logo a, #logo a:visited{text-decoration:none;color: rgb(131, 180, 177);font-family: "Baloo Thambi 2", raleway, sans-serif;font-size:1.8rem;margin-right:5%;}
   body
-    .mainContainer(style="background-color:#2d313a;color:white;padding:0 10px 10px 10px;")
-      #logo(style="color:white;padding:15px;text-align:right;")
-        a(href=`${url}`) <b>The Entrepreneurial Hub</b>
-      .subContainer(style="background-color:white;color:black;padding:5px;margin:0;")
+    .mainContainer(style="background-color:#2d313a;color:white;padding:0 15px 15px 15px;")
+      #logo(style=" color: white; padding: 6px 15px; text-align: right;")
+        a(href=`${url}`) <b>idea-hub.net</b>
+      .subContainer(style="background-color:white;color:black;padding:5px 12px;margin:0;border-radius:5px;")
         p
           | Hello #{firstName}, <br><br>
-          | You're just one step away from becoming a full member of <b>Idea-Hub</b>, the social network for entrepreneurs. To validate your account, simply click on the following link (or copy it and paste it into your web browser if that doesn't work):<br>
+          | You're just one step away from becoming a full member of <b>idea-hub.net</b>, the social network for entrepreneurs. To validate your account, simply click on the following link (or copy it and paste it into your web browser if that doesn't work):<br>
         a(class="link" href=`${verLink}` style="color:blue;font-family:sans-serif;text-align:center;") <center>#{verLink}</center><br><br>
-        p Sincerely yours,<br><b>Idea-Hub</b> customer service<br><br>
+        p Sincerely yours,<br><b>idea-hub</b> customer service<br><br>
         p
-          | <small>*If you received this e-mail by accident, please ignore it. Please note that this message is automated. Inquieries sent to this e-mail won't go through. If you need to send one, use the contact form provided at <a href=#{url}>www.idea-hub.net</a>.</small>
+          | <small>*If you received this e-mail by accident, please ignore it. Please note that this message is automated. Inquieries sent to this e-mail won't go through. If you need to send one, use the contact form provided at <a href=#{url}>www.idea-hub.net/contact</a>.</small>
