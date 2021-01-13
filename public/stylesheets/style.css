@@ -74,7 +74,8 @@ header {
   position: absolute;
   z-index: 1;
   visibility: hidden;
-  font-size: 0.8em;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .menu_item .dropdownContent button {
   display: inline-block;
@@ -84,7 +85,6 @@ header {
 }
 .menu_item:hover .dropdownContent {
   visibility: visible;
-  border-radius: 0;
 }
 .header_wrapper {
   display: flex;
@@ -250,6 +250,9 @@ header {
   .dropdownContent {
     margin: 0 0 0 -30px;
   }
+  .dropdownContent button {
+    font-size: 1.2rem;
+  }
 }
 @media screen and (max-width: 600px) {
   #header_logo a {
@@ -261,6 +264,9 @@ header {
   }
   .dropdownContent {
     margin: 0 0 0 -30px;
+  }
+  .dropdownContent button {
+    font-size: 1rem;
   }
 }
 .gapA {
@@ -370,6 +376,7 @@ button {
   margin-bottom: 5px;
   overflow: auto;
   cursor: text;
+  resize: none;
 }
 #popupWrapper #popupForm form [contentEditable=true]:empty:not(:focus):before {
   content: attr(data-text);
@@ -552,6 +559,7 @@ button {
 .postContents {
   min-height: 45px;
   overflow: hidden;
+  white-space: pre-wrap;
 }
 .contents a {
   text-decoration: none;
@@ -826,7 +834,7 @@ button {
     margin: 0 0 0 -55px;
   }
   .shareDropdown {
-    margin: 7px 0 0 -65px;
+    margin: 7px 0 0 -80px;
   }
 }
 #popupWrapper #changeNameMenu {
@@ -1227,11 +1235,12 @@ button {
   padding: 3px;
 }
 .profileWrapper .profileSettings .profileSettingsContents li .extraContainer b {
-  min-width: 180px;
+  min-width: 170px;
 }
 .profileWrapper .profileSettings .profileSettingsContents li .extraContainer span {
-  margin-left: 15px;
+  margin-left: 1.5%;
   overflow: hidden;
+  word-wrap: break-word;
 }
 .profileWrapper .profileSettings .profileSettingsContents li .extraContainer:hover {
   background-color: #e6e6eb;

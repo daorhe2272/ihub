@@ -32,9 +32,7 @@ const sharesDefaultList = (req, res) => {
 };
 
 const addPost = (req, res) => {
-  let publisher;
-  let status;
-  let message;
+  let publisher, status, message;
   if (!req.body.publisher || req.body.publisher=="undefined") {
     return res.status(401).json({"message":"Please log in before attempting to post any content."});
   }
@@ -89,15 +87,14 @@ const processShare = (req, res) => {
 
 const deletePost = (req, res) => {
   User.findById(req.params.userId).exec((err, result) => {
-    if (err) {return res.status(400).json(err);}
+    if (err) {return res.status(400).json({message:"API error"});}
     else if (!result) {return res.status(404).json({message:"Post not found"});}
     else {
       let index = result.userActivity.shares.indexOf(req.params.postId);
-      console.log(result); // Remove for production
       if (index > -1) {
         result.userActivity.shares.splice(index, 1);
         result.save((err) => {
-          if (err) {return res.status(400).json(err);}
+          if (err) {return res.status(400).json({message:"API error"});}
           else {
             Share.findById(req.params.postId).deleteOne((err, results) => {
               if (err) {return res.status(400).json(err);}
@@ -202,7 +199,7 @@ const addComment = (req, res) => {
           userId: req.params.userId,
           postId: req.params.postId,
           commentedOn: Date.now(),
-          userName: `${userFullName.firstName} ${userFullName.lastName}` 
+          userName: `${userFullName.firstName} ${userFullName.lastName}`
         }, (err, commentInfo) => {
           if (err) {return res.status(400).json(err);}
           else {

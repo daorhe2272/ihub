@@ -30,11 +30,12 @@ box-shadow:0px 3px 3px rgb(160, 160, 170);}
   .menu_item {
     i{padding:0 10px 0 10px;}
     i:hover{}
-    .dropdownContent{position:absolute;z-index:1;visibility:hidden;font-size:0.8em;
+    .dropdownContent{position:absolute;z-index:1;visibility:hidden; border-radius: 5px;
+    overflow: hidden;
       button{display:inline-block;}
       button:hover{border-radius:0;}
     }
-    &:hover .dropdownContent{visibility:visible;border-radius:0;}
+    &:hover .dropdownContent{visibility:visible;}
   }
   .header_wrapper{display:flex;justify-content:space-between;min-height:56px;align-items:center;}
     #header_logo{padding-left:5%;
@@ -84,11 +85,13 @@ box-shadow:0px 3px 3px rgb(160, 160, 170);}
   #header_logo a{ font-size: 1.8rem; }
   .header_wrapper a, .menu_item button{ font-size:1.5rem; }
   .dropdownContent{ margin: 0 0 0 -30px; }
+  .dropdownContent button{ font-size: 1.2rem; }
 }
 @media screen and (max-width: 600px) {
   #header_logo a{ font-size: 1.5rem; }
   .header_wrapper a, .menu_item button{ font-size:1.2rem; }
   .dropdownContent{ margin: 0 0 0 -30px; }
+  .dropdownContent button{ font-size: 1rem; }
 }
 
 // Shares - General
@@ -116,7 +119,7 @@ body{margin-top:56px;background:rgba(0,20,0,0.05);width:100%;}
         border-radius:5px;max-width:500px;min-width:300px; width: 100%; max-height:550px;overflow:auto;
           form{display:flex;flex-direction:column;align-items:center;
             #postContent{width:100%;height:100px;border:1px solid grey;border-radius:3px;padding:2px;
-            margin-bottom:5px;overflow:auto;cursor:text;}
+            margin-bottom: 5px; overflow: auto; cursor: text; resize: none;}
             [contentEditable=true]:empty:not(:focus):before{content:attr(data-text);color:#555;}
             #postLinkContainer:empty{display:none;}
             #postLinkContainer{
@@ -174,7 +177,7 @@ body{margin-top:56px;background:rgba(0,20,0,0.05);width:100%;}
               }
             }
           }
-          .postContents{min-height:45px;overflow:hidden;}
+          .postContents{min-height: 45px; overflow: hidden; white-space: pre-wrap;}
           .contents a{text-decoration:none;color:black;
             .linkContents{border-radius:8px;overflow:hidden;margin:5px 10px 8px 10px;
               .linkImage{width:100%;max-height:260px;}
@@ -274,7 +277,7 @@ justify-content:center;background-color:@whiteBackground;
 @media screen and (max-width: 800px) {
   .postDropdown{ margin: 3px 0 0 -65px; }
   .commentDropdown{ margin: 0 0 0 -55px; }
-  .shareDropdown{ margin: 7px 0 0 -65px; }
+  .shareDropdown{ margin: 7px 0 0 -80px; }
 }
 
 // My Profile
@@ -379,8 +382,8 @@ justify-content:center;background-color:@whiteBackground;
     .profileSettingsContents{width:100%;margin-right:40px;
       li{list-style:none;border-top:1px solid lightgrey;display:flex;align-items:center;
         .extraContainer{display:flex;margin:5px 0;width:100%;border-radius:5px;padding:3px;
-          b{min-width:180px;}
-          span{margin-left:15px;overflow:hidden;}
+          b{min-width:170px;}
+          span{margin-left: 1.5%; overflow: hidden; word-wrap: break-word;}
         }
         .extraContainer:hover{background-color:rgb(230, 230, 235);cursor:pointer;}
       }
@@ -389,6 +392,13 @@ justify-content:center;background-color:@whiteBackground;
   .profileContent2{.stdProfileContainer();margin-bottom:8px;
     .activityTitle{.stdProfileTitle();}
   }
+}
+
+@media screen and (min-width: 601px) {
+
+}
+@media screen and (max-width: 600px) {
+
 }
 
 // My Collection

@@ -157,8 +157,8 @@ function closeForm() {
 function checkForLink() {
   // Set maximum amount of characters allowed
   let postInput = document.getElementById("postContent");
-  if (postInput.innerText.length > 1000) {
-    alert("Maximum number of characters reached! Please make your post shorter.");
+  if (postInput.value.length > 1000) {
+    showMessage("Maximum number of characters reached! Please make your post shorter.");
   }
 
   // Wait for user to stop typing
@@ -168,9 +168,9 @@ function checkForLink() {
   });
   // If time's up, check for links
   function doneTyping() {
-    let url = postInput.innerHTML.match(urlRegex);
+    let url = postInput.value.match(urlRegex);
     if (url) {
-      let string = postInput.innerHTML;
+      let string = postInput.value;
       populatePost(url[0]);
     } else {
       document.getElementById("postLinkImg").src="";
@@ -182,7 +182,7 @@ function checkForLink() {
   // If there is a link, populate post form
   async function populatePost(url) {
     let data = {postContent: url}
-    let response = await fetch("/api/process-share", {method:"POST", body: JSON.stringify(data), headers: {'Content-Type':'application/json'}});
+    let response = await fetch("/api/process-share", {method:"POST", body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
     if (response.ok) {
       let json = await response.json();
       if (json.image) {document.getElementById("postLinkImg").src=json.image;}
@@ -215,13 +215,13 @@ function postShare(path, params, method) {
 }
 
 function postSharedContent() {
-  if (document.getElementById("postContent").innerHTML === "") {
-    alert("There is nothing to post");
+  if (document.getElementById("postContent").value === "") {
+    alert("There is nothing to post. Please add some content.");
   } else {
     path = "/";
     method = "POST";
     params = {
-      postContent: document.getElementById("postContent").innerHTML,
+      postContent: document.getElementById("postContent").value,
       publisher: document.getElementById("myAccount").getAttribute("name"),
       image: document.getElementById("postLinkImg").getAttribute("src"),
       title: document.getElementById("postLinkTitle").innerHTML,
@@ -231,7 +231,6 @@ function postSharedContent() {
   postShare(path, params, method);
 }
 
-// Extremely unsafe!!!! Fix immidiately!!!!!!
 async function deletePost(postId) {
   if (confirm("Delete post?") === true) {
     location.href = `/delete-share/${postId}`;
@@ -330,8 +329,7 @@ function submitComment(postId) {
         } else if (response.status == 401) {
           showMessage("Please sign in. If you don't have an account, create one.");
         } else {
-          let json = await response.json();
-          console.log(json); // Remove for production
+          showMessage("Whoops, an error occurred. Please try again.");
         }
       } catch (err) {
         console.log(err);

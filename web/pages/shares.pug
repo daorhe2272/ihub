@@ -17,7 +17,7 @@ block content
       #popupWrapper
         #popupForm
           form
-            div(id="postContent" maxlength="1000" oninput="checkForLink()" contentEditable="true" data-text="What would you like to share?")
+            textarea#postContent(maxlength="1000" oninput="checkForLink()" placeholder="What would you like to share?")
             #postLinkContainer
               img#postLinkImg
               b#postLinkTitle
