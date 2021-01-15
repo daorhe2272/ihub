@@ -5,7 +5,7 @@ require("dotenv").config();
 const apiServer = {server: process.env.WEB_SERVER};
 
 /* GET shares list (homepage) */
-const sharesList = (req, res) => {
+const sharesList = async (req, res) => {
   const path = '/api';
   const requestOptions = {
     url: `${apiServer.server}${path}`,
@@ -13,9 +13,10 @@ const sharesList = (req, res) => {
     headers: req.headers,
     json: true
   };
-  request(requestOptions, (err, {statusCode}, body) => {
-		let data = [];
-		if (statusCode === 200 && body.length) {
+  await request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
+    let data = [];
+		if (headers.statusCode === 200 && body.length) {
 			data = body
 		}
 		renderShares(req, res, data);
@@ -50,7 +51,7 @@ const loadMorePosts = (req, res) => {
     form: req.body,
     json: true
   };
-  request(requestOptions, (err, headers, body) => {
+  request(requestOptions, (err, header, body) => {
     if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       res.render("./mixins/morePosts", {
@@ -71,7 +72,7 @@ const createPost = (req, res) => {
   };
   request(requestOptions, (err, header, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode === 201) {
+    if (headers.statusCode === 201) {
       return res.redirect('/');
     }
     return res.render('error', {message: "Whoops! Something went wrong."});
@@ -87,7 +88,7 @@ const deletePost = (req, res) => {
   };
   request(requestOptions, (err, header, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode === 200) {
+    if (headers.statusCode === 200) {
       return res.redirect("/");
     }
     return res.render("error", {message: JSON.parse(body).message});
@@ -104,7 +105,7 @@ const showPost = (req, res) => {
   };
   request(requestOptions, (err, header, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    else if (header.statusCode === 200) {
+    else if (headers.statusCode === 200) {
       return res.render("shares", {
         title: "Shared content | Idea-Hub",
         sharesList: [body],
@@ -125,7 +126,7 @@ const addComment = (req, res) => {
     form: req.body,
     headers: {cookie: req.headers.cookie}
   };
-  request(requestOptions, (err, headers, body) => {
+  request(requestOptions, (err, header, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
       return res.status(200).json(body);

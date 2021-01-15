@@ -1,4 +1,5 @@
 const fs = require("fs");
+require("dotenv").config();
 
 function auditLog(req) {
   fs.appendFile(
@@ -25,8 +26,14 @@ const logAccountDelete = (req, res, userInfo) => {
   );
 }
 
-function logError(err) {
-  fs.appendFile(process.cwd() + "/bin/errors.log.txt", err);
+function logError(error) {
+  fs.appendFile(
+    process.cwd() + "/bin/errors.log.txt",
+    error.toString(),
+    function (err) {
+      if (err) {}
+    }
+  );
 }
 
 module.exports = {

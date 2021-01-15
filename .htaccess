@@ -1,0 +1,16 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/distri15/idea-hub"
+PassengerBaseURI "/"
+PassengerNodejs "/home/distri15/nodevenv/idea-hub/10/bin/node"
+PassengerAppType node
+PassengerStartupFile ihub.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+SetEnv MONGODB_URI mongodb+srv://daorhe:lh_0_XFFnVe6s@cluster0.hbnye.mongodb.net/ehub?retryWrites=true&w=majority
+SetEnv PORT 0
+SetEnv WEB_SERVER https://www.idea-hub.net
+SetEnv EMAIL_PWD bhkbhkej2272
+SetEnv JWT_SECRET ManMussNochChaosInSichHaben
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

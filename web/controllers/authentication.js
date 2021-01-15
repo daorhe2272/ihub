@@ -10,9 +10,9 @@ const register = (req, res) => {
     url: `${apiServer.server}${path}`,
     form: req.body
   };
-  request.post(requestOptions, (err, {statusCode}, body) => {
+  request.post(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (statusCode == 200) {
+    if (headers.statusCode == 200) {
       res.render('error', {
         message: "Welcome to Idea-Hub, the social network for entrepreneurs. Thank you for choosing us. We have sent you a verification link to your e-mail. It should arrive in a few minutes!",
         trigger: "true"
