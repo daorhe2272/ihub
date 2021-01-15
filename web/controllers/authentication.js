@@ -39,7 +39,7 @@ const verifyAccount = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode == 200) {
-      res.cookie(header.rawHeaders[3]);
+      res.cookie(headers.rawHeaders[3]);
       return res.render('error', {
         message: JSON.parse(body).message,
         trigger: "true"
@@ -65,7 +65,7 @@ const login = (req, res) => {
   request(requestOptions, (err, headers, body) => {
 		if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
 		if (headers.statusCode === 200 && body.length) {
-		  res.cookie(header.rawHeaders[3]);
+		  res.cookie(headers.rawHeaders[3]);
 		  res.redirect('/');
     }
     return res.render('error', {
