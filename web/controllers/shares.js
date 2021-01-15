@@ -51,7 +51,7 @@ const loadMorePosts = (req, res) => {
     form: req.body,
     json: true
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       res.render("./mixins/morePosts", {
@@ -70,7 +70,7 @@ const createPost = (req, res) => {
     method: 'POST',
     form: req.body
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode === 201) {
       return res.redirect('/');
@@ -86,7 +86,7 @@ const deletePost = (req, res) => {
     method: 'DELETE',
     headers: req.headers
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode === 200) {
       return res.redirect("/");
@@ -103,7 +103,7 @@ const showPost = (req, res) => {
     headers: req.headers,
     json: true
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
       return res.render("shares", {
@@ -126,7 +126,7 @@ const addComment = (req, res) => {
     form: req.body,
     headers: {cookie: req.headers.cookie}
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
       return res.status(200).json(body);

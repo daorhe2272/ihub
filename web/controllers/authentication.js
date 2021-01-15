@@ -36,9 +36,9 @@ const verifyAccount = (req, res) => {
     url: `${apiServer.server}${path}${req.params.verHash}`,
     method: 'GET'
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode == 200) {
+    if (headers.statusCode == 200) {
       res.cookie(header.rawHeaders[3]);
       return res.render('error', {
         message: JSON.parse(body).message,
@@ -62,9 +62,9 @@ const login = (req, res) => {
     form: req.body,
     headers: req.headers
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
 		if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-		if (header.statusCode === 200 && body.length) {
+		if (headers.statusCode === 200 && body.length) {
 		  res.cookie(header.rawHeaders[3]);
 		  res.redirect('/');
     }
@@ -86,9 +86,9 @@ const requestPasswordReset = (req, res) => {
     method: 'GET',
     form: req.body
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode === 200 && body.length) {
+    if (headers.statusCode === 200 && body.length) {
       return res.render('error', {
         message: JSON.parse(body).message,
         trigger: true
@@ -106,9 +106,9 @@ const formRequest = (req, res) => {
     url: `${apiServer.server}${path}${req.params.verHash}`,
     method: 'GET'
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode == 200 && body.length) {
+    if (headers.statusCode == 200 && body.length) {
       return res.render('passwordReset', {
         verHash: req.params.verHash,
         name: JSON.parse(body).firstName
@@ -128,9 +128,9 @@ const changePassword = (req, res) => {
     form: req.body,
     headers: req.headers
   };
-  request(requestOptions, (err, header, body) => {
+  request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (header.statusCode == 200 && body.length) {
+    if (headers.statusCode == 200 && body.length) {
       return res.render('error', {
         message: JSON.parse(body).message,
         trigger: true
