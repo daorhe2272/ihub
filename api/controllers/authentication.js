@@ -3,10 +3,11 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const nodeMailer = require('../config/nodemailer.config');
+const logger = require("../config/logger.config");
 
 function auditLog(req) {
   fs.appendFile(process.cwd() + '/bin/audit.log.txt', `${Date.now()},${req.ip},${req.method},${req.headers["user-agent"]},${req.headers.referer},${req.body.email}\n`, function (err) {
-    if (err) {return console.log(err);}
+    if (err) {logger.logError(err);}
     console.log("Request logged.");
   });
 };
@@ -23,7 +24,8 @@ const login = (req, res) => {
           "message": "No accounts found under this email. Please create one or try again!"
         });
       } else if (err) {
-        return res.status(404).json(err);
+        logger.logError(err);
+        return res.status(404).json({"message": "API error"});
       }
       // Check if account is verified
       if (result.verified !== true) {
@@ -55,15 +57,16 @@ const login = (req, res) => {
         }
         result.save((err) => {
           if (err) {
+            logger.logError(err);
             return res.status(400).json({message: "API error"});
           } else {
-            return res.status(401).json(message); 
+            return res.status(401).json(message);
           }
         });
       }
       // Successful log-in!
       result.failedLogins = 0;
-      result.save((err) => {if (err) {console.log(err);}});
+      result.save((err) => {if (err) {logger.logError(err);}});
       let expiry = 24*60*60*1000;
       if (req.body.keepLogged === "true") {expiry = expiry * 30;}
       const token = result.generateJwt(expiry);
@@ -82,6 +85,7 @@ const register = (req, res) => {
     return res.status(400).json({message: "All fields required."});
   }
   User.findOne({ email: req.body.email }).select("email").exec((err, result) => {
+    if (err) {logger.logError(err);}
     if (result) {
       return res.status(409).json({message: "The email you selected is already linked to an account. Please check if you already have one."});
     }
@@ -110,13 +114,15 @@ const verifyAccount = (req, res) => {
     if (!result) {
       return res.status(404).json({"message": "No accounts linked to this verification code. Please make sure you used your verification link correctly."});
     } else if (err) {
-      return res.status(404).json(err);
+      logger.logError(err);
+      return res.status(404).json({"message": "API error"});
     }
     if (result.verified == false) {
       result.verified = true;
       result.save((err) => {
         if (err) {
-          return res.status(404).json(err);
+          logger.logError(err);
+          return res.status(404).json({"message": "API error"});
         }
         let expiry = 24*60*60*1000;
         const token = result.generateJwt(expiry);
@@ -145,7 +151,7 @@ const sendResetEmail = (req, res) => {
       return res.status(404).json({
         "message": "No accounts found under this email. Please create one or try again!"
       });
-    } else if (err) {return res.status(404).json(err);}
+    } else if (err) {logger.logError(err); return res.status(404).json({"message": "API error"});}
     nodeMailer.sendResetEmail(req, res, result);
     return res.status(200).json({message:"Please check your email inbox. We have sent you a link to reset your password."});
   });
@@ -160,7 +166,7 @@ const verHashCheck = (req, res) => {
   User.findOne({ verHash: req.params.verHash }).select("-salt -hash").exec((err, result) => {
     if (!result) {
       return res.status(404).json({message: "Invalid verification code."});
-    } else if (err) {return res.status(404).json(err);}
+    } else if (err) {logger.logError(err); return res.status(404).json({"message": "API error"});}
     return res.status(200).json(result);
   });
 };
@@ -177,7 +183,7 @@ const changePassword = (req, res) => {
   User.findOne({ verHash: req.params.verHash }).exec((err, result) => {
     if (!result) {
       return res.status(404).json({message: "Invalid verification code."});
-    } else if (err) {return res.status(404).json(err);}
+    } else if (err) {logger.logError(err); return res.status(404).json({"message": "API error"});}
     // Check for time restrictions
     if (Date.now() < result.allowedLogin) {
       return res.status(404).json({"message": "Time restriction in place. Try again later."});
@@ -185,7 +191,7 @@ const changePassword = (req, res) => {
     if (req.body.email !== result.email) {
       let message = {"message": "Invalid email. Please make sure that the email you typed matches the one related to your account."};
       result.resetAttempts += 1;
-      result.save((err) => {if (err) {return message = "API error.";}});
+      result.save((err) => {if (err) {logger.logError(err); return message = "API error.";}});
       if (result.resetAttempts > 3) {
         auditLog(req);
         result.allowedLogin = Date.now() + (1000*60*10);
@@ -198,7 +204,8 @@ const changePassword = (req, res) => {
     result.createVerHash();
     result.save((err) => {
       if (err) {
-        return res.status(404).json(err);
+        logger.logError(err);
+        return res.status(404).json({"message": "API error"});
       }
       return res.status(200).json({message: "Your password has been successfully updated. You can use it now to access your account"});
     });

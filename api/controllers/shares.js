@@ -1,10 +1,11 @@
-const mongoose = require('mongoose');
-const Share = mongoose.model('Share');
-const User = mongoose.model('User');
-const CommentInShare = mongoose.model('CommentInShare');
+const mongoose = require("mongoose");
+const Share = mongoose.model("Share");
+const User = mongoose.model("User");
+const CommentInShare = mongoose.model("CommentInShare");
 const ReportLog = mongoose.model('ReportLog');
-const grabity = require('grabity');
-const sanitize = require('sanitize-html');
+const grabity = require("grabity");
+const sanitize = require("sanitize-html");
+const logger = require("../config/logger.config");
 
 const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
@@ -19,6 +20,7 @@ const sharesDefaultList = (req, res) => {
     if (!results) {
       return res.status(404).json({"message" : "location not found"});
     } else if (err) {
+      logger.logError(err);
       return res.status(404).json(err);
     }
     // Sort comments by most recent publication date
@@ -43,6 +45,7 @@ const addPost = (req, res) => {
     if (!result) {
       return res.status(404).json({"message":"User not found."});
     } else if (err) {
+      logger.logError(err);
       return res.status(404).json(err);
     } else {
       publisher = `${result.firstName} ${result.lastName}`;
@@ -56,13 +59,14 @@ const addPost = (req, res) => {
         timeRank: Date.now()
       }, (err, post) => {
         if (err) {
+          logger.logError(err);
           res.status(400).json(err);
         } else {
           let index = result.userActivity.shares.indexOf(post._id);
           if (index === -1) {
             result.userActivity.shares.push(post._id);
             result.save((err) => {
-              if (err) {return res.status(400).json(err);}
+              if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
               else {res.status(201).json(post);}
             });
           } else {
@@ -80,6 +84,7 @@ const processShare = (req, res) => {
       let it = await grabity.grabIt(req.body.postContent);
       res.status(200).json(it);
     } catch(err) {
+      logger.logError(err);
       res.status(err.statusCode).json({"message":"Invalid URL. It is possible that your shared link does not exist or is not publicly available."});
     }
   }) ();
@@ -87,17 +92,17 @@ const processShare = (req, res) => {
 
 const deletePost = (req, res) => {
   User.findById(req.params.userId).exec((err, result) => {
-    if (err) {return res.status(400).json({message:"API error"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
     else if (!result) {return res.status(404).json({message:"Post not found"});}
     else {
       let index = result.userActivity.shares.indexOf(req.params.postId);
       if (index > -1) {
         result.userActivity.shares.splice(index, 1);
         result.save((err) => {
-          if (err) {return res.status(400).json({message:"API error"});}
+          if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
           else {
             Share.findById(req.params.postId).deleteOne((err, results) => {
-              if (err) {return res.status(400).json(err);}
+              if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
               else if (!results) {res.status(404).json({message:"Post not found"});}
               else {
                 return res.status(200).json(results);
@@ -114,7 +119,7 @@ const deletePost = (req, res) => {
 
 const likePost = (req, res) => {
   Share.findById(req.params.postId).exec((err, shareInfo) => {
-    if (err) {return res.status(400).json({message: "API error"});}
+    if (err) {logger.logError(err); return res.status(400).json({message: "API error"});}
     else if (shareInfo) {
       let likesSearch;
       let likes = shareInfo.likes;
@@ -128,7 +133,7 @@ const likePost = (req, res) => {
       if (likesSearch == undefined) {
         likes.push({sourceId: req.params.userId, addedOn: Date.now()});
         shareInfo.save((err) => {
-          if (err) {return res.status(400).json({message:"API error"});}
+          if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
           else {
             User.findById(req.params.userId).exec((err, userInfo) => {
               let userLikesSearch;
@@ -142,7 +147,7 @@ const likePost = (req, res) => {
               if (userLikesSearch == undefined) {
                 userLikes.push({sourceId: req.params.postId, addedOn: Date.now()});
                 userInfo.save((err) => {
-                  if (err) {return res.status(400).json({message:"API error"});}
+                  if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
                   else {return res.status(200).json({message:"Like added"});}
                 });
               }
@@ -153,7 +158,7 @@ const likePost = (req, res) => {
       } else {
         likes.pull(likesSearch);
         shareInfo.save((err) => {
-          if (err) {return res.status(400).json({"message":"API error"});}
+          if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
           else {
             User.findById(req.params.userId).exec((err, userInfo) => {
               let userLikesSearch;
@@ -167,7 +172,7 @@ const likePost = (req, res) => {
               if (userLikesSearch != undefined) {
                 userLikes.pull(userLikesSearch);
                 userInfo.save((err) => {
-                  if (err) {return res.status(400).json({message:"API error"});}
+                  if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
                   else {return res.status(200).json({message:"Like removed"});}
                 });
               }
@@ -192,7 +197,7 @@ const getPost = (req, res) => {
 const addComment = (req, res) => {
   if (req.body.commentContent && req.params.userId && req.params.postId) {
     User.findById(req.params.userId).select("firstName lastName").exec((err, userFullName) => {
-      if (err) {return res.status(400).json(err);}
+      if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
       else {
         CommentInShare.create({
           content: req.body.commentContent,
@@ -201,21 +206,21 @@ const addComment = (req, res) => {
           commentedOn: Date.now(),
           userName: `${userFullName.firstName} ${userFullName.lastName}`
         }, (err, commentInfo) => {
-          if (err) {return res.status(400).json(err);}
+          if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
           else {
             User.findById(req.params.userId).exec((err, results) => {
-              if (err) {return res.status(400).json(err);}
+              if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
               else {
                 results.userActivity.comments.push(commentInfo._id);
                 results.save((err) => {
-                  if (err) {return res.status(400).json(err);}
+                  if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
                   else {
                     Share.findById(req.params.postId).exec((err, results2) => {
-                      if (err) {return res.status(400).json(err);}
+                      if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
                       else {
                         results2.comments.push(commentInfo._id);
                         results2.save((err) => {
-                          if (err) {return res.status(400).json(err);}
+                          if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
                           else {return res.status(200).json(commentInfo);}
                         });
                       }
@@ -234,11 +239,11 @@ const addComment = (req, res) => {
 const deleteComment = (req, res) => {
   if (req.params.userId && req.params.commentId) {
     CommentInShare.findByIdAndDelete(req.params.commentId, (err, result) => {
-      if (err) {return res.status(400).json(err);}
+      if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
       else if (!result) {return res.status(400).json({message:"Bad request"});}
       else {
         User.findById(req.params.userId).exec((err, result2) => {
-          if (err) {return res.status(400).json(err);}
+          if (err) {logger.logError(err); return res.status(400).json({"message": "API error"});}
           else if (!result2) {return res.status(400).json({message:"Bad request"});}
           else {
             if (req.params.userId == result.userId) {
@@ -247,10 +252,10 @@ const deleteComment = (req, res) => {
                 result2.userActivity.comments.splice(index, 1);
               }
               result2.save((err) => {
-                if (err) {return res.status(400).json({message:"Bad request"});}
+                if (err) {logger.logError(err); return res.status(400).json({message:"Bad request"});}
                 else {
                   Share.findById(result.postId).exec((err, result3) => {
-                    if (err) {return res.status(400).json({message:"Bad request"});}
+                    if (err) {logger.logError(err); return res.status(400).json({message:"Bad request"});}
                     else if (!result3) {return res.status(400).json({message:"Bad request"});}
                     else {
                       let index2 = result3.comments.indexOf(req.params.commentId);
@@ -258,7 +263,7 @@ const deleteComment = (req, res) => {
                         result3.comments.splice(index2, 1);
                       }
                       result3.save((err) => {
-                        if (err) {return res.status(400).json({message:"Bad request"});}
+                        if (err) {logger.logError(err); return res.status(400).json({message:"Bad request"});}
                         else {
                           return res.status(200).json({message:"Comment deleted"});
                         }
@@ -288,14 +293,14 @@ const likeComment = (req, res) => {
     if (index > -1) {
       results.likes.splice(index, 1);
       results.save((err) => {
-        if (err) {return res.status(400).json({message:"API error"});}
+        if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
         else {
           User.findById(req.params.userId).exec((err, results2) => {
             let index2 = results2.userActivity.commentLikes.indexOf(req.params.commentId);
             if (index2 > -1) {
               results2.userActivity.commentLikes.splice(index2, 1);
               results2.save((err) => {
-                if (err) {return res.status(400).json({message:"API error"});}
+                if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
                 else {return res.status(200).json({message:"Like removed"});}
               });
             }
@@ -307,14 +312,14 @@ const likeComment = (req, res) => {
     else if (index === -1) {
       results.likes.push(req.params.userId);
       results.save((err) => {
-        if (err) {return res.status(400).json({message:"API error"});}
+        if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
         else {
           User.findById(req.params.userId).exec((err, results2) => {
             let index2 = results2.userActivity.commentLikes.indexOf(req.params.commentId);
             if (index2 === -1) {
               results2.userActivity.commentLikes.push(req.params.commentId);
               results2.save((err) => {
-                if (err) {return res.status(400).json({message:"API error"});}
+                if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
                 else {return res.status(200).json({message:"Like added"});}
               });
             }
@@ -328,7 +333,7 @@ const likeComment = (req, res) => {
 
 const reportPost = (req, res) => {
   ReportLog.find({reporterId: req.params.userId}).find({sourceId: req.params.sourceId}).exec(async (err, results) => {
-    if (err) {return res.status(400).json({message:"API error"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"API error"});}
     else if (results.length) {
       return res.status(200).json({message:"A report has been filed already"});
     }
@@ -340,14 +345,14 @@ const reportPost = (req, res) => {
         date: Date.now(),
         explanation: req.body.explanation
       }, (err, reportInfo) => {
-        if (err) {res.status(400).json({message:"API error"});}
+        if (err) {logger.logError(err); res.status(400).json({message:"API error"});}
         else {
           User.findById(req.params.userId).exec((err, userInfo) => {
-            if (err) {console.log(err);} // Handle error logging
+            if (err) {logger.logError(err);}
             else if (userInfo) {
               userInfo.userActivity.reports.push(reportInfo._id);
               userInfo.save((err) => {
-                if (err) {console.log(err);} // Handle error logging
+                if (err) {logger.logError(err);}
                 else {console.log("Report registered for user");}
               });
             }
@@ -363,11 +368,11 @@ const reportPost = (req, res) => {
             }
           });
           CommentInShare.findById(req.params.sourceId).exec((err, commentInfo) => {
-            if (err) {console.log(err);} // Handle error logging
+            if (err) {logger.logError(err);}
             else if (commentInfo) {
               commentInfo.reports.push(reportInfo._id);
               commentInfo.save((err) => {
-                if (err) {console.log(err);} // Handle error logging
+                if (err) {logger.logError(err);}
                 else {console.log("Report registered for comment in Share");}
               });
             }
@@ -387,6 +392,7 @@ const editPost = (req, res) => {
     return res.status(400).json({"message":"API error."});
   } else {
     Share.findById(req.params.postId).exec((err, shareInfo) => {
+      if (err) {logger.logError(err);}
       if (shareInfo.publisherId === req.params.userId) {
         shareInfo.content = sanitize(req.body.postContent, {allowedAttributes: {}}),
         shareInfo.linkTitle = req.body.title,
@@ -409,16 +415,16 @@ const editComment = (req, res) => {
   } else {
     CommentInShare.findById(req.params.commentId).exec((err, commentInfo) => {
       if (err) {
-        // Log error info
+        logger.logError(err);
         return res.status(400).json({"message":"API error."});
       } else if (commentInfo) {
         commentInfo.content = req.body.content;
         commentInfo.save((err) => {
-          if (err) {return res.status(400).json({"message":"API error"});} // Log error info
+          if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
           else {return res.status(200).json({content: commentInfo.content});}
         });
       } else {
-        // Log "An unexpected error occurred when user tried to edit comment"
+        logger.logError("An unexpected error occurred when user tried to edit comment.");
         return res.status(400).json({"message":"API error."});
       }
     });
@@ -429,6 +435,7 @@ const addToCollection = (req, res) => {
   if (req.params.userId && req.params.sourceId) {
     User.findById(req.params.userId).exec((err, userInfo) => {
       if (err) {
+        logger.logError(err);
         return res.status(400).json({"message":"API error."});
       } else if (userInfo) {
         let collectionsSearch;
@@ -442,7 +449,7 @@ const addToCollection = (req, res) => {
         if (collectionsSearch == undefined) {
           collections.push({sourceId: req.params.sourceId, addedOn: Date.now()});
           userInfo.save((err) => {
-            if (err) {return res.status(400).json({"message":"API error"});}
+            if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
             else {
               Share.findById(req.params.sourceId).exec((err, shareInfo) => {
                 if (shareInfo) {
@@ -450,7 +457,7 @@ const addToCollection = (req, res) => {
                   if (index2 === -1) {
                     shareInfo.collections.push(req.params.userId);
                     shareInfo.save((err) => {
-                      if (err) {/* Log error */}
+                      if (err) {logger.logError(err);}
                     });
                   }
                 }
@@ -461,7 +468,7 @@ const addToCollection = (req, res) => {
         } else {
           collections.pull(collectionsSearch);
           userInfo.save((err) => {
-            if (err) {return res.status(400).json({"message":"API error"});}
+            if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
             else {
               Share.findById(req.params.sourceId).exec((err, shareInfo) => {
                 if (shareInfo) {
@@ -469,7 +476,7 @@ const addToCollection = (req, res) => {
                   if (index2 > -1) {
                     shareInfo.collections.splice(index2, 1);
                     shareInfo.save((err) => {
-                      if (err) {/* Log error */}
+                      if (err) {logger.logError(err);}
                     });
                   }
                 }
@@ -479,7 +486,7 @@ const addToCollection = (req, res) => {
           });
         }
       } else {
-        // Log "An unexpected error occurred when adding or removing element from user collection"
+        logger.logError("An unexpected error occurred when adding or removing element from user collection.");
         return res.status(400).json({"message":"API error."});
       }
     });

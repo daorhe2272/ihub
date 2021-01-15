@@ -1,4 +1,5 @@
-const request = require('request');
+const request = require("request");
+const logger = require(process.cwd() + "/api/config/logger.config");
 require("dotenv").config();
 
 const apiServer = {server: process.env.WEB_SERVER};
@@ -50,7 +51,7 @@ const loadMorePosts = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       res.render("./mixins/morePosts", {
         sharesList: body
@@ -69,7 +70,7 @@ const createPost = (req, res) => {
     form: req.body
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode === 201) {
       return res.redirect('/');
     }
@@ -85,7 +86,7 @@ const deletePost = (req, res) => {
     headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode === 200) {
       return res.redirect("/");
     }
@@ -102,7 +103,7 @@ const showPost = (req, res) => {
     json: true
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (header.statusCode === 200) {
       return res.render("shares", {
         title: "Shared content | Idea-Hub",
@@ -125,7 +126,7 @@ const addComment = (req, res) => {
     headers: {cookie: req.headers.cookie}
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
       return res.status(200).json(body);
     } else if (headers.statusCode === 401) {
@@ -144,7 +145,7 @@ const deleteComment = (req, res) => {
     headers: {cookie: req.headers.cookie}
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
       res.status(200).json(JSON.parse(body));
     }
@@ -161,7 +162,7 @@ const reportPost = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       res.status(200).json(body);
     }
@@ -178,7 +179,7 @@ const updatePost = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       return res.redirect("/");
     } else {
@@ -197,7 +198,7 @@ const updateComment = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       return res.status(200).json(body);
     }
@@ -214,7 +215,7 @@ const addToCollection = (req, res) => {
     json:true
   };
   request(requestOptions, (err, headers, body) => {
-    if (err) {return res.status(400).json({message:"An error has occurred"});}
+    if (err) {logger.logError(err); return res.status(400).json({message:"An error has occurred"});}
     else if (headers.statusCode === 200) {
       return res.status(200).json(body);
     } else {

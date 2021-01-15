@@ -1,4 +1,5 @@
 const request = require('request');
+const logger = require(process.cwd() + "/api/config/logger.config");
 require("dotenv").config();
 
 const apiServer = {server: process.env.WEB_SERVER};
@@ -10,7 +11,7 @@ const register = (req, res) => {
     form: req.body
   };
   request.post(requestOptions, (err, {statusCode}, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (statusCode == 200) {
       res.render('error', {
         message: "Welcome to Idea-Hub, the social network for entrepreneurs. Thank you for choosing us. We have sent you a verification link to your e-mail. It should arrive in a few minutes!",
@@ -36,7 +37,7 @@ const verifyAccount = (req, res) => {
     method: 'GET'
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode == 200) {
       res.cookie(header.rawHeaders[3]);
       return res.render('error', {
@@ -62,7 +63,7 @@ const login = (req, res) => {
     headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
-		if (err) {return res.send(err);}
+		if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
 		if (header.statusCode === 200 && body.length) {
 		  res.cookie(header.rawHeaders[3]);
 		  res.redirect('/');
@@ -86,7 +87,7 @@ const requestPasswordReset = (req, res) => {
     form: req.body
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode === 200 && body.length) {
       return res.render('error', {
         message: JSON.parse(body).message,
@@ -106,7 +107,7 @@ const formRequest = (req, res) => {
     method: 'GET'
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode == 200 && body.length) {
       return res.render('passwordReset', {
         verHash: req.params.verHash,
@@ -128,7 +129,7 @@ const changePassword = (req, res) => {
     headers: req.headers
   };
   request(requestOptions, (err, header, body) => {
-    if (err) {return res.send(err);}
+    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (header.statusCode == 200 && body.length) {
       return res.render('error', {
         message: JSON.parse(body).message,

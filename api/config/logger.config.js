@@ -25,7 +25,12 @@ const logAccountDelete = (req, res, userInfo) => {
   );
 }
 
+function logError(err) {
+  fs.appendFile(process.cwd() + "/bin/errors.log.txt", err);
+}
+
 module.exports = {
   auditLog,
-  logAccountDelete
-}
+  logAccountDelete,
+  logError
+};

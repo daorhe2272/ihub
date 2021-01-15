@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require("../config/logger.config");
 require("dotenv").config();
 
 const dbURI = process.env.MONGODB_URI;
@@ -13,6 +14,7 @@ mongoose.connection.on('connected', () => {
 	console.log("Mongoose connected successfully to database");
 });
 mongoose.connection.on('error', err => {
+	logger.logError(err);
 	console.log('Mongoose connection error:', err);
 });
 mongoose.connection.on('disconnected', () => {

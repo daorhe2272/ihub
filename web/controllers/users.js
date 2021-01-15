@@ -1,4 +1,5 @@
 const request = require('request');
+const logger = require(process.cwd() + "/api/config/logger.config");
 require("dotenv").config();
 
 const apiServer = {server: process.env.WEB_SERVER};
@@ -38,6 +39,7 @@ const myCollection = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       res.render("myCollection", {collectionList: body, title: "My Collection | Idea-Hub"});
     } else {
@@ -60,6 +62,7 @@ const editUserDescription = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       return res.status(200).json(body);
     } else {
@@ -82,6 +85,7 @@ const editProfileInfo = (req, res) => {
     json: true
   }
   request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       return res.status(200).json(body);
     } else {
@@ -104,6 +108,7 @@ const deleteUserAccount = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       res.clearCookie("token");
       res.render("error", {
@@ -129,6 +134,7 @@ const changeUserName = (req, res) => {
     json: true
   };
   request(requestOptions, (err, headers, body) => {
+    if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       res.status(200).json({});
     } else {
