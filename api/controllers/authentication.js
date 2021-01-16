@@ -70,13 +70,7 @@ const login = (req, res) => {
       let expiry = 24*60*60*1000;
       if (req.body.keepLogged === "true") {expiry = expiry * 30;}
       const token = result.generateJwt(expiry);
-      res.cookie("token", token, {
-            expires: new Date(Date.now() + expiry),
-            secure: false, // Set to true when using https
-            httpOnly: true,
-            path: '/'
-          });
-      res.status(200).json({token});
+      res.status(200).json({"token": token, "expiry": expiry.toString()});
     });
 };
 
@@ -126,13 +120,11 @@ const verifyAccount = (req, res) => {
         }
         let expiry = 24*60*60*1000;
         const token = result.generateJwt(expiry);
-        res.cookie("token", token, {
-          expires: new Date(Date.now() + expiry),
-          secure: false, // Set to true when using https
-          httpOnly: true,
-          path: '/'
+        return res.status(200).json({
+          "message": "Your account has been successfully verified. You are now free to post and interact with other users!",
+          "token": token,
+          "expiry": expiry.toString()
         });
-        return res.status(200).json({"message": "Your account has been successfully verified. You are now free to post and interact with other users!"});
       });
     } else {
       res.status(200).json({"message": "Your account has been verified already. No need to do it again!"});

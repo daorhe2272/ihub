@@ -39,7 +39,12 @@ const verifyAccount = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode == 200) {
-      res.cookie(headers.rawHeaders[3]);
+      res.cookie("token", JSON.parse(body).token, {
+        expires: new Date(Date.now() + JSON.parse(body).expiry),
+        secure: (process.env.SECURE_COOKIE == "true"),
+        httpOnly: true,
+        path: "/"
+      });
       return res.render('error', {
         message: JSON.parse(body).message,
         trigger: "true"
@@ -65,7 +70,12 @@ const login = (req, res) => {
   request(requestOptions, (err, headers, body) => {
 		if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
 		if (headers.statusCode === 200 && body.length) {
-		  res.cookie(headers.rawHeaders[3]);
+      res.cookie("token", JSON.parse(body).token, {
+        expires: new Date(Date.now() + JSON.parse(body).expiry),
+        secure: (process.env.SECURE_COOKIE == "true"),
+        httpOnly: true,
+        path: "/"
+      });
 		  res.redirect('/');
     }
     return res.render('error', {
