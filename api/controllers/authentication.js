@@ -70,7 +70,7 @@ const login = (req, res) => {
       let expiry = 24*60*60*1000;
       if (req.body.keepLogged === "true") {expiry = expiry * 30;}
       const token = result.generateJwt(expiry);
-      res.status(200).json({"token": token, "expiry": expiry.toString()});
+      res.status(200).json({"token": token, "expiry": expiry});
     });
 };
 
@@ -123,7 +123,7 @@ const verifyAccount = (req, res) => {
         return res.status(200).json({
           "message": "Your account has been successfully verified. You are now free to post and interact with other users!",
           "token": token,
-          "expiry": expiry.toString()
+          "expiry": expiry
         });
       });
     } else {
