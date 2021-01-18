@@ -15,22 +15,21 @@ let transporter = nodemailer.createTransport({
   tls: {ciphers: "SSLv3"}
 });
 
-let campaignsTransporter = nodemailer.createTransport({
+let infoTransporter = nodemailer.createTransport({
   host: "mail.idea-hub.net",
   port: "465",
-  secureConnection: (process.env.SECURE_COOKIE == "true"),
+  secureConnection: true,
   auth: {
-    user: "campaigns@idea-hub.net",
-    pass: process.env.CAMPAIGNS_PWD
-  },
-  tls: {}
+    user: "info@idea-hub.net",
+    pass: process.env.MAIL_INFO_PWD
+  }
 });
 
 const sendVerEmail = (req, res, verHash) => {
   const path = `${apiServer.server}/verify-account/`
   let htmlFile = pug.renderFile(process.cwd() + '/web/pages/email.templates/validationEmail.pug', {firstName: req.body.firstName, verLink: path + verHash});
   transporter.sendMail({
-    from: '"idea-hub.net" <daorhe2272@hotmail.com>',
+    from: '"idea-hub.net" <info@idea-hub.net>',
     to: req.body.email,
     subject: "Verify your account - Idea-Hub",
     text: "",
