@@ -1,4 +1,5 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
+const logger = require("logger.config");
 const pug = require('pug');
 require("dotenv").config();
 
@@ -36,6 +37,7 @@ const sendVerEmail = (req, res, verHash) => {
     html: htmlFile
   }, (error, info) => {
     if (error) {
+      logger.logError(error);
       return console.log(error);
     }
     console.log("Message %s sent: %s", info.messageId, info.response); // Remove for production
