@@ -48,7 +48,7 @@ router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
 
 // Test
 router.get('/test', (req, res) => {
-  return res.render('email.templates/contentEditable');
+  return res.render('email.templates/resetPasswordEmail');
 });
 
 
