@@ -29,7 +29,7 @@ const logAccountDelete = (req, res, userInfo) => {
 function logError(error) {
   fs.appendFile(
     process.cwd() + "/bin/errors.log.txt",
-    error.toString(),
+    error.toString() + "\n",
     function (err) {
       if (err) {}
     }
