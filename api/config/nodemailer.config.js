@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const logger = require("logger.config");
+const logger = require("./logger.config");
 const pug = require('pug');
 require("dotenv").config();
 
