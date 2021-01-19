@@ -36,13 +36,16 @@ const sharesDefaultList = (req, res) => {
 const addPost = (req, res) => {
   let publisher, status, message;
   if (!req.body.publisher || req.body.publisher=="undefined") {
+    logger.logError("No publisher found in request");
     return res.status(401).json({"message":"Please log in before attempting to post any content."});
   }
   if (!req.body.postContent) {
+    logger.logError("No content to post found");
     return res.status(400).json({"message":"No content to post found."});
   }
   User.findOne({ _id: req.body.publisher }).exec((err, result) => {
     if (!result) {
+      logger.logError("User not found");
       return res.status(404).json({"message":"User not found."});
     } else if (err) {
       logger.logError(err);
@@ -70,6 +73,7 @@ const addPost = (req, res) => {
               else {res.status(201).json(post);}
             });
           } else {
+            logger.logError("Undefined error occurred when saving post to database");
             return res.status(400).json({message:"API error"});
           }
         }

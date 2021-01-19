@@ -76,7 +76,6 @@ const createPost = (req, res) => {
     if (headers.statusCode === 201) {
       return res.redirect('/');
     }
-    logger.logError(headers.statusCode);
     return res.render('error', {message: "Whoops! Something went wrong."});
   });
 };
