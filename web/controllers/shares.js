@@ -74,9 +74,9 @@ const createPost = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode === 201) {
-      logger.logError(JSON.stringify(headers));
       return res.redirect('/');
     }
+    logger.logError(headers);
     return res.render('error', {message: "Whoops! Something went wrong."});
   });
 };
