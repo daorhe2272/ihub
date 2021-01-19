@@ -5,15 +5,14 @@ require("dotenv").config();
 
 let apiServer = {server: process.env.WEB_SERVER};
 
-let transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
-  port: "587",
-  secureConnection: false,
+let infoTransporter = nodemailer.createTransport({
+  host: "mail.idea-hub.net",
+  port: "465",
+  secureConnection: true,
   auth: {
-    user: "daorhe2272@hotmail.com",
-    pass: process.env.EMAIL_PWD
-  },
-  tls: {ciphers: "SSLv3"}
+    user: "info@idea-hub.net",
+    pass: process.env.MAIL_INFO_PWD
+  }
 });
 
 const sendVerEmail = (req, res, verHash) => {
