@@ -68,6 +68,7 @@ const createPost = (req, res) => {
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: 'POST',
+    headers: req.headers,
     form: req.body
   };
   request(requestOptions, (err, headers, body) => {
@@ -75,6 +76,7 @@ const createPost = (req, res) => {
     if (headers.statusCode === 201) {
       return res.redirect('/');
     }
+    logger.logError(body);
     return res.render('error', {message: "Whoops! Something went wrong."});
   });
 };
