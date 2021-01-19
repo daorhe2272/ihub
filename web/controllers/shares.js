@@ -64,7 +64,7 @@ const loadMorePosts = (req, res) => {
 }
 
 const createPost = (req, res) => {
-  const path = '/api';
+  const path = '/api/share/create-post';
   const requestOptions = {
     url: `${apiServer.server}${path}`,
     method: 'POST',
@@ -76,7 +76,6 @@ const createPost = (req, res) => {
     if (headers.statusCode === 201) {
       return res.redirect('/');
     }
-    logger.logError(JSON.stringify(headers));
     return res.render('error', {message: "Whoops! Something went wrong."});
   });
 };
