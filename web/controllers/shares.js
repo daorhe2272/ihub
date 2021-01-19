@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const apiServer = {server: process.env.WEB_SERVER};
 
-/* GET shares list (homepage) */
 const sharesList = async (req, res) => {
   const path = '/api';
   const requestOptions = {
@@ -67,11 +66,10 @@ const createPost = (req, res) => {
   const path = '/api/share/create-post';
   const requestOptions = {
     url: `${apiServer.server}${path}`,
-    method: 'POST',
     headers: req.headers,
     form: req.body
   };
-  request(requestOptions, (err, headers, body) => {
+  request.post(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     if (headers.statusCode === 201) {
       return res.redirect('/');
