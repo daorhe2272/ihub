@@ -145,8 +145,13 @@ function checkPassStrength2() {
 }
 
 function openForm() {
-  document.getElementById("popupWrapper").style.display="flex";
-  document.getElementById("popupForm").style.display="block";
+  let publisher = document.getElementById("myAccount");
+  if (publisher !== null && publisher !== undefined) {
+    document.getElementById("popupWrapper").style.display="flex";
+    document.getElementById("popupForm").style.display="block";
+  } else {
+    showMessage("Please sign in or register yourself before attempting to post any content.");
+  }
 }
 
 function closeForm() {

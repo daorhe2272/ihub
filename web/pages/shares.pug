@@ -9,11 +9,10 @@ block content
     .sideBar
     .mainContent
       #title=openingPhrase
-      if userId
-        .formContainer
-          button(onclick="openForm()")
-            .shareForm
-              i.fas.fa-pen-square <b> Add your own post!</b>
+      .formContainer
+        button(onclick="openForm()")
+          .shareForm
+            i.fas.fa-pen-square <b> Add your own post!</b>
       #popupWrapper
         #popupForm
           form
