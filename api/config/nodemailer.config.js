@@ -29,7 +29,7 @@ let infoTransporter = nodemailer.createTransport({
 const sendVerEmail = (req, res, verHash) => {
   const path = `${apiServer.server}/verify-account/`
   let htmlFile = pug.renderFile(process.cwd() + '/web/pages/email.templates/validationEmail.pug', {firstName: req.body.firstName, verLink: path + verHash});
-  transporter.sendMail({
+  infoTransporter.sendMail({
     from: '"idea-hub.net" <info@idea-hub.net>',
     to: req.body.email,
     subject: "Verify your account - Idea-Hub",
