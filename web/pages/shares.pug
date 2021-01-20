@@ -5,7 +5,7 @@ block content
   - const indexOpenings = ['Got a spare business idea? Why not share it so others can use it.', 'Let others know about your business. Share your website here.', 'Found an interesting blog post or article? Help others by sharing it!', 'Be nice and help your peers by answering their questions and requests.'];
   - openingPhrase = indexOpenings[parseInt((Math.random() * indexOpenings.length))]
   .gapA
-  .bodyWrapper
+  .bodyWrapper(onclick="void(0);")
     .sideBar
     .mainContent
       #title=openingPhrase
