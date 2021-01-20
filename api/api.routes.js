@@ -36,7 +36,7 @@ router.get('/get-post/:postId', ctrlShares.getPost);
 router.get('/like-share-comment/:commentId', getId, ctrlShares.likeComment);
 router.get('/add-to-collection/:sourceId', getId, ctrlShares.addToCollection);
 router.post('/report-post/:sourceId-:ipAddress', getId, ctrlShares.reportPost);
-router.post('/share/create-post', ctrlShares.addPost);
+router.post('/share/create-post', getId, ctrlShares.addPost);
 router.post('/process-share', ctrlShares.processShare);
 router.post('/post-comment/:postId', getId, ctrlShares.addComment);
 router.put('/edit-share/:postId', getId, ctrlShares.editPost);

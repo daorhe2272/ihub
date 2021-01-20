@@ -26,7 +26,7 @@ const sendVerEmail = (req, res, verHash) => {
     html: htmlFile
   }, (error, info) => {
     if (error) {
-      logger.logError(error);
+      logger.logError(`In sendVerEmail: ${JSON.stringify(error)}`);
       return console.log(error);
     }
   });
@@ -43,7 +43,7 @@ const sendResetEmail = (req, res, result) => {
     html: htmlFile
   }, (error, info) => {
     if (error) {
-      logger.logError(error);
+      logger.logError(`In sendResetEmail: ${JSON.stringify(error)}`);
       return console.log(error);
     }
   });

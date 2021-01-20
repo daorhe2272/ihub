@@ -35,7 +35,7 @@ const sharesDefaultList = (req, res) => {
 
 const addPost = (req, res) => {
   let publisher, status, message;
-  if (!req.body.publisher || req.body.publisher=="undefined") {
+  if (!req.params.userId || req.params.userId=="undefined") {
     logger.logError("No publisher found in request");
     return res.status(401).json({"message":"Please log in before attempting to post any content."});
   }
@@ -43,7 +43,7 @@ const addPost = (req, res) => {
     logger.logError("No content to post found");
     return res.status(400).json({"message":"No content to post found."});
   }
-  User.findOne({ _id: req.body.publisher }).exec((err, result) => {
+  User.findOne({ _id: req.params.userId }).exec((err, result) => {
     if (!result) {
       logger.logError("User not found");
       return res.status(404).json({"message":"User not found."});

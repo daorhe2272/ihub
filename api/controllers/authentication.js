@@ -87,6 +87,7 @@ const register = (req, res) => {
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.email = req.body.email;
+    user.joinedOn = Date.now();
     user.setPassword(req.body.password);
     const verHash = user.createVerHash();
     user.save((err) => {

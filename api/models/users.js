@@ -71,6 +71,11 @@ const userSchema = new mongoose.Schema({
     "default": "",
     maxlength: 150
   },
+  joinedOn: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
   userActivity: {
     likes: [{
       _id: false,
