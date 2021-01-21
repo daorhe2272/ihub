@@ -189,7 +189,7 @@ const likePost = (req, res) => {
 }
 
 const getPost = (req, res) => {
-  Share.findById(req.params.postId).exec((err, results) => {
+  Share.findById(req.params.postId).populate({path: "comments", model: "CommentInShare"}).exec((err, results) => {
     if (err) {return res.status(400).json({message:"API error,"});}
     else if (!results) {return res.status(404).json({message:"Post not found."});}
     else {

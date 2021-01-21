@@ -105,11 +105,15 @@ const showPost = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
+      console.log(body);
       return res.render("shares", {
         title: "Shared content | Idea-Hub",
         sharesList: [body],
         message: "",
         trigger2: ""
+      }, (err, html) => {
+        if (err) {logger.logError(err); console.log(err);}
+        else {res.send(html);}
       });
     } else {
       return res.render("error", {message: "Ups... Something went wrong."});
