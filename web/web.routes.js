@@ -3,6 +3,7 @@ const router = express.Router();
 const ctrlShares = require('./controllers/shares');
 const ctrlAuth = require('./controllers/authentication');
 const ctrlUsers = require('./controllers/users');
+const ctrlAbout = require("./controllers/about")
 const jwt = require('jsonwebtoken');
 
 const getId = (req, res, next) => {
@@ -38,13 +39,19 @@ router.post("/load-more-posts", getId, ctrlShares.loadMorePosts);
 router.get('/delete-share/:postId', getId, ctrlShares.deletePost);
 router.get('/shared-post/:postId', getId, ctrlShares.showPost);
 router.get('/add-to-collection/:sourceId', ctrlShares.addToCollection);
-router.get("/about", ctrlShares.aboutPage);
 router.post('/report-post/:postId', ctrlShares.reportPost)
 router.post('/post-comment/:postId', ctrlShares.addComment);
 router.post('/', ctrlShares.createPost);
 router.post('/edit-share/:postId', ctrlShares.updatePost);
 router.post('/edit-comment/:commentId', ctrlShares.updateComment);
 router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
+
+// About
+router.get("/about", ctrlAbout.aboutPage);
+router.get("/about/contact", ctrlAbout.contactInfo);
+router.get("/about/cookies-policy", ctrlAbout.cookiesPolicy);
+router.get("/about/privacy-policy", ctrlAbout.privacyPolicy);
+router.get("/about/service-terms", ctrlAbout.serviceTerms);
 
 // Test
 router.get('/test', (req, res) => {

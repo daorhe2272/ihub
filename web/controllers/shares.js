@@ -228,10 +228,6 @@ const addToCollection = (req, res) => {
   });
 }
 
-const aboutPage = (req, res) => {
-  res.render("about");
-}
-
 module.exports = {
 	sharesList,
 	loadMorePosts,
@@ -243,6 +239,5 @@ module.exports = {
 	reportPost,
 	updatePost,
 	updateComment,
-	addToCollection,
-  aboutPage
+	addToCollection
 };
