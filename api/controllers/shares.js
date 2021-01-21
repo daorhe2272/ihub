@@ -54,7 +54,7 @@ const addPost = (req, res) => {
       publisher = `${result.firstName} ${result.lastName}`;
       Share.create({
         publisher: publisher,
-        publisherId: req.body.publisher,
+        publisherId: req.params.userId,
         content: sanitize(req.body.postContent, {allowedAttributes: {}}),
         linkTitle: req.body.title,
         linkDescription: req.body.description,
