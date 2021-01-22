@@ -8,7 +8,7 @@ const myProfile = (req, res) => {
   const path = '/api/user/';
   const requestOptions = {
     url: `${apiServer.server}${path}${req.params.userId}`,
-    method: 'GET',
+    method: "GET",
     json: true
   };
   request(requestOptions, (err, headers, body) => {
@@ -25,7 +25,9 @@ const myProfile = (req, res) => {
        userLinkedIn: body.userLinkedIn
       });
     } else {
-      res.render("myProfile", {userName: "Error!!!"});
+      res.render("error", {
+        message: "User not found. It may be that this user does not exist anymore."
+      });
     }
   });
 }

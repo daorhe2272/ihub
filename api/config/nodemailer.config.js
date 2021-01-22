@@ -49,7 +49,13 @@ const sendResetEmail = (req, res, result) => {
   });
 };
 
+const sendContactInfoMessage = (req, res) => {
+  console.log(req.body);
+  return true;
+}
+
 module.exports = {
   sendVerEmail,
-  sendResetEmail
+  sendResetEmail,
+  sendContactInfoMessage
 };

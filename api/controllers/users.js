@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Share = mongoose.model('Share');
 const User = mongoose.model('User');
 const logger = require('../config/logger.config');
+const nodeMailer = require('../config/nodemailer.config');
 
 const _apiError = (req, res) => {
   logger.logError("API error");
@@ -143,11 +144,20 @@ const changeUserName = (req, res) => {
   res.status(200).json({});
 }
 
+const sendUserContactMessage = (req, res) => {
+  if (nodeMailer.sendContactInfoMessage(req, res)) {
+    res.status(200).json({});
+  } else {
+    return -_apiError(req, res);
+  }
+}
+
 module.exports = {
   myProfile,
   myCollection,
   editUserDescription,
   editProfileInfo,
   deleteUserAccount,
-  changeUserName
+  changeUserName,
+  sendUserContactMessage
 };

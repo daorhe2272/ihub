@@ -1438,7 +1438,7 @@ button {
   height: 30px;
 }
 .gapB {
-  heigh: 15px;
+  height: 15px;
   width: 100%;
 }
 .aboutWrapper {
@@ -1482,4 +1482,69 @@ button {
   .aboutWrapper {
     font-size: 1.2rem;
   }
+}
+.contactInfoWrapper {
+  display: flex;
+  justify-content: center;
+}
+.contactInfoWrapper .contactInfoFormContainer {
+  display: flex;
+  width: 97%;
+  flex-direction: column;
+  max-width: 900px;
+  padding: 2% 2.5%;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+  align-items: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+.contactInfoWrapper .contactInfoFormContainer b {
+  background-color: #2d313a;
+  color: #83b4b1;
+  padding: 5px 0;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  width: 100%;
+}
+.contactInfoWrapper .contactInfoFormContainer input {
+  font-size: 1.2rem;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: 2px ridge lightgrey;
+  padding: 2px 6px;
+  width: 100%;
+}
+.contactInfoWrapper .contactInfoFormContainer .contactInfoFullName {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.contactInfoWrapper .contactInfoFormContainer #contactInfoFirstName {
+  width: 49%;
+}
+.contactInfoWrapper .contactInfoFormContainer #contactInfoLastName {
+  width: 49%;
+}
+.contactInfoWrapper .contactInfoFormContainer #contactInfoMessage {
+  min-height: 130px;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  resize: none;
+  border-radius: 8px;
+  border: 2px ridge lightgrey;
+  padding: 2px 6px;
+  width: 100%;
+}
+.contactInfoWrapper .contactInfoFormContainer button {
+  width: 170px;
+  background-color: #395462;
+  color: white;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  align-items: flex-start;
+  text-align: center;
+  margin: 15px 0 0 0;
+  padding: 4px 0;
+  font-weight: bold;
 }

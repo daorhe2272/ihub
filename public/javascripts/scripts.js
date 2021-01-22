@@ -1,5 +1,10 @@
 window.urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
+function stringIsEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 window.addEventListener("click", function (event) {
   let elements = document.getElementsByClassName("fa-caret-down");
   for (let i = 0; i < elements.length; i++) {
@@ -882,5 +887,31 @@ async function changeUserName(userId) {
     console.log(`${firstName} ${lastName}`);
     cancelNameChange();
     showMessage("Please make sure you filled in all the necessary fields.");
+  }
+}
+
+async function submitContactInfoForm() {
+  function el(id) {
+    return document.getElementById(id);
+  }
+  let email = el("contactInfoMail").value;
+  let firstName = el("contactInfoFirstName").value;
+  let lastName = el("contactInfoLastName").value;
+  let subject = el("contactInfoSubject").value;
+  let message = el("contactInfoMessage").value;
+  if (email && firstName && lastName && subject && message) {
+    if (stringIsEmail(email)) {
+      let data = {email: email, firstName: firstName, lastName: lastName, subject: subject, message: message};
+      let response = await fetch("/api/about/send-contact-message", {method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } });
+      if (response.ok) {
+        showMessage("Your message was successfully sent.");
+      } else {
+        showMessage("Whoops, an error occurred. Please try again later.")
+      }
+    } else {
+      showMessage("Please enter a valid e-mail address.")
+    }
+  } else {
+    showMessage("All fields are required. Please make sure you added your e-mail, full name, subject and message.")
   }
 }

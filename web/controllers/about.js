@@ -11,9 +11,27 @@ const aboutPage = (req, res) => {
 }
 
 const contactInfo = (req, res) => {
-  res.render("error", {
-    title: "Contact | idea-hub.net",
-    message: "Under construction..."
+  const path = "/api/user/";
+  const requestOptions = {
+    url: `${apiServer.server}${path}${res.locals.userId}`,
+    method: "GET",
+    json: true
+  };
+  request(requestOptions, (err, response, body) => {
+    if (response.statusCode === 200) {
+      res.render("contact-info", {
+        title: "Contact | idea-hub.net",
+        firstName: body.firstName,
+        lastName: body.lastName,
+        email: body.email
+      });
+    } else if (err) {
+      console.log(err);
+    } else {
+      res.render("contact-info", {
+        title: "Contact | idea-hub.net"
+      });
+    }
   });
 }
 

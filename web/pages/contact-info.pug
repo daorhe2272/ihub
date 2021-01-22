@@ -1,4 +1,20 @@
 extends layout
 
 block content
-  h1 Under construction...
+  .gapB
+  .contactInfoWrapper
+    .contactInfoFormContainer
+      b Contact Form
+      if userId
+        input#contactInfoMail(placeholder="E-mail address" type="email" value=`${email}` required)
+        .contactInfoFullName
+          input#contactInfoFirstName(placeholder="First Name" value=`${firstName}` required)
+          input#contactInfoLastName(placeholder="Last Name" value=`${lastName}` required)
+      if !userId
+        input#contactInfoMail(placeholder="E-mail address" type="email" required)
+        .contactInfoFullName
+          input#contactInfoFirstName(placeholder="First Name" required)
+          input#contactInfoLastName(placeholder="Last Name" required)
+      input#contactInfoSubject(placeholder="Subject:" required)
+      textarea#contactInfoMessage(placeholder="...Write here your message" required)
+      button#submitContactInfoForm(onclick="submitContactInfoForm()") Send message

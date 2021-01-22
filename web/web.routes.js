@@ -47,11 +47,11 @@ router.post('/edit-comment/:commentId', ctrlShares.updateComment);
 router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
 
 // About
-router.get("/about", ctrlAbout.aboutPage);
-router.get("/about/contact", ctrlAbout.contactInfo);
-router.get("/about/cookies-policy", ctrlAbout.cookiesPolicy);
-router.get("/about/privacy-policy", ctrlAbout.privacyPolicy);
-router.get("/about/service-terms", ctrlAbout.serviceTerms);
+router.get("/about", getId, ctrlAbout.aboutPage);
+router.get("/about/contact", getId, ctrlAbout.contactInfo);
+router.get("/about/cookies-policy", getId, ctrlAbout.cookiesPolicy);
+router.get("/about/privacy-policy", getId, ctrlAbout.privacyPolicy);
+router.get("/about/service-terms", getId, ctrlAbout.serviceTerms);
 
 // Test
 router.get('/test', (req, res) => {

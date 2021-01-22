@@ -51,6 +51,7 @@ router.post('/update-user-description', getId, ctrlUsers.editUserDescription);
 router.post('/update-profile-contents', getId, ctrlUsers.editProfileInfo);
 router.put('/users/change-name', getId, ctrlUsers.changeUserName);
 router.delete('/user-account-delete', getId, ctrlUsers.deleteUserAccount);
+router.post("/about/send-contact-message", ctrlUsers.sendUserContactMessage);
 
 // Authentication
 router.post('/login', ctrlAuth.login);
