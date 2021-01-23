@@ -904,6 +904,11 @@ async function submitContactInfoForm() {
       let data = {email: email, firstName: firstName, lastName: lastName, subject: subject, message: message};
       let response = await fetch("/api/about/send-contact-message", {method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } });
       if (response.ok) {
+        el("contactInfoMail").value="";
+        el("contactInfoMessage").value="";
+        el("contactInfoFirstName").value="";
+        el("contactInfoLastName").value="";
+        el("contactInfoSubject").value="";
         showMessage("Your message was successfully sent.");
       } else {
         showMessage("Whoops, an error occurred. Please try again later.")
