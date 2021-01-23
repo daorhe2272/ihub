@@ -50,8 +50,19 @@ const sendResetEmail = (req, res, result) => {
 };
 
 const sendContactInfoMessage = (req, res) => {
-  console.log(req.body);
-  return true;
+  infoTransporter.sendMail({
+    from: '"idea-hub.net" <info@idea-hub.net>',
+    to: req.body.email,
+    subject: "RE: " + req.body.subject,
+    text: `The following messaged from ${req.body.firstName} ${req.body.lastName} was received today:\n\n${req.body.message}\n\nWe will read your message as soon as possible and get back to you if necessary.\n*idea-hub.net customer service`
+  }, (error, info) => {
+    if (error) {
+      logger.logError(`In sendContactInfoMessage: ${JSON.stringify(error)}`);
+      return false;
+    } else {
+      return true;
+    }
+  });
 }
 
 module.exports = {

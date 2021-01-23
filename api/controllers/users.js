@@ -148,7 +148,7 @@ const sendUserContactMessage = (req, res) => {
   if (nodeMailer.sendContactInfoMessage(req, res)) {
     res.status(200).json({});
   } else {
-    return -_apiError(req, res);
+    return _apiError(req, res);
   }
 }
 
