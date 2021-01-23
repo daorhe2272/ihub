@@ -58,9 +58,10 @@ const sendContactInfoMessage = (req, res) => {
   }, (error, info) => {
     if (error) {
       logger.logError(`In sendContactInfoMessage: ${JSON.stringify(error)}`);
-      return false;
+      console.log(error);
+      return res.status(400).json({});
     } else {
-      return true;
+      return res.status(200).json({});
     }
   });
 }

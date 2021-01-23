@@ -145,11 +145,7 @@ const changeUserName = (req, res) => {
 }
 
 const sendUserContactMessage = (req, res) => {
-  if (nodeMailer.sendContactInfoMessage(req, res) == true) {
-    res.status(200).json({});
-  } else {
-    return _apiError(req, res);
-  }
+  nodeMailer.sendContactInfoMessage(req, res);
 }
 
 module.exports = {
