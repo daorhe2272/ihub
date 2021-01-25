@@ -140,8 +140,29 @@ const deleteUserAccount = (req, res) => {
 }
 
 const changeUserName = (req, res) => {
-  // Add functionality
-  res.status(200).json({});
+  if (req.params.userId && req.body.firstName && req.body.lastName) {
+    User.findById(req.params.userId).exec((err, userInfo) => {
+      if (err) {logger.logError(err); console.log(err); res.status(400).json({message: "API error"});}
+      else if (!userInfo) {logger.logError("User not found when changing name."); console.log("User not found.");
+        res.status(400).json({message: "API error"});
+      } else {
+        let daysDifference = (Date.now() - userInfo.nameChangedOn) / (1000 * 60 * 60 * 24);
+        if (daysDifference > 60) {
+          userInfo.firstName = req.body.firstName;
+          userInfo.lastName = req.body.lastName;
+          userInfo.nameChangedOn = Date.now();
+          userInfo.save((err) => {
+            if (err) {logger.logError(err); console.log(err); res.status(400).json({message: "API error"});}
+            else {res.status(200).json({});}
+          });
+        } else {
+          res.status(403).json({message:"User changed name less than 60 days ago."});
+        }
+      }
+    });
+  } else {
+    return _apiError(req, res);
+  }
 }
 
 const sendUserContactMessage = (req, res) => {

@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  nameChangedOn: {
+    type: Number,
+    "default": 0,
+    min: 0
+  },
   hash: String,
   salt: String,
   verHash: String,
@@ -38,12 +43,12 @@ const userSchema = new mongoose.Schema({
   },
   failedLogins: {
     type: Number,
-    'default': 0,
+    "default": 0,
     min: 0
   },
   allowedLogin: {
     type: Number,
-    'default': Date.now(),
+    "default": Date.now(),
     min: 0
   },
   resetAttempts: {

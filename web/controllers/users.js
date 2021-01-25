@@ -139,6 +139,8 @@ const changeUserName = (req, res) => {
     if (err) {logger.logError(err);}
     if (headers.statusCode === 200) {
       res.status(200).json({});
+    } else if (headers.statusCode === 403) {
+      res.status(403).json({});
     } else {
       res.status(400).json({message:"API error"});
     }

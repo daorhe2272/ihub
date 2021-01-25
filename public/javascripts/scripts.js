@@ -879,6 +879,9 @@ async function changeUserName(userId) {
     let response = await fetch("/users/change-name", {method: "POST", body: JSON.stringify(data), headers: {"Content-Type":"application/json"}});
     if (response.ok) {
       window.location = `/user/${userId}`;
+    } else if (response.status === 403) {
+      cancelNameChange();
+      showMessage("Your name was already changed less than 60 days ago. After 60 days have elapsed you will be able to change it.")
     } else {
       cancelNameChange();
       showMessage("An error occurred. Please try again later.");
@@ -891,9 +894,7 @@ async function changeUserName(userId) {
 }
 
 async function submitContactInfoForm() {
-  function el(id) {
-    return document.getElementById(id);
-  }
+  function el(id) {return document.getElementById(id);}
   let email = el("contactInfoMail").value;
   let firstName = el("contactInfoFirstName").value;
   let lastName = el("contactInfoLastName").value;
@@ -919,4 +920,9 @@ async function submitContactInfoForm() {
   } else {
     showMessage("All fields are required. Please make sure you added your e-mail, full name, subject and message.")
   }
+}
+
+if (document.getElementById("profileDescriptionContents")) {
+  let elem = document.getElementById("profileDescriptionContents");
+  elem.setAttribute('style', 'height:' + (elem.scrollHeight) + 'px;overflow-y:hidden;');
 }
