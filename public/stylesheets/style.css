@@ -1548,3 +1548,34 @@ button {
   padding: 4px 0;
   font-weight: bold;
 }
+.privacyPolicyWrapper {
+  display: flex;
+  justify-content: center;
+}
+.privacyPolicyWrapper .privacyPolicyContainer {
+  display: flex;
+  width: 97%;
+  max-width: 900px;
+  padding: 2% 3%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+  flex-direction: column;
+  align-items: center;
+}
+.privacyPolicyWrapper .privacyPolicyContainer .privacyPolicyTitle {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.privacyPolicyWrapper .privacyPolicyContainer .privacyPolicyText {
+  margin: 8px 0;
+  font-size: 1.2rem;
+  text-align: justify;
+}
+.privacyPolicyWrapper .privacyPolicyContainer .privacyPolicyText .privacyPolicySubtext {
+  margin-left: 6%;
+  font-size: 1.1rem;
+}
+.privacyPolicyWrapper .privacyPolicyContainer .privacyPolicyText a {
+  text-decoration: none;
+}

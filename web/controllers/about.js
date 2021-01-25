@@ -43,9 +43,8 @@ const cookiesPolicy = (req, res) => {
 }
 
 const privacyPolicy = (req, res) => {
-  res.render("error", {
-    title: "Privacy Policy | idea-hub.net",
-    message: "Under construction..."
+  res.render("privacy-policy", {
+    title: "Privacy Policy | idea-hub.net"
   })
 }
 
