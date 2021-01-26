@@ -926,3 +926,12 @@ if (document.getElementById("profileDescriptionContents")) {
   let elem = document.getElementById("profileDescriptionContents");
   elem.setAttribute('style', 'height:' + (elem.scrollHeight) + 'px;overflow-y:hidden;');
 }
+
+function acceptCookies() {
+  document.getElementById("acceptCookiesBackground").style.display="none";
+  document.cookie = `acceptCookies=true;expires=${new Date(Date.now() + (60 * 60 * 24 * 1000 * 365))};path=/;SameSite=Lax`;
+}
+
+if (!document.cookie) {
+  document.getElementById("acceptCookiesBackground").style.display="flex";
+}

@@ -239,6 +239,38 @@ header {
   border-radius: 5px;
   max-width: 130px;
 }
+#acceptCookiesBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+  background-color: rgba(57, 84, 98, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+}
+#acceptCookiesBackground #acceptCookiesMessage {
+  background-color: white;
+  width: 100%;
+  min-height: 100px;
+  font-size: 1.3rem;
+  display: flex;
+  padding: 5px 10px;
+  justify-content: space-around;
+  align-items: center;
+}
+#acceptCookiesBackground #acceptCookiesMessage .buttons {
+  margin: 3px 8px;
+}
+#acceptCookiesBackground #acceptCookiesMessage .buttons button {
+  font-weight: bold;
+  background-color: #f70110;
+  color: white;
+  padding: 2px 16px;
+  border-radius: 5px;
+}
 footer {
   width: 100%;
   min-height: 80px;
@@ -290,6 +322,9 @@ footer .footerContent a {
   }
   .dropdownContent button {
     font-size: 1rem;
+  }
+  #acceptCookiesMessage {
+    flex-wrap: wrap;
   }
 }
 .gapA {

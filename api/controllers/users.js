@@ -146,6 +146,7 @@ const changeUserName = (req, res) => {
       else if (!userInfo) {logger.logError("User not found when changing name."); console.log("User not found.");
         res.status(400).json({message: "API error"});
       } else {
+        if (!userInfo.nameChangedOn) {userInfo.nameChangedOn = 0;} // In case data is not present
         let daysDifference = (Date.now() - userInfo.nameChangedOn) / (1000 * 60 * 60 * 24);
         if (daysDifference > 60) {
           userInfo.firstName = req.body.firstName;
