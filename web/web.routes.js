@@ -49,7 +49,7 @@ router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
 // About
 router.get("/about", getId, ctrlAbout.aboutPage);
 router.get("/about/contact", getId, ctrlAbout.contactInfo);
-router.get("/about/cookies-policy", getId, ctrlAbout.cookiesPolicy);
+router.get("/about/cookie-policy", getId, ctrlAbout.cookiePolicy);
 router.get("/about/privacy-policy", getId, ctrlAbout.privacyPolicy);
 router.get("/about/service-terms", getId, ctrlAbout.serviceTerms);
 

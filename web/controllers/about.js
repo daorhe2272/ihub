@@ -35,10 +35,9 @@ const contactInfo = (req, res) => {
   });
 }
 
-const cookiesPolicy = (req, res) => {
-  res.render("error", {
-    title: "Cookies Policy | idea-hub.net",
-    message: "Under construction..."
+const cookiePolicy = (req, res) => {
+  res.render("cookie-policy", {
+    title: "Cookie Policy | idea-hub.net"
   })
 }
 
@@ -58,7 +57,7 @@ const serviceTerms = (req, res) => {
 module.exports = {
   contactInfo,
   aboutPage,
-  cookiesPolicy,
+  cookiePolicy,
   privacyPolicy,
   serviceTerms
 };

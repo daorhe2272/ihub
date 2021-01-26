@@ -262,7 +262,7 @@ header {
   align-items: center;
 }
 #acceptCookiesBackground #acceptCookiesMessage .buttons {
-  margin: 3px 8px;
+  margin: 6px 8px;
 }
 #acceptCookiesBackground #acceptCookiesMessage .buttons button {
   font-weight: bold;
