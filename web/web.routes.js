@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
 const ctrlShares = require('./controllers/shares');
 const ctrlAuth = require('./controllers/authentication');
 const ctrlUsers = require('./controllers/users');
-const ctrlAbout = require("./controllers/about")
-const jwt = require('jsonwebtoken');
+const ctrlAbout = require("./controllers/about");
+const ctrlDiscussions = require("./controllers/discussions");
+const ctrlPartnerUp = require("./controllers/partnering");
+const ctrlEvents = require("./controllers/events");
+const ctrlRankings = require("./controllers/rankings");
 
 const getId = (req, res, next) => {
   const token = req.cookies.token || "";
@@ -45,6 +50,18 @@ router.post('/', ctrlShares.createPost);
 router.post('/edit-share/:postId', ctrlShares.updatePost);
 router.post('/edit-comment/:commentId', ctrlShares.updateComment);
 router.delete('/delete-comment/:commentId-:postId', ctrlShares.deleteComment);
+
+// Discussions
+router.get("/discussions", getId, ctrlDiscussions.discussionsMain);
+
+// Partner Up
+router.get("/partner-up", getId, ctrlPartnerUp.partnerUpMain);
+
+// Events
+router.get("/events", getId, ctrlEvents.eventsMain);
+
+// Rankings
+router.get("/rankings", getId, ctrlRankings.rankingsMain);
 
 // About
 router.get("/about", getId, ctrlAbout.aboutPage);

@@ -6,7 +6,22 @@ block content
   - openingPhrase = indexOpenings[parseInt((Math.random() * indexOpenings.length))]
   .gapA
   .bodyWrapper(onclick="void(0);")
-    .sideBar
+    .mainSideBar
+      .mainSideMenu
+        a(href="/") Share
+        a(href="/discussions") Discussions
+        a(href="/partner-up") Partner Up
+        a(href="/events") Events
+        a(href="/rankings") Rankings
+      .mainSideMenu
+        if userId
+          a(href=`/user/${userId}`) My Profile
+          a(href="/user-collection") My Collections
+        if !userId
+          a(onclick="showMessage('You are not signed in. Please sign in to view your Profile.')") My Profile
+          a(onclick="showMessage('You are not signed in. Please sign in to access your bookmarked content.')") My Collections
+        a(href="/about") About
+
     .mainContent
       #title=openingPhrase
       .formContainer
@@ -130,4 +145,14 @@ block content
           .loadMoreContainer
             button(id="loadMoreButton" data-skip="10" onclick="loadMorePosts()")
               .loadMore <b>Load more posts</b>
-    .rightSideBar
+    .mainRightBar()
+      .trendingSharesContainer
+        .trendingSharesDescription Trending posts:
+        .trendingShare Under construction...
+        .trendingShare Under construction...
+        .trendingShare Under construction...
+      .eventsTodayContainer
+        .eventsTodayDescription Events Today:
+        .eventToday Under construction...
+        .eventToday Under construction...
+        .eventToday Under construction...

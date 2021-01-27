@@ -17,31 +17,28 @@ html
         a(href='/') idea-hub.net
         //- img(src="/images/logo01.png")
       #header_menu
-        if userId
-          .menu_item
-            a(href='/') Share
-        //- Uncomment when functionality added
-          .menu_item
-            a(href='') Discuss
-          .menu_item
-            a(href='') News
-          .menu_item
-            a(href='') Events
-          .menu_item
-            a(href='') Suggestions
         if !userId
-          .menu_item
+          .menu_item#aboutInHeader
             a(href="/about") About
           .menu_item#logIn
             button Log in
             .dropdownContent
               button(onclick="openSignin()") Log in
               button(onclick="openRegister()") Register
+          .menu_item
+            button
+              i.fas.fa-bars
+            .dropdownContent
+              button(onclick="location.href='/'") Share
+              button(onclick="location.href='/discussions'") Discussions
+              button(onclick="location.href='/partner-up'") Partner Up
+              button(onclick="location.href='events'") Events
+              button(onclick="location.href='/rankings'") Rankings
+              button(onclick="location.href='/about'") About
         if userId
-          //- Uncomment when functionality added
-            .menu_item
-              button
-                i.fas.fa-bell
+          .menu_item
+            button
+              i.fas.fa-bell
           .menu_item#myAccount(name=`${userId}`)
             button
               i.fas.fa-user
@@ -49,6 +46,16 @@ html
               button(onclick=`location.href="/user/${userId}";`) My Profile
               button(onclick=`location.href="/user-collection";`) My Collection
               button(onclick="location.href='/logout';") Log out
+          .menu_item
+            button
+              i.fas.fa-bars
+            .dropdownContent
+              button(onclick="location.href='/'") Share
+              button(onclick="location.href='/discussions'") Discussions
+              button(onclick="location.href='/partner-up'") Partner Up
+              button(onclick="location.href='/events'") Events
+              button(onclick="location.href='/rankings'") Rankings
+              button(onclick="location.href='/about'") About
   #signinMenuWrapper
       #messageAlert
         .messageContainer

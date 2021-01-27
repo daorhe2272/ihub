@@ -26,18 +26,12 @@ const login = (req, res) => {
       } else if (err) {
         logger.logError(err);
         return res.status(404).json({"message": "API error"});
-      }
-      // Check if account is verified
-      if (result.verified !== true) {
+      } else if (result.verified !== true) {
         return res.status(401).json({message: "Your account has not been verified. Please check your email inbox or spam folder to find your verification link."});
-      }
-      // Check for log-in time restrictions
-      if (Date.now() < result.allowedLogin) {
+      } else if (Date.now() < result.allowedLogin) {
         let message = {"message": "Too many failed log-in attempts. Try again in a few minutes."};
         return res.status(401).json(message);
-      }
-      // Deal with several failed log-in attemps
-      if (!result.validPassword(req.body.password)) {
+      } else if (!result.validPassword(req.body.password)) {
         result.failedLogins += 1;
         let message = {"message": "Too many failed log-in attempts. Try again in a few minutes."};
         if (result.failedLogins > 6) {
@@ -63,14 +57,15 @@ const login = (req, res) => {
             return res.status(401).json(message);
           }
         });
+      } else {
+        // Successful log-in!
+        result.failedLogins = 0;
+        result.save((err) => {if (err) {logger.logError(err);}});
+        let expiry = 24*60*60*1000;
+        if (req.body.keepLogged === "true") {expiry = expiry * 30;}
+        const token = result.generateJwt(expiry);
+        res.status(200).json({"token": token, "expiry": expiry});
       }
-      // Successful log-in!
-      result.failedLogins = 0;
-      result.save((err) => {if (err) {logger.logError(err);}});
-      let expiry = 24*60*60*1000;
-      if (req.body.keepLogged === "true") {expiry = expiry * 30;}
-      const token = result.generateJwt(expiry);
-      res.status(200).json({"token": token, "expiry": expiry});
     });
 };
 

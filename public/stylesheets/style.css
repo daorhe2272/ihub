@@ -339,11 +339,115 @@ body {
 .bodyWrapper {
   font-size: 1.2rem;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
 }
-.sideBar {
-  display: none;
+.mainSideBar .mainSideMenu {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 5px 10px 15px 10px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+  padding: 7px 5px;
+  min-width: 280px;
+}
+.mainSideBar .mainSideMenu a {
+  border-radius: 5px;
+  margin: 6px 10px;
+  color: #395462;
+  padding: 2px 7px;
+  font-size: 1.4rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mainSideBar .mainSideMenu a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #395462;
+}
+.mainRightBar .trendingSharesContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 5px 10px 15px 10px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+  padding: 7px 5px;
+  min-width: 280px;
+}
+.mainRightBar .trendingSharesContainer .trendingSharesDescription {
+  text-align: right;
+  padding: 0 7px;
+  margin: 0 10px;
+  font-style: italic;
+  color: #395462;
+}
+.mainRightBar .trendingSharesContainer .trendingShare {
+  border: solid 2px #cce0dd;
+  border-radius: 5px;
+  margin: 6px 10px;
+  padding: 2px 7px;
+  color: #395462;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mainRightBar .eventsTodayContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 5px 10px 15px 10px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+  padding: 7px 5px;
+  min-width: 280px;
+}
+.mainRightBar .eventsTodayContainer .eventsTodayDescription {
+  text-align: right;
+  padding: 0 7px;
+  margin: 0 10px;
+  font-style: italic;
+  color: #395462;
+}
+.mainRightBar .eventsTodayContainer .eventToday {
+  border: solid 2px #cce0dd;
+  border-radius: 5px;
+  margin: 6px 10px;
+  padding: 2px 7px;
+  color: #395462;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (min-width: 1151px) {
+  .mainRightBar {
+    display: block;
+  }
+}
+@media screen and (max-width: 1150px) {
+  .mainRightBar {
+    display: none;
+  }
+}
+@media screen and (min-width: 851px) {
+  .mainSideBar {
+    display: block;
+  }
+  #header_menu .fa-bars {
+    display: none;
+  }
+}
+@media screen and (max-width: 850px) {
+  .mainSideBar {
+    display: none;
+  }
+  #header_menu .fa-bars {
+    display: inline-block;
+  }
+  #aboutInHeader {
+    display: none;
+  }
 }
 .mainContent {
   flex-direction: column;
@@ -823,9 +927,6 @@ button {
 }
 .loadMore:hover {
   border: 2px solid;
-}
-.rightSideBar {
-  display: none;
 }
 .errorWrapper {
   position: fixed;
