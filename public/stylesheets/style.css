@@ -302,9 +302,6 @@ footer .footerContent a {
   .menu_item button {
     font-size: 1.5rem;
   }
-  .dropdownContent {
-    margin: 0 0 0 -30px;
-  }
   .dropdownContent button {
     font-size: 1.2rem;
   }
@@ -317,11 +314,11 @@ footer .footerContent a {
   .menu_item button {
     font-size: 1.2rem;
   }
-  .dropdownContent {
-    margin: 0 0 0 -30px;
-  }
   .dropdownContent button {
     font-size: 1rem;
+  }
+  #layoutMenuDropdown {
+    margin: 0 0 0 -75px;
   }
   #acceptCookiesMessage {
     flex-wrap: wrap;
@@ -359,10 +356,14 @@ body {
   font-size: 1.4rem;
   text-decoration: none;
   cursor: pointer;
+  font-weight: 700;
 }
 .mainSideBar .mainSideMenu a:hover {
   background-color: rgba(0, 0, 0, 0.05);
   color: #395462;
+}
+.mainSideBar .mainSideMenu i {
+  margin-right: 5px;
 }
 .mainRightBar .trendingSharesContainer {
   display: flex;

@@ -101,14 +101,18 @@ justify-content: center; align-items: center; padding: 3px 5px;
 @media screen and (min-width: 601px) {
   #header_logo a{ font-size: 1.8rem; }
   .header_wrapper a, .menu_item button{ font-size:1.5rem; }
-  .dropdownContent{ margin: 0 0 0 -30px; }
+  .dropdownContent{  }
   .dropdownContent button{ font-size: 1.2rem; }
+  #layoutProfileDropdown{}
+  #layoutMenuDropdown{}
 }
 @media screen and (max-width: 600px) {
   #header_logo a{ font-size: 1.5rem; }
   .header_wrapper a, .menu_item button{ font-size:1.2rem; }
-  .dropdownContent{ margin: 0 0 0 -30px; }
+  .dropdownContent{  }
   .dropdownContent button{ font-size: 1rem; }
+  #layoutProfileDropdown{}
+  #layoutMenuDropdown{ margin: 0 0 0 -75px; }
   #acceptCookiesMessage{ flex-wrap: wrap;}
 }
 
@@ -122,8 +126,9 @@ body{margin-top:56px;background:rgba(0,20,0,0.05);width:100%;}
       .mainSideMenu{ display: flex; flex-direction: column; background-color: white; margin: 5px 10px 15px 10px;
       border-radius: 5px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); padding: 7px 5px; min-width: 280px;
         a{ border-radius: 5px; margin: 6px 10px; color: @darkColor; padding: 2px 7px; font-size: 1.4rem;
-        text-decoration: none; cursor: pointer;}
+        text-decoration: none; cursor: pointer; font-weight: 700;}
         a:hover{background-color: rgba(0, 0, 0, 0.05); color: @darkColor;}
+        i{margin-right: 5px;}
       }
     }
 

@@ -28,13 +28,13 @@ html
           .menu_item
             button
               i.fas.fa-bars
-            .dropdownContent
-              button(onclick="location.href='/'") Share
-              button(onclick="location.href='/discussions'") Discussions
-              button(onclick="location.href='/partner-up'") Partner Up
-              button(onclick="location.href='events'") Events
-              button(onclick="location.href='/rankings'") Rankings
-              button(onclick="location.href='/about'") About
+            .dropdownContent#layoutMenuDropdown
+              button(onclick="location.href='/'") <i class="fas fa-share-square"></i> Share
+              button(onclick="location.href='/discussions'") <i class="fas fa-exclamation-triangle"></i> Discussions
+              button(onclick="location.href='/partner-up'") <i class="fas fa-exclamation-triangle"></i> Partner Up
+              button(onclick="location.href='events'") <i class="fas fa-exclamation-triangle"></i> Events
+              button(onclick="location.href='/rankings'") <i class="fas fa-exclamation-triangle"></i> Rankings
+              button(onclick="location.href='/about'") <i class="fas fa-question-circle"></i> About
         if userId
           .menu_item
             button
@@ -42,20 +42,20 @@ html
           .menu_item#myAccount(name=`${userId}`)
             button
               i.fas.fa-user
-            .dropdownContent
+            .dropdownContent#layoutProfileDropdown
               button(onclick=`location.href="/user/${userId}";`) My Profile
               button(onclick=`location.href="/user-collection";`) My Collection
               button(onclick="location.href='/logout';") Log out
           .menu_item
             button
               i.fas.fa-bars
-            .dropdownContent
-              button(onclick="location.href='/'") Share
-              button(onclick="location.href='/discussions'") Discussions
-              button(onclick="location.href='/partner-up'") Partner Up
-              button(onclick="location.href='/events'") Events
-              button(onclick="location.href='/rankings'") Rankings
-              button(onclick="location.href='/about'") About
+            .dropdownContent#layoutMenuDropdown
+              button(onclick="location.href='/'") <i class="fas fa-share-square"></i> Share
+              button(onclick="location.href='/discussions'") <i class="fas fa-exclamation-triangle"></i> Discussions
+              button(onclick="location.href='/partner-up'") <i class="fas fa-exclamation-triangle"></i> Partner Up
+              button(onclick="location.href='/events'") <i class="fas fa-exclamation-triangle"></i> Events
+              button(onclick="location.href='/rankings'") <i class="fas fa-exclamation-triangle"></i> Rankings
+              button(onclick="location.href='/about'") <i class="fas fa-question-circle"></i> About
   #signinMenuWrapper
       #messageAlert
         .messageContainer

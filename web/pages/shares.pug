@@ -8,19 +8,19 @@ block content
   .bodyWrapper(onclick="void(0);")
     .mainSideBar
       .mainSideMenu
-        a(href="/") Share
-        a(href="/discussions") Discussions
-        a(href="/partner-up") Partner Up
-        a(href="/events") Events
-        a(href="/rankings") Rankings
+        a(href="/") <i class="fas fa-share-square"></i> Share
+        a(href="/discussions") <i class="fas fa-exclamation-triangle"></i> Discussions
+        a(href="/partner-up") <i class="fas fa-exclamation-triangle"></i> Partner Up
+        a(href="/events") <i class="fas fa-exclamation-triangle"></i> Events
+        a(href="/rankings") <i class="fas fa-exclamation-triangle"></i> Rankings
       .mainSideMenu
         if userId
-          a(href=`/user/${userId}`) My Profile
-          a(href="/user-collection") My Collections
+          a(href=`/user/${userId}`) <i class="fas fa-user"></i> My Profile
+          a(href="/user-collection") <i class="fas fa-folder-open"></i> My Collections
         if !userId
-          a(onclick="showMessage('You are not signed in. Please sign in to view your Profile.')") My Profile
-          a(onclick="showMessage('You are not signed in. Please sign in to access your bookmarked content.')") My Collections
-        a(href="/about") About
+          a(onclick="showMessage('You are not signed in. Please sign in to view your Profile.')") <i class="fas fa-user"></i> My Profile
+          a(onclick="showMessage('You are not signed in. Please sign in to access your bookmarked content.')") <i class="fas fa-folder-open"></i> My Collections
+        a(href="/about") <i class="fas fa-question-circle"></i> About
 
     .mainContent
       #title=openingPhrase
