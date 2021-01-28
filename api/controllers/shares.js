@@ -49,6 +49,7 @@ const addPost = (req, res) => {
       return res.status(404).json({"message":"User not found."});
     } else if (err) {
       logger.logError(err);
+      console.log(err);
       return res.status(404).json(err);
     } else {
       publisher = `${result.firstName} ${result.lastName}`;
@@ -69,8 +70,12 @@ const addPost = (req, res) => {
           if (index === -1) {
             result.userActivity.shares.push(post._id);
             result.save((err) => {
-              if (err) {logger.logError(err); return res.status(400).json({"message":"API error"});}
-              else {res.status(201).json(post);}
+              if (err) {
+                logger.logError(err);
+                console.log("Error is here.");
+                return res.status(400).json({"message":"API error"});
+              }
+              else {console.log("WTF?"); return res.status(201).json(post);}
             });
           } else {
             logger.logError("Undefined error occurred when saving post to database");

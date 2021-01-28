@@ -167,7 +167,7 @@ function closeForm() {
 function checkForLink() {
   // Set maximum amount of characters allowed
   let postInput = document.getElementById("postContent");
-  if (postInput.value.length > 1000) {
+  if (postInput.value.length > 2000) {
     showMessage("Maximum number of characters reached! Please make your post shorter.");
   }
 

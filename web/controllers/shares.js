@@ -1,5 +1,6 @@
 const request = require("request");
 const logger = require(process.cwd() + "/api/config/logger.config");
+const fetch = require("node-fetch");
 require("dotenv").config();
 
 const apiServer = {server: process.env.WEB_SERVER};
@@ -62,21 +63,22 @@ const loadMorePosts = (req, res) => {
   });
 }
 
-const createPost = (req, res) => {
-  const path = '/api/share/create-post';
-  const requestOptions = {
-    url: `${apiServer.server}${path}`,
-    headers: req.headers,
-    form: req.body
-  };
-  request.post(requestOptions, (err, headers, body) => {
-    if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
-    if (headers.statusCode === 201) {
-      return res.redirect('/');
+const createPost = async (req, res) => {
+  let path = "/api/share/create-post";
+  let response = await fetch(apiServer.server + path, {
+    method: "POST",
+    body: JSON.stringify(req.body),
+    headers: {
+      "Content-Type": "application/json",
+      "cookie": req.headers.cookie
     }
-    return res.render('error', {message: "Whoops! Something went wrong."});
   });
-};
+  if (response.ok) {
+    res.redirect("/");
+  } else {
+    res.render("error", { message: "Whoops, an error occurred. Please try again later."});
+  }
+}
 
 const deletePost = (req, res) => {
   const path = '/api/delete-share/';
