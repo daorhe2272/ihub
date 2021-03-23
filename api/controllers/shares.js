@@ -72,10 +72,9 @@ const addPost = (req, res) => {
             result.save((err) => {
               if (err) {
                 logger.logError(err);
-                console.log("Error is here.");
                 return res.status(400).json({"message":"API error"});
               }
-              else {console.log("WTF?"); return res.status(201).json(post);}
+              else {return res.status(201).json(post);}
             });
           } else {
             logger.logError("Undefined error occurred when saving post to database");

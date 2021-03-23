@@ -22,8 +22,8 @@ display: flex; flex-wrap: wrap; min-width: 300px; max-width: 900px; width: 97%; 
 
 // Basic Layout - General
 
-header{background-color:#2d313a;color:white;position:fixed;width:100%;top:0;z-index:1;font-size:1.2rem;
-box-shadow:0px 3px 3px rgb(160, 160, 170);}
+header{ background-color: @darkBackground; color: white; position: fixed; width: 100%; top: 0; z-index: 1;
+font-size:1.2rem; box-shadow:0px 5px 5px rgba(0, 0, 0, 0.3);}
   .header_wrapper a, .menu_item button{text-decoration:none;color:white;padding:10px;
   font-family:raleway,sans-serif;background-color:@darkBackground;}
   .header_wrapper a:hover, .menu_item button:hover{background-color:@darkColor;border-radius:3px;}
@@ -117,14 +117,15 @@ justify-content: center; align-items: center; padding: 3px 5px;
 }
 
 // Shares - General
-.gapA{height:5px;background:rgba(0,20,0,0.05);}
+.gapA{height:5px;background:rgba(0,20,0,0.0);}
 body{margin-top:56px;background:rgba(0,20,0,0.05);width:100%;}
   .bodyWrapper{ font-size: 1.2rem; display: flex; justify-content: center;}
 
     // Left sidebar
     .mainSideBar{
-      .mainSideMenu{ display: flex; flex-direction: column; background-color: white; margin: 5px 10px 15px 10px;
+      .mainSideMenu{ display: flex; flex-direction: column; background-color: white;
       border-radius: 5px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); padding: 7px 5px; min-width: 280px;
+      margin: 5px 10px 15px 10px;
         a{ border-radius: 5px; margin: 6px 10px; color: @darkColor; padding: 2px 7px; font-size: 1.4rem;
         text-decoration: none; cursor: pointer; font-weight: 700;}
         a:hover{background-color: rgba(0, 0, 0, 0.05); color: @darkColor;}
@@ -158,11 +159,11 @@ body{margin-top:56px;background:rgba(0,20,0,0.05);width:100%;}
     }
     @media screen and (min-width: 851px) {
       .mainSideBar{ display: block; }
-      #header_menu .fa-bars{ display: none;}
+      #mobileMenu{ display: none;}
     }
     @media screen and (max-width: 850px) {
       .mainSideBar{ display: none;}
-      #header_menu .fa-bars{ display: inline-block; }
+      #mobileMenu{ display: inline-block; }
       #aboutInHeader{ display: none;}
     }
 

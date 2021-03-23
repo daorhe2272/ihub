@@ -107,7 +107,6 @@ const showPost = (req, res) => {
   request(requestOptions, (err, headers, body) => {
     if (err) {logger.logError(err); return res.send("Whoops, an error occurred. Please try again later.");}
     else if (headers.statusCode === 200) {
-      console.log(body);
       return res.render("shares", {
         title: "Shared content | Idea-Hub",
         sharesList: [body],

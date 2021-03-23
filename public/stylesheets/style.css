@@ -52,7 +52,7 @@ header {
   top: 0;
   z-index: 1;
   font-size: 1.2rem;
-  box-shadow: 0px 3px 3px #a0a0aa;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
 }
 .header_wrapper a,
 .menu_item button {
@@ -326,7 +326,7 @@ footer .footerContent a {
 }
 .gapA {
   height: 5px;
-  background: rgba(0, 20, 0, 0.05);
+  background: rgba(0, 20, 0, 0);
 }
 body {
   margin-top: 56px;
@@ -342,11 +342,11 @@ body {
   display: flex;
   flex-direction: column;
   background-color: white;
-  margin: 5px 10px 15px 10px;
   border-radius: 5px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
   padding: 7px 5px;
   min-width: 280px;
+  margin: 5px 10px 15px 10px;
 }
 .mainSideBar .mainSideMenu a {
   border-radius: 5px;
@@ -435,7 +435,7 @@ body {
   .mainSideBar {
     display: block;
   }
-  #header_menu .fa-bars {
+  #mobileMenu {
     display: none;
   }
 }
@@ -443,7 +443,7 @@ body {
   .mainSideBar {
     display: none;
   }
-  #header_menu .fa-bars {
+  #mobileMenu {
     display: inline-block;
   }
   #aboutInHeader {

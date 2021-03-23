@@ -15,7 +15,6 @@ const verifyToken = (req, res, next) => {
 };
 
 const getId = (req, res, next) => {
-  console.log(req.headers);
   const token = req.cookies.token || "";
   if (token) {
     const decrypt = jwt.verify(token, process.env.JWT_SECRET);
